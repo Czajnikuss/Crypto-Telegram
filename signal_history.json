@@ -1,0 +1,100 @@
+[
+    {
+        "currency": "AUCTIONUSDT",
+        "signal_type": "SHORT",
+        "entry": 16.81,
+        "targets": [
+            16.73,
+            16.31,
+            15.8,
+            15.13
+        ],
+        "stop_loss": 17.31,
+        "breakeven": 16.31,
+        "date": "2025-01-01T11:15:02+00:00"
+    },
+    {
+        "currency": "ACEUSDT",
+        "signal_type": "SHORT",
+        "entry": 2.178,
+        "targets": [
+            2.167,
+            2.113,
+            2.047,
+            1.96
+        ],
+        "stop_loss": 2.243,
+        "breakeven": 2.113,
+        "date": "2024-12-30T20:00:08+00:00"
+    },
+    {
+        "currency": "MASKUSDT",
+        "signal_type": "SHORT",
+        "entry": 3.065,
+        "targets": [
+            3.05,
+            2.973,
+            2.881,
+            2.759
+        ],
+        "stop_loss": 3.157,
+        "breakeven": 2.973,
+        "date": "2025-01-01T01:15:19+00:00"
+    },
+    {
+        "currency": "AUCTIONUSDT",
+        "signal_type": "LONG",
+        "entry": 18.37,
+        "targets": [
+            18.46,
+            18.92,
+            19.47,
+            20.21
+        ],
+        "stop_loss": 17.82,
+        "breakeven": 18.92,
+        "date": "2024-12-31T20:00:13+00:00"
+    },
+    {
+        "currency": "DARUSDT",
+        "signal_type": "LONG",
+        "entry": 0.19034,
+        "targets": [
+            0.19129,
+            0.19605,
+            0.20176,
+            0.20937
+        ],
+        "stop_loss": 0.18463,
+        "breakeven": 0.19605,
+        "date": "2024-12-31T01:15:04+00:00"
+    },
+    {
+        "currency": "DARUSDT",
+        "signal_type": "LONG",
+        "entry": 0.1788,
+        "targets": [
+            0.17969,
+            0.18416,
+            0.18953,
+            0.19668
+        ],
+        "stop_loss": 0.17344,
+        "breakeven": 0.18416,
+        "date": "2025-01-02T03:45:08+00:00"
+    },
+    {
+        "currency": "DARUSDT",
+        "signal_type": "LONG",
+        "entry": 0.182,
+        "targets": [
+            0.18291,
+            0.18746,
+            0.19292,
+            0.2002
+        ],
+        "stop_loss": 0.17654,
+        "breakeven": 0.18746,
+        "date": "2025-01-02T11:15:06+00:00"
+    }
+]

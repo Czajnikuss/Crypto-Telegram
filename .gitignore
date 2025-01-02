@@ -1,0 +1,25 @@
+# .gitignore
+
+# Środowisko wirtualne
+venv/
+.env/
+.venv/
+
+# Pliki sesji Telethon
+*.session
+
+# Cache Pythona
+__pycache__/
+*.pyc
+
+# Pliki środowiskowe
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Inne
+dist/
+build/
+*.egg-info/
