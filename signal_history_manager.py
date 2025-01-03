@@ -29,6 +29,14 @@ def save_signal_history(history):
     with open(SIGNAL_HISTORY_FILE, 'w') as file:
         json.dump(history, file, indent=4)
 
+def update_signal_with_modifications(signal, modification):
+    """
+    Dodaje modyfikację do sygnału.
+    """
+    signal["modifications"] = signal.get("modifications", [])
+    signal["modifications"].append(modification)
+    return signal
+
 def update_legacy_signal(signal):
     """
     Aktualizuje starszy sygnał (bez struktury `orders`, `status` i `achieved_targets`) do nowego formatu.

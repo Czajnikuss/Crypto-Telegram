@@ -13,7 +13,8 @@
         "breakeven": 16.31,
         "date": "2025-01-01T11:15:02+00:00",
         "orders": [],
-        "status": "CLOSED"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "ACEUSDT",
@@ -29,7 +30,8 @@
         "breakeven": 2.113,
         "date": "2024-12-30T20:00:08+00:00",
         "orders": [],
-        "status": "CLOSED"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "MASKUSDT",
@@ -62,7 +64,8 @@
                 "quantity": 11.0
             }
         ],
-        "status": "CLOSED"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "AUCTIONUSDT",
@@ -78,7 +81,8 @@
         "breakeven": 18.92,
         "date": "2024-12-31T20:00:13+00:00",
         "orders": [],
-        "status": "CLOSED"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "DARUSDT",
@@ -95,39 +99,1078 @@
         "date": "2024-12-31T01:15:04+00:00",
         "orders": [
             {
+                "orderId": 5791790,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 2502.0,
+                "executedQty": 2502.0,
+                "time": 1735749485824
+            },
+            {
+                "orderId": 5792073,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 1543.0,
+                "executedQty": 1543.0,
+                "time": 1735750061180
+            },
+            {
+                "orderId": 5792422,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 970.0,
+                "executedQty": 970.0,
+                "time": 1735750724185
+            },
+            {
+                "orderId": 5846793,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648268
+            },
+            {
+                "orderId": 5846794,
+                "type": "STOP_LOSS",
+                "status": "FILLED",
+                "stopPrice": 0.17654,
+                "side": "SELL",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648525
+            },
+            {
+                "orderId": 5846795,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.18291,
+                "side": "SELL",
+                "quantity": 179.0,
+                "executedQty": 179.0,
+                "time": 1735816649265
+            },
+            {
                 "orderId": 5846798,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.18746,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650006
             },
             {
                 "orderId": 5846799,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.19292,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650262
             },
             {
                 "orderId": 5846800,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.2002,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650518
+            },
+            {
+                "orderId": 5923602,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916463496
+            },
+            {
+                "orderId": 5923603,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17141,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735916463759
+            },
+            {
+                "orderId": 5923604,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.17759,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916464021
             },
             {
                 "orderId": 5924632,
                 "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735917903286
+            },
+            {
+                "orderId": 5926745,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921925175
+            },
+            {
+                "orderId": 5926748,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921928278
+            },
+            {
+                "orderId": 5926798,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921990772
+            },
+            {
+                "orderId": 5926801,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921994356
+            },
+            {
+                "orderId": 5926835,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922057586
+            },
+            {
+                "orderId": 5926843,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922060703
+            },
+            {
+                "orderId": 5926882,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922125609
+            },
+            {
+                "orderId": 5926883,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922128754
+            },
+            {
+                "orderId": 5926901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922193228
+            },
+            {
+                "orderId": 5926904,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922197887
+            },
+            {
+                "orderId": 5926963,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922261341
+            },
+            {
+                "orderId": 5926964,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922265012
+            },
+            {
+                "orderId": 5926996,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922329515
+            },
+            {
+                "orderId": 5926997,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922333179
+            },
+            {
+                "orderId": 5927027,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922396629
+            },
+            {
+                "orderId": 5927029,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922398944
+            },
+            {
+                "orderId": 5927058,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922463518
+            },
+            {
+                "orderId": 5927062,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922466108
+            },
+            {
+                "orderId": 5927093,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922529452
+            },
+            {
+                "orderId": 5927095,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922532173
+            },
+            {
+                "orderId": 5927117,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922597078
+            },
+            {
+                "orderId": 5927122,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922601681
+            },
+            {
+                "orderId": 5927167,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922667132
+            },
+            {
+                "orderId": 5927168,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922671223
+            },
+            {
+                "orderId": 5927220,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922735548
+            },
+            {
+                "orderId": 5927222,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922738919
+            },
+            {
+                "orderId": 5927301,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922803328
+            },
+            {
+                "orderId": 5927306,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922807901
+            },
+            {
+                "orderId": 5927356,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922871390
+            },
+            {
+                "orderId": 5927357,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922875536
+            },
+            {
+                "orderId": 5927395,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922941351
+            },
+            {
+                "orderId": 5927396,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922945016
+            },
+            {
+                "orderId": 5927445,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923009276
+            },
+            {
+                "orderId": 5927450,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923013930
+            },
+            {
+                "orderId": 5927511,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923078395
+            },
+            {
+                "orderId": 5927512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923082503
+            },
+            {
+                "orderId": 5927571,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923147499
+            },
+            {
+                "orderId": 5927575,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923152077
+            },
+            {
+                "orderId": 5927630,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923216202
+            },
+            {
+                "orderId": 5927633,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923220876
+            },
+            {
+                "orderId": 5927671,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923283897
+            },
+            {
+                "orderId": 5927683,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923287526
+            },
+            {
+                "orderId": 5927746,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923351545
+            },
+            {
+                "orderId": 5927752,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923354788
+            },
+            {
+                "orderId": 5927774,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923419830
+            },
+            {
+                "orderId": 5927778,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923423518
+            },
+            {
+                "orderId": 5927846,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923488737
+            },
+            {
+                "orderId": 5927854,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923493318
+            },
+            {
+                "orderId": 5927927,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923557702
+            },
+            {
+                "orderId": 5927933,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923561093
+            },
+            {
+                "orderId": 5927967,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923625877
+            },
+            {
+                "orderId": 5927979,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923630897
+            },
+            {
+                "orderId": 5928012,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923696203
+            },
+            {
+                "orderId": 5928020,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923699303
+            },
+            {
+                "orderId": 5928068,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923764743
+            },
+            {
+                "orderId": 5928069,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923768953
+            },
+            {
+                "orderId": 5928154,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923833241
+            },
+            {
+                "orderId": 5928166,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923839542
+            },
+            {
+                "orderId": 5928228,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923905320
+            },
+            {
+                "orderId": 5928235,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923911700
+            },
+            {
+                "orderId": 5928316,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923975164
+            },
+            {
+                "orderId": 5928322,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923979821
+            },
+            {
+                "orderId": 5928365,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924045515
+            },
+            {
+                "orderId": 5928366,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924049066
+            },
+            {
+                "orderId": 5928411,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924114300
+            },
+            {
+                "orderId": 5928412,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924117425
+            },
+            {
+                "orderId": 5928430,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924181416
+            },
+            {
+                "orderId": 5928433,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924185660
+            },
+            {
+                "orderId": 5928512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924250870
+            },
+            {
+                "orderId": 5928516,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924254399
+            },
+            {
+                "orderId": 5928580,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924319180
+            },
+            {
+                "orderId": 5928583,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924324276
+            },
+            {
+                "orderId": 5928604,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924389667
+            },
+            {
+                "orderId": 5928606,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924393494
+            },
+            {
+                "orderId": 5928709,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924458335
+            },
+            {
+                "orderId": 5928716,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924460741
+            },
+            {
+                "orderId": 5928811,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924525386
+            },
+            {
+                "orderId": 5928820,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924529356
+            },
+            {
+                "orderId": 5928898,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924594243
+            },
+            {
+                "orderId": 5928901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924598743
+            },
+            {
+                "orderId": 5929008,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924664082
+            },
+            {
+                "orderId": 5929017,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924668891
+            },
+            {
+                "orderId": 5929130,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924734675
+            },
+            {
+                "orderId": 5929138,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924738369
+            },
+            {
+                "orderId": 5929230,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924803310
+            },
+            {
+                "orderId": 5929240,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924808113
+            },
+            {
+                "orderId": 5929284,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924872506
+            },
+            {
+                "orderId": 5929286,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924876349
+            },
+            {
+                "orderId": 5929404,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924941549
+            },
+            {
+                "orderId": 5929414,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924945426
+            },
+            {
+                "orderId": 5929531,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925010621
+            },
+            {
+                "orderId": 5929535,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925014384
+            },
+            {
+                "orderId": 5929563,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925079488
+            },
+            {
+                "orderId": 5929566,
+                "type": "STOP_LOSS",
                 "status": "NEW",
                 "stopPrice": 0.17671,
                 "side": "SELL",
-                "quantity": 645.0
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925083132
             }
         ],
-        "status": "OPEN"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "DARUSDT",
@@ -144,39 +1187,1078 @@
         "date": "2025-01-02T03:45:08+00:00",
         "orders": [
             {
+                "orderId": 5791790,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 2502.0,
+                "executedQty": 2502.0,
+                "time": 1735749485824
+            },
+            {
+                "orderId": 5792073,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 1543.0,
+                "executedQty": 1543.0,
+                "time": 1735750061180
+            },
+            {
+                "orderId": 5792422,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 970.0,
+                "executedQty": 970.0,
+                "time": 1735750724185
+            },
+            {
+                "orderId": 5846793,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648268
+            },
+            {
+                "orderId": 5846794,
+                "type": "STOP_LOSS",
+                "status": "FILLED",
+                "stopPrice": 0.17654,
+                "side": "SELL",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648525
+            },
+            {
+                "orderId": 5846795,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.18291,
+                "side": "SELL",
+                "quantity": 179.0,
+                "executedQty": 179.0,
+                "time": 1735816649265
+            },
+            {
                 "orderId": 5846798,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.18746,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650006
             },
             {
                 "orderId": 5846799,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.19292,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650262
             },
             {
                 "orderId": 5846800,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.2002,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650518
+            },
+            {
+                "orderId": 5923602,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916463496
+            },
+            {
+                "orderId": 5923603,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17141,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735916463759
+            },
+            {
+                "orderId": 5923604,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.17759,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916464021
             },
             {
                 "orderId": 5924632,
                 "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735917903286
+            },
+            {
+                "orderId": 5926745,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921925175
+            },
+            {
+                "orderId": 5926748,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921928278
+            },
+            {
+                "orderId": 5926798,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921990772
+            },
+            {
+                "orderId": 5926801,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921994356
+            },
+            {
+                "orderId": 5926835,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922057586
+            },
+            {
+                "orderId": 5926843,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922060703
+            },
+            {
+                "orderId": 5926882,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922125609
+            },
+            {
+                "orderId": 5926883,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922128754
+            },
+            {
+                "orderId": 5926901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922193228
+            },
+            {
+                "orderId": 5926904,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922197887
+            },
+            {
+                "orderId": 5926963,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922261341
+            },
+            {
+                "orderId": 5926964,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922265012
+            },
+            {
+                "orderId": 5926996,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922329515
+            },
+            {
+                "orderId": 5926997,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922333179
+            },
+            {
+                "orderId": 5927027,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922396629
+            },
+            {
+                "orderId": 5927029,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922398944
+            },
+            {
+                "orderId": 5927058,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922463518
+            },
+            {
+                "orderId": 5927062,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922466108
+            },
+            {
+                "orderId": 5927093,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922529452
+            },
+            {
+                "orderId": 5927095,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922532173
+            },
+            {
+                "orderId": 5927117,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922597078
+            },
+            {
+                "orderId": 5927122,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922601681
+            },
+            {
+                "orderId": 5927167,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922667132
+            },
+            {
+                "orderId": 5927168,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922671223
+            },
+            {
+                "orderId": 5927220,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922735548
+            },
+            {
+                "orderId": 5927222,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922738919
+            },
+            {
+                "orderId": 5927301,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922803328
+            },
+            {
+                "orderId": 5927306,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922807901
+            },
+            {
+                "orderId": 5927356,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922871390
+            },
+            {
+                "orderId": 5927357,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922875536
+            },
+            {
+                "orderId": 5927395,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922941351
+            },
+            {
+                "orderId": 5927396,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922945016
+            },
+            {
+                "orderId": 5927445,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923009276
+            },
+            {
+                "orderId": 5927450,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923013930
+            },
+            {
+                "orderId": 5927511,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923078395
+            },
+            {
+                "orderId": 5927512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923082503
+            },
+            {
+                "orderId": 5927571,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923147499
+            },
+            {
+                "orderId": 5927575,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923152077
+            },
+            {
+                "orderId": 5927630,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923216202
+            },
+            {
+                "orderId": 5927633,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923220876
+            },
+            {
+                "orderId": 5927671,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923283897
+            },
+            {
+                "orderId": 5927683,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923287526
+            },
+            {
+                "orderId": 5927746,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923351545
+            },
+            {
+                "orderId": 5927752,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923354788
+            },
+            {
+                "orderId": 5927774,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923419830
+            },
+            {
+                "orderId": 5927778,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923423518
+            },
+            {
+                "orderId": 5927846,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923488737
+            },
+            {
+                "orderId": 5927854,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923493318
+            },
+            {
+                "orderId": 5927927,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923557702
+            },
+            {
+                "orderId": 5927933,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923561093
+            },
+            {
+                "orderId": 5927967,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923625877
+            },
+            {
+                "orderId": 5927979,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923630897
+            },
+            {
+                "orderId": 5928012,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923696203
+            },
+            {
+                "orderId": 5928020,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923699303
+            },
+            {
+                "orderId": 5928068,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923764743
+            },
+            {
+                "orderId": 5928069,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923768953
+            },
+            {
+                "orderId": 5928154,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923833241
+            },
+            {
+                "orderId": 5928166,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923839542
+            },
+            {
+                "orderId": 5928228,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923905320
+            },
+            {
+                "orderId": 5928235,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923911700
+            },
+            {
+                "orderId": 5928316,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923975164
+            },
+            {
+                "orderId": 5928322,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923979821
+            },
+            {
+                "orderId": 5928365,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924045515
+            },
+            {
+                "orderId": 5928366,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924049066
+            },
+            {
+                "orderId": 5928411,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924114300
+            },
+            {
+                "orderId": 5928412,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924117425
+            },
+            {
+                "orderId": 5928430,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924181416
+            },
+            {
+                "orderId": 5928433,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924185660
+            },
+            {
+                "orderId": 5928512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924250870
+            },
+            {
+                "orderId": 5928516,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924254399
+            },
+            {
+                "orderId": 5928580,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924319180
+            },
+            {
+                "orderId": 5928583,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924324276
+            },
+            {
+                "orderId": 5928604,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924389667
+            },
+            {
+                "orderId": 5928606,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924393494
+            },
+            {
+                "orderId": 5928709,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924458335
+            },
+            {
+                "orderId": 5928716,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924460741
+            },
+            {
+                "orderId": 5928811,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924525386
+            },
+            {
+                "orderId": 5928820,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924529356
+            },
+            {
+                "orderId": 5928898,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924594243
+            },
+            {
+                "orderId": 5928901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924598743
+            },
+            {
+                "orderId": 5929008,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924664082
+            },
+            {
+                "orderId": 5929017,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924668891
+            },
+            {
+                "orderId": 5929130,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924734675
+            },
+            {
+                "orderId": 5929138,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924738369
+            },
+            {
+                "orderId": 5929230,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924803310
+            },
+            {
+                "orderId": 5929240,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924808113
+            },
+            {
+                "orderId": 5929284,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924872506
+            },
+            {
+                "orderId": 5929286,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924876349
+            },
+            {
+                "orderId": 5929404,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924941549
+            },
+            {
+                "orderId": 5929414,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924945426
+            },
+            {
+                "orderId": 5929531,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925010621
+            },
+            {
+                "orderId": 5929535,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925014384
+            },
+            {
+                "orderId": 5929563,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925079488
+            },
+            {
+                "orderId": 5929566,
+                "type": "STOP_LOSS",
                 "status": "NEW",
                 "stopPrice": 0.17671,
                 "side": "SELL",
-                "quantity": 645.0
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925083132
             }
         ],
-        "status": "OPEN"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "DARUSDT",
@@ -193,39 +2275,1078 @@
         "date": "2025-01-02T11:15:06+00:00",
         "orders": [
             {
+                "orderId": 5791790,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 2502.0,
+                "executedQty": 2502.0,
+                "time": 1735749485824
+            },
+            {
+                "orderId": 5792073,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 1543.0,
+                "executedQty": 1543.0,
+                "time": 1735750061180
+            },
+            {
+                "orderId": 5792422,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 970.0,
+                "executedQty": 970.0,
+                "time": 1735750724185
+            },
+            {
+                "orderId": 5846793,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648268
+            },
+            {
+                "orderId": 5846794,
+                "type": "STOP_LOSS",
+                "status": "FILLED",
+                "stopPrice": 0.17654,
+                "side": "SELL",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648525
+            },
+            {
+                "orderId": 5846795,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.18291,
+                "side": "SELL",
+                "quantity": 179.0,
+                "executedQty": 179.0,
+                "time": 1735816649265
+            },
+            {
                 "orderId": 5846798,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.18746,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650006
             },
             {
                 "orderId": 5846799,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.19292,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650262
             },
             {
                 "orderId": 5846800,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.2002,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650518
+            },
+            {
+                "orderId": 5923602,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916463496
+            },
+            {
+                "orderId": 5923603,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17141,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735916463759
+            },
+            {
+                "orderId": 5923604,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.17759,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916464021
             },
             {
                 "orderId": 5924632,
                 "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735917903286
+            },
+            {
+                "orderId": 5926745,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921925175
+            },
+            {
+                "orderId": 5926748,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921928278
+            },
+            {
+                "orderId": 5926798,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921990772
+            },
+            {
+                "orderId": 5926801,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921994356
+            },
+            {
+                "orderId": 5926835,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922057586
+            },
+            {
+                "orderId": 5926843,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922060703
+            },
+            {
+                "orderId": 5926882,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922125609
+            },
+            {
+                "orderId": 5926883,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922128754
+            },
+            {
+                "orderId": 5926901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922193228
+            },
+            {
+                "orderId": 5926904,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922197887
+            },
+            {
+                "orderId": 5926963,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922261341
+            },
+            {
+                "orderId": 5926964,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922265012
+            },
+            {
+                "orderId": 5926996,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922329515
+            },
+            {
+                "orderId": 5926997,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922333179
+            },
+            {
+                "orderId": 5927027,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922396629
+            },
+            {
+                "orderId": 5927029,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922398944
+            },
+            {
+                "orderId": 5927058,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922463518
+            },
+            {
+                "orderId": 5927062,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922466108
+            },
+            {
+                "orderId": 5927093,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922529452
+            },
+            {
+                "orderId": 5927095,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922532173
+            },
+            {
+                "orderId": 5927117,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922597078
+            },
+            {
+                "orderId": 5927122,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922601681
+            },
+            {
+                "orderId": 5927167,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922667132
+            },
+            {
+                "orderId": 5927168,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922671223
+            },
+            {
+                "orderId": 5927220,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922735548
+            },
+            {
+                "orderId": 5927222,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922738919
+            },
+            {
+                "orderId": 5927301,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922803328
+            },
+            {
+                "orderId": 5927306,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922807901
+            },
+            {
+                "orderId": 5927356,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922871390
+            },
+            {
+                "orderId": 5927357,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922875536
+            },
+            {
+                "orderId": 5927395,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922941351
+            },
+            {
+                "orderId": 5927396,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922945016
+            },
+            {
+                "orderId": 5927445,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923009276
+            },
+            {
+                "orderId": 5927450,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923013930
+            },
+            {
+                "orderId": 5927511,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923078395
+            },
+            {
+                "orderId": 5927512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923082503
+            },
+            {
+                "orderId": 5927571,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923147499
+            },
+            {
+                "orderId": 5927575,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923152077
+            },
+            {
+                "orderId": 5927630,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923216202
+            },
+            {
+                "orderId": 5927633,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923220876
+            },
+            {
+                "orderId": 5927671,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923283897
+            },
+            {
+                "orderId": 5927683,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923287526
+            },
+            {
+                "orderId": 5927746,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923351545
+            },
+            {
+                "orderId": 5927752,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923354788
+            },
+            {
+                "orderId": 5927774,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923419830
+            },
+            {
+                "orderId": 5927778,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923423518
+            },
+            {
+                "orderId": 5927846,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923488737
+            },
+            {
+                "orderId": 5927854,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923493318
+            },
+            {
+                "orderId": 5927927,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923557702
+            },
+            {
+                "orderId": 5927933,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923561093
+            },
+            {
+                "orderId": 5927967,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923625877
+            },
+            {
+                "orderId": 5927979,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923630897
+            },
+            {
+                "orderId": 5928012,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923696203
+            },
+            {
+                "orderId": 5928020,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923699303
+            },
+            {
+                "orderId": 5928068,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923764743
+            },
+            {
+                "orderId": 5928069,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923768953
+            },
+            {
+                "orderId": 5928154,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923833241
+            },
+            {
+                "orderId": 5928166,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923839542
+            },
+            {
+                "orderId": 5928228,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923905320
+            },
+            {
+                "orderId": 5928235,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923911700
+            },
+            {
+                "orderId": 5928316,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923975164
+            },
+            {
+                "orderId": 5928322,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923979821
+            },
+            {
+                "orderId": 5928365,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924045515
+            },
+            {
+                "orderId": 5928366,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924049066
+            },
+            {
+                "orderId": 5928411,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924114300
+            },
+            {
+                "orderId": 5928412,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924117425
+            },
+            {
+                "orderId": 5928430,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924181416
+            },
+            {
+                "orderId": 5928433,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924185660
+            },
+            {
+                "orderId": 5928512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924250870
+            },
+            {
+                "orderId": 5928516,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924254399
+            },
+            {
+                "orderId": 5928580,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924319180
+            },
+            {
+                "orderId": 5928583,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924324276
+            },
+            {
+                "orderId": 5928604,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924389667
+            },
+            {
+                "orderId": 5928606,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924393494
+            },
+            {
+                "orderId": 5928709,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924458335
+            },
+            {
+                "orderId": 5928716,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924460741
+            },
+            {
+                "orderId": 5928811,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924525386
+            },
+            {
+                "orderId": 5928820,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924529356
+            },
+            {
+                "orderId": 5928898,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924594243
+            },
+            {
+                "orderId": 5928901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924598743
+            },
+            {
+                "orderId": 5929008,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924664082
+            },
+            {
+                "orderId": 5929017,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924668891
+            },
+            {
+                "orderId": 5929130,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924734675
+            },
+            {
+                "orderId": 5929138,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924738369
+            },
+            {
+                "orderId": 5929230,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924803310
+            },
+            {
+                "orderId": 5929240,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924808113
+            },
+            {
+                "orderId": 5929284,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924872506
+            },
+            {
+                "orderId": 5929286,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924876349
+            },
+            {
+                "orderId": 5929404,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924941549
+            },
+            {
+                "orderId": 5929414,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924945426
+            },
+            {
+                "orderId": 5929531,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925010621
+            },
+            {
+                "orderId": 5929535,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925014384
+            },
+            {
+                "orderId": 5929563,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925079488
+            },
+            {
+                "orderId": 5929566,
+                "type": "STOP_LOSS",
                 "status": "NEW",
                 "stopPrice": 0.17671,
                 "side": "SELL",
-                "quantity": 645.0
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925083132
             }
         ],
-        "status": "OPEN"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "MASKUSDT",
@@ -241,7 +3362,8 @@
         "breakeven": 2.985,
         "date": "2025-01-03T02:30:12+00:00",
         "orders": [],
-        "status": "CLOSED"
+        "status": "CLOSED",
+        "achieved_targets": []
     },
     {
         "currency": "DARUSDT",
@@ -258,38 +3380,1165 @@
         "date": "2025-01-03T15:00:15+00:00",
         "orders": [
             {
+                "orderId": 5791790,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 2502.0,
+                "executedQty": 2502.0,
+                "time": 1735749485824
+            },
+            {
+                "orderId": 5792073,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 1543.0,
+                "executedQty": 1543.0,
+                "time": 1735750061180
+            },
+            {
+                "orderId": 5792422,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 970.0,
+                "executedQty": 970.0,
+                "time": 1735750724185
+            },
+            {
+                "orderId": 5846793,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648268
+            },
+            {
+                "orderId": 5846794,
+                "type": "STOP_LOSS",
+                "status": "FILLED",
+                "stopPrice": 0.17654,
+                "side": "SELL",
+                "quantity": 716.0,
+                "executedQty": 716.0,
+                "time": 1735816648525
+            },
+            {
+                "orderId": 5846795,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.18291,
+                "side": "SELL",
+                "quantity": 179.0,
+                "executedQty": 179.0,
+                "time": 1735816649265
+            },
+            {
                 "orderId": 5846798,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.18746,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650006
             },
             {
                 "orderId": 5846799,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.19292,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650262
             },
             {
                 "orderId": 5846800,
                 "type": "TAKE_PROFIT",
-                "status": "NEW",
+                "status": "CANCELED",
                 "stopPrice": 0.2002,
                 "side": "SELL",
-                "quantity": 179.0
+                "quantity": 179.0,
+                "executedQty": 0.0,
+                "time": 1735816650518
+            },
+            {
+                "orderId": 5923602,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916463496
+            },
+            {
+                "orderId": 5923603,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17141,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735916463759
+            },
+            {
+                "orderId": 5923604,
+                "type": "TAKE_PROFIT",
+                "status": "FILLED",
+                "stopPrice": 0.17759,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 645.0,
+                "time": 1735916464021
             },
             {
                 "orderId": 5924632,
                 "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735917903286
+            },
+            {
+                "orderId": 5926745,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921925175
+            },
+            {
+                "orderId": 5926748,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921928278
+            },
+            {
+                "orderId": 5926798,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921990772
+            },
+            {
+                "orderId": 5926801,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735921994356
+            },
+            {
+                "orderId": 5926835,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922057586
+            },
+            {
+                "orderId": 5926843,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922060703
+            },
+            {
+                "orderId": 5926882,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922125609
+            },
+            {
+                "orderId": 5926883,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922128754
+            },
+            {
+                "orderId": 5926901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922193228
+            },
+            {
+                "orderId": 5926904,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922197887
+            },
+            {
+                "orderId": 5926963,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922261341
+            },
+            {
+                "orderId": 5926964,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922265012
+            },
+            {
+                "orderId": 5926996,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922329515
+            },
+            {
+                "orderId": 5926997,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922333179
+            },
+            {
+                "orderId": 5927027,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922396629
+            },
+            {
+                "orderId": 5927029,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922398944
+            },
+            {
+                "orderId": 5927058,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922463518
+            },
+            {
+                "orderId": 5927062,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922466108
+            },
+            {
+                "orderId": 5927093,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922529452
+            },
+            {
+                "orderId": 5927095,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922532173
+            },
+            {
+                "orderId": 5927117,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922597078
+            },
+            {
+                "orderId": 5927122,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922601681
+            },
+            {
+                "orderId": 5927167,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922667132
+            },
+            {
+                "orderId": 5927168,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922671223
+            },
+            {
+                "orderId": 5927220,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922735548
+            },
+            {
+                "orderId": 5927222,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922738919
+            },
+            {
+                "orderId": 5927301,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922803328
+            },
+            {
+                "orderId": 5927306,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922807901
+            },
+            {
+                "orderId": 5927356,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922871390
+            },
+            {
+                "orderId": 5927357,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922875536
+            },
+            {
+                "orderId": 5927395,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922941351
+            },
+            {
+                "orderId": 5927396,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735922945016
+            },
+            {
+                "orderId": 5927445,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923009276
+            },
+            {
+                "orderId": 5927450,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923013930
+            },
+            {
+                "orderId": 5927511,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923078395
+            },
+            {
+                "orderId": 5927512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923082503
+            },
+            {
+                "orderId": 5927571,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923147499
+            },
+            {
+                "orderId": 5927575,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923152077
+            },
+            {
+                "orderId": 5927630,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923216202
+            },
+            {
+                "orderId": 5927633,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923220876
+            },
+            {
+                "orderId": 5927671,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923283897
+            },
+            {
+                "orderId": 5927683,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923287526
+            },
+            {
+                "orderId": 5927746,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923351545
+            },
+            {
+                "orderId": 5927752,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923354788
+            },
+            {
+                "orderId": 5927774,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923419830
+            },
+            {
+                "orderId": 5927778,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923423518
+            },
+            {
+                "orderId": 5927846,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923488737
+            },
+            {
+                "orderId": 5927854,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923493318
+            },
+            {
+                "orderId": 5927927,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923557702
+            },
+            {
+                "orderId": 5927933,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923561093
+            },
+            {
+                "orderId": 5927967,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923625877
+            },
+            {
+                "orderId": 5927979,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923630897
+            },
+            {
+                "orderId": 5928012,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923696203
+            },
+            {
+                "orderId": 5928020,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923699303
+            },
+            {
+                "orderId": 5928068,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923764743
+            },
+            {
+                "orderId": 5928069,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923768953
+            },
+            {
+                "orderId": 5928154,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923833241
+            },
+            {
+                "orderId": 5928166,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923839542
+            },
+            {
+                "orderId": 5928228,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923905320
+            },
+            {
+                "orderId": 5928235,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923911700
+            },
+            {
+                "orderId": 5928316,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923975164
+            },
+            {
+                "orderId": 5928322,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735923979821
+            },
+            {
+                "orderId": 5928365,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924045515
+            },
+            {
+                "orderId": 5928366,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924049066
+            },
+            {
+                "orderId": 5928411,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924114300
+            },
+            {
+                "orderId": 5928412,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924117425
+            },
+            {
+                "orderId": 5928430,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924181416
+            },
+            {
+                "orderId": 5928433,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924185660
+            },
+            {
+                "orderId": 5928512,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924250870
+            },
+            {
+                "orderId": 5928516,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924254399
+            },
+            {
+                "orderId": 5928580,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924319180
+            },
+            {
+                "orderId": 5928583,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924324276
+            },
+            {
+                "orderId": 5928604,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924389667
+            },
+            {
+                "orderId": 5928606,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924393494
+            },
+            {
+                "orderId": 5928709,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924458335
+            },
+            {
+                "orderId": 5928716,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924460741
+            },
+            {
+                "orderId": 5928811,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924525386
+            },
+            {
+                "orderId": 5928820,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924529356
+            },
+            {
+                "orderId": 5928898,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924594243
+            },
+            {
+                "orderId": 5928901,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924598743
+            },
+            {
+                "orderId": 5929008,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924664082
+            },
+            {
+                "orderId": 5929017,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924668891
+            },
+            {
+                "orderId": 5929130,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924734675
+            },
+            {
+                "orderId": 5929138,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924738369
+            },
+            {
+                "orderId": 5929230,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924803310
+            },
+            {
+                "orderId": 5929240,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924808113
+            },
+            {
+                "orderId": 5929284,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924872506
+            },
+            {
+                "orderId": 5929286,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924876349
+            },
+            {
+                "orderId": 5929404,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924941549
+            },
+            {
+                "orderId": 5929414,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735924945426
+            },
+            {
+                "orderId": 5929531,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925010621
+            },
+            {
+                "orderId": 5929535,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925014384
+            },
+            {
+                "orderId": 5929563,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.1788,
+                "side": "SELL",
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925079488
+            },
+            {
+                "orderId": 5929566,
+                "type": "STOP_LOSS",
                 "status": "NEW",
                 "stopPrice": 0.17671,
                 "side": "SELL",
-                "quantity": 645.0
+                "quantity": 645.0,
+                "executedQty": 0.0,
+                "time": 1735925083132
             }
         ],
-        "status": "OPEN"
+        "status": "CLOSED",
+        "achieved_targets": []
+    },
+    {
+        "currency": "IOTAUSDT",
+        "signal_type": "SHORT",
+        "entry": 0.3633,
+        "targets": [
+            0.3615,
+            0.3524,
+            0.3415,
+            0.327
+        ],
+        "stop_loss": 0.3742,
+        "breakeven": 0.3524,
+        "date": "2025-01-03T17:30:11+00:00",
+        "orders": [
+            {
+                "orderId": 4750370,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "SELL",
+                "quantity": 749.0,
+                "executedQty": 749.0,
+                "time": 1735925457336
+            },
+            {
+                "orderId": 4750371,
+                "type": "STOP_LOSS",
+                "status": "CANCELED",
+                "stopPrice": 0.3742,
+                "side": "BUY",
+                "quantity": 749.0,
+                "executedQty": 0.0,
+                "time": 1735925457597
+            },
+            {
+                "orderId": 4751524,
+                "type": "STOP_LOSS",
+                "status": "FILLED",
+                "stopPrice": 0.3633,
+                "side": "BUY",
+                "quantity": 749.0,
+                "executedQty": 749.0,
+                "time": 1735926564729
+            }
+        ],
+        "status": "CLOSED",
+        "achieved_targets": [
+            0
+        ]
+    },
+    {
+        "currency": "TAOUSDT",
+        "signal_type": "LONG",
+        "entry": 563.8,
+        "targets": [
+            566.6,
+            580.7,
+            597.6,
+            620.2
+        ],
+        "stop_loss": 546.9,
+        "breakeven": 580.7,
+        "date": "2025-01-03T21:15:03+00:00",
+        "orders": [
+            {
+                "orderId": 6546038,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 0.4835,
+                "executedQty": 0.4835,
+                "time": 1735938931204
+            },
+            {
+                "orderId": 6546039,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 546.9,
+                "side": "SELL",
+                "quantity": 0.4835,
+                "executedQty": 0.0,
+                "time": 1735938931475
+            }
+        ],
+        "status": "OPEN",
+        "achieved_targets": []
     }
 ]
