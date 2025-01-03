@@ -37,6 +37,8 @@ def update_legacy_signal(signal):
         signal["orders"] = []
     if "status" not in signal:
         signal["status"] = "OPEN"
+    if "achieved_targets" not in signal:
+        signal["achieved_targets"] = []  # Lista osiągniętych celów
     return signal
 
 def get_orders_for_signal(signal):
@@ -100,6 +102,48 @@ def cancel_remaining_orders(signal):
     except Exception as e:
         log_to_file(f"Błąd podczas anulowania zleceń take-profit dla {symbol}: {e}")
 
+def update_stop_loss_if_needed(signal):
+    """
+    Aktualizuje stop-loss tylko wtedy, gdy jest to konieczne.
+    """
+    symbol = signal["currency"]
+    stop_loss_order = next((order for order in signal["orders"] if order['type'] == 'STOP_LOSS'), None)
+    if not stop_loss_order:
+        return
+
+    # Określ, na którym celu jesteśmy
+    current_target_index = len(signal["achieved_targets"])
+    if current_target_index >= len(signal["targets"]):
+        return  # Wszystkie cele zostały osiągnięte
+
+    # Określ nowy poziom stop-loss
+    if current_target_index == 0:
+        new_stop_loss = signal["entry"]  # Poziom wejścia
+    else:
+        new_stop_loss = signal["targets"][current_target_index - 1]  # Poprzedni cel
+
+    # Sprawdź, czy stop-loss jest już ustawiony na odpowiednim poziomie
+    if (signal["signal_type"] == "LONG" and stop_loss_order['stopPrice'] >= new_stop_loss) or \
+       (signal["signal_type"] == "SHORT" and stop_loss_order['stopPrice'] <= new_stop_loss):
+        return  # Stop-loss jest już ustawiony prawidłowo
+
+    # Zaktualizuj stop-loss
+    try:
+        client.cancel_order(symbol=symbol, orderId=stop_loss_order['orderId'])
+        new_order = client.create_order(
+            symbol=symbol,
+            side=stop_loss_order['side'],
+            type='STOP_LOSS',
+            quantity=stop_loss_order['quantity'],
+            stopPrice=new_stop_loss
+        )
+        log_to_file(f"Zaktualizowano stop-loss dla {symbol} na {new_stop_loss}.")
+        # Zaktualizuj zlecenie w historii
+        stop_loss_order['stopPrice'] = new_stop_loss
+        stop_loss_order['orderId'] = new_order['orderId']
+    except Exception as e:
+        log_to_file(f"Błąd podczas aktualizacji stop-loss dla {symbol}: {e}")
+
 def check_and_update_signal_history():
     """
     Sprawdza i aktualizuje historię sygnałów, modyfikując zlecenia stop-loss w miarę osiągania celów.
@@ -130,28 +174,17 @@ def check_and_update_signal_history():
                         # Anuluj pozostałe zlecenia take-profit
                         cancel_remaining_orders(signal)
                     else:
-                        # Sprawdź, czy osiągnięto cele i zaktualizuj stop-loss
+                        # Sprawdź, które cele zostały osiągnięte
                         current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
                         for i, target in enumerate(signal["targets"]):
-                            if current_price >= target:
-                                new_stop_loss = signal["entry"] if i == 0 else signal["targets"][i-1]
-                                if stop_loss_order['stopPrice'] != new_stop_loss:
-                                    try:
-                                        client.cancel_order(symbol=symbol, orderId=stop_loss_order['orderId'])
-                                        new_order = client.create_order(
-                                            symbol=symbol,
-                                            side=stop_loss_order['side'],
-                                            type='STOP_LOSS',
-                                            quantity=stop_loss_order['quantity'],
-                                            stopPrice=new_stop_loss
-                                        )
-                                        log_to_file(f"Zaktualizowano stop-loss dla {symbol} na {new_stop_loss}.")
-                                        # Zaktualizuj zlecenie w historii
-                                        stop_loss_order['stopPrice'] = new_stop_loss
-                                        stop_loss_order['orderId'] = new_order['orderId']
-                                    except Exception as e:
-                                        log_to_file(f"Błąd podczas aktualizacji stop-loss dla {symbol}: {e}")
-                                break
+                            if i not in signal["achieved_targets"]:
+                                if (signal["signal_type"] == "LONG" and current_price >= target) or \
+                                   (signal["signal_type"] == "SHORT" and current_price <= target):
+                                    signal["achieved_targets"].append(i)
+                                    log_to_file(f"Osiągnięto cel {i + 1} dla {symbol}.")
+
+                        # Zaktualizuj stop-loss tylko raz na cykl
+                        update_stop_loss_if_needed(signal)
             except Exception as e:
                 log_to_file(f"Błąd podczas sprawdzania zleceń dla {symbol}: {e}")
     save_signal_history(history)
