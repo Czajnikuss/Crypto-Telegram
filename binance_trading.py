@@ -61,12 +61,49 @@ def get_account_balance():
     except Exception as e:
         print(f"Błąd podczas pobierania salda: {e}")
         return {}
+    
+def get_algo_orders_count(symbol):
+    """
+    Pobiera liczbę aktywnych zleceń algorytmicznych dla danej pary handlowej.
+    """
+    try:
+        open_orders = client.get_open_orders(symbol=symbol)
+        algo_orders = [order for order in open_orders if order['type'] in ['STOP_LOSS', 'TAKE_PROFIT']]
+        return len(algo_orders)
+    except Exception as e:
+        print(f"Błąd podczas pobierania aktywnych zleceń: {e}")
+        return 0
+    
+def adjust_targets_based_on_limit(signal):
+    """
+    Dostosowuje liczbę celów, aby zmieścić się w limicie zleceń algorytmicznych.
+    """
+    max_algo_orders = 5  # Limit Binance
+    current_algo_orders = get_algo_orders_count(signal["currency"])
+
+    # Oblicz dostępną liczbę celów
+    available_targets = max_algo_orders - current_algo_orders - 1  # -1 dla STOP_LOSS
+
+    if available_targets < 0:
+        available_targets = 0  # Nie możemy mieć ujemnej liczby celów
+
+    # Ogranicz liczbę celów
+    if len(signal["targets"]) > available_targets:
+        log_to_file(f"Przekroczono limit zleceń. Dostępne cele: {available_targets}")
+        signal["targets"] = signal["targets"][:available_targets]  # Zostaw najniższe cele
+
+    return signal
 
 def execute_trade(signal, percentage=20):
     """
     Wykonuje transakcję na Binance na podstawie sygnału.
     """
     symbol = signal["currency"]
+
+    # Dostosuj liczbę celów na podstawie limitu zleceń algorytmicznych
+    signal = adjust_targets_based_on_limit(signal)
+
+    # Reszta kodu funkcji execute_trade pozostaje bez zmian
     base_asset = symbol.replace("USDT", "")
     quote_asset = "USDT"
 
@@ -158,7 +195,7 @@ def check_open_positions():
     """
     Sprawdza status otwartych pozycji i loguje zmiany.
     """
-    for order_id, position in open_positions.items():
+    for order_id, position in list(open_positions.items()):  # Użyj listy do iteracji
         try:
             order_status = client.get_order(symbol=position["symbol"], orderId=order_id)
             if order_status['status'] != position["status"]:

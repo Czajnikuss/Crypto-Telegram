@@ -7,6 +7,7 @@ venv/
 
 # Pliki sesji Telethon
 *.session
+*.session-journal
 
 # Cache Pythona
 __pycache__/

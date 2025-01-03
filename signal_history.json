@@ -96,5 +96,19 @@
         "stop_loss": 0.17654,
         "breakeven": 0.18746,
         "date": "2025-01-02T11:15:06+00:00"
+    },
+    {
+        "currency": "MASKUSDT",
+        "signal_type": "SHORT",
+        "entry": 3.077,
+        "targets": [
+            3.062,
+            2.985,
+            2.892,
+            2.769
+        ],
+        "stop_loss": 3.169,
+        "breakeven": 2.985,
+        "date": "2025-01-03T02:30:12+00:00"
     }
 ]
