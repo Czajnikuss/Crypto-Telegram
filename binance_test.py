@@ -7,10 +7,6 @@ testnet_api_secret = 'X3fb984en55qY9lixokpxRiB4xsBzCllDkgLkZBVZupus4u1aQyFAnW7D6
 # Inicjalizacja klienta z użyciem Testnetu
 client = Client(testnet_api_key, testnet_api_secret, testnet=True)
 
-# Pobierz saldo dla USDT
-balance = client.get_asset_balance(asset='USDT')
-print(f"Dostępne środki: {balance['free']} USDT")
-
 
 from binance.client import Client
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
@@ -110,6 +106,21 @@ def reset_account(target_usdc=10000):
     final_balances = get_all_balances()
     final_usdc = final_balances.get('USDC', 0)
     print(f"Końcowe saldo USDC: {final_usdc} USDC.")
+    
+    
+def get_algo_orders_count(symbol):
+    """
+    Pobiera liczbę aktywnych zleceń algorytmicznych dla danej pary handlowej.
+    """
+    try:
+        open_orders = client.get_open_orders(symbol=symbol)
+        algo_orders = [order for order in open_orders if order['type'] in ['STOP_LOSS', 'TAKE_PROFIT']]
+        return len(algo_orders)
+    except Exception as e:
+        print(f"Błąd podczas pobierania aktywnych zleceń: {e}")
+        return 0
 
 # Uruchom funkcję reset_account
-reset_account()
+#reset_account()
+#print(get_all_balances())
+print(client.get_open_orders())

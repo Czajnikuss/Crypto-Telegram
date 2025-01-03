@@ -11,7 +11,9 @@
         ],
         "stop_loss": 17.31,
         "breakeven": 16.31,
-        "date": "2025-01-01T11:15:02+00:00"
+        "date": "2025-01-01T11:15:02+00:00",
+        "orders": [],
+        "status": "CLOSED"
     },
     {
         "currency": "ACEUSDT",
@@ -25,7 +27,9 @@
         ],
         "stop_loss": 2.243,
         "breakeven": 2.113,
-        "date": "2024-12-30T20:00:08+00:00"
+        "date": "2024-12-30T20:00:08+00:00",
+        "orders": [],
+        "status": "CLOSED"
     },
     {
         "currency": "MASKUSDT",
@@ -39,7 +43,26 @@
         ],
         "stop_loss": 3.157,
         "breakeven": 2.973,
-        "date": "2025-01-01T01:15:19+00:00"
+        "date": "2025-01-01T01:15:19+00:00",
+        "orders": [
+            {
+                "orderId": 3895378,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 2.985,
+                "side": "BUY",
+                "quantity": 11.0
+            },
+            {
+                "orderId": 3895379,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 2.892,
+                "side": "BUY",
+                "quantity": 11.0
+            }
+        ],
+        "status": "CLOSED"
     },
     {
         "currency": "AUCTIONUSDT",
@@ -53,7 +76,9 @@
         ],
         "stop_loss": 17.82,
         "breakeven": 18.92,
-        "date": "2024-12-31T20:00:13+00:00"
+        "date": "2024-12-31T20:00:13+00:00",
+        "orders": [],
+        "status": "CLOSED"
     },
     {
         "currency": "DARUSDT",
@@ -67,7 +92,42 @@
         ],
         "stop_loss": 0.18463,
         "breakeven": 0.19605,
-        "date": "2024-12-31T01:15:04+00:00"
+        "date": "2024-12-31T01:15:04+00:00",
+        "orders": [
+            {
+                "orderId": 5846798,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.18746,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846799,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.19292,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846800,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.2002,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5924632,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0
+            }
+        ],
+        "status": "OPEN"
     },
     {
         "currency": "DARUSDT",
@@ -81,7 +141,42 @@
         ],
         "stop_loss": 0.17344,
         "breakeven": 0.18416,
-        "date": "2025-01-02T03:45:08+00:00"
+        "date": "2025-01-02T03:45:08+00:00",
+        "orders": [
+            {
+                "orderId": 5846798,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.18746,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846799,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.19292,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846800,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.2002,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5924632,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0
+            }
+        ],
+        "status": "OPEN"
     },
     {
         "currency": "DARUSDT",
@@ -95,7 +190,42 @@
         ],
         "stop_loss": 0.17654,
         "breakeven": 0.18746,
-        "date": "2025-01-02T11:15:06+00:00"
+        "date": "2025-01-02T11:15:06+00:00",
+        "orders": [
+            {
+                "orderId": 5846798,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.18746,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846799,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.19292,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846800,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.2002,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5924632,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0
+            }
+        ],
+        "status": "OPEN"
     },
     {
         "currency": "MASKUSDT",
@@ -109,6 +239,57 @@
         ],
         "stop_loss": 3.169,
         "breakeven": 2.985,
-        "date": "2025-01-03T02:30:12+00:00"
+        "date": "2025-01-03T02:30:12+00:00",
+        "orders": [],
+        "status": "CLOSED"
+    },
+    {
+        "currency": "DARUSDT",
+        "signal_type": "LONG",
+        "entry": 0.17671,
+        "targets": [
+            0.17759,
+            0.18201,
+            0.18731,
+            0.19438
+        ],
+        "stop_loss": 0.17141,
+        "breakeven": 0.18201,
+        "date": "2025-01-03T15:00:15+00:00",
+        "orders": [
+            {
+                "orderId": 5846798,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.18746,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846799,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.19292,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5846800,
+                "type": "TAKE_PROFIT",
+                "status": "NEW",
+                "stopPrice": 0.2002,
+                "side": "SELL",
+                "quantity": 179.0
+            },
+            {
+                "orderId": 5924632,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.17671,
+                "side": "SELL",
+                "quantity": 645.0
+            }
+        ],
+        "status": "OPEN"
     }
 ]

@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from crypto_signals_channel import process_signal_message
 from datetime import datetime
 from binance_trading import check_open_positions
+from signal_history_manager import check_and_update_signal_history
 
 # Wczytaj zmienne środowiskowe
 load_dotenv()
@@ -61,6 +62,7 @@ async def main():
     while True:
         await check_new_messages()
         check_open_positions()  # Sprawdź status otwartych pozycji
+        check_and_update_signal_history()  # Sprawdź i zaktualizuj historię sygnałów
         await asyncio.sleep(60)  # Czekaj 60 sekund przed kolejnym sprawdzeniem
         
 with client:
