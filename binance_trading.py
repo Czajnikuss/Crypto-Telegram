@@ -146,6 +146,59 @@ def adjust_targets_based_on_limit(signal):
 
     return signal
 
+def calculate_trade_amount(available_balance, percentage, symbol):
+    """
+    Oblicza kwotę transakcji jako procent dostępnych środków, uwzględniając wymagania LOT_SIZE.
+    """
+    try:
+        symbol_info = client.get_symbol_info(symbol)
+        if not symbol_info:
+            log_to_file(f"Nie można pobrać informacji o symbolu {symbol}.")
+            return 0.0
+
+        # Pobierz wymagania LOT_SIZE
+        lot_size_filter = next(filter(lambda f: f['filterType'] == 'LOT_SIZE', symbol_info['filters']), None)
+        if not lot_size_filter:
+            log_to_file(f"Brak filtru LOT_SIZE dla symbolu {symbol}.")
+            return 0.0
+
+        min_qty = float(lot_size_filter['minQty'])
+        step_size = float(lot_size_filter['stepSize'])
+
+        # Oblicz kwotę transakcji
+        trade_amount_usdt = available_balance * (percentage / 100)
+
+        # Pobierz aktualną cenę
+        ticker = client.get_symbol_ticker(symbol=symbol)
+        current_price = float(ticker['price'])
+
+        # Oblicz ilość w jednostkach waluty bazowej
+        quantity = trade_amount_usdt / current_price
+
+        # Dostosuj ilość do wymagań LOT_SIZE
+        quantity = max(min_qty, quantity)
+        quantity = round(quantity // step_size * step_size, 8)
+
+        return quantity
+
+    except Exception as e:
+        log_to_file(f"Błąd podczas obliczania kwoty transakcji: {e}")
+        return 0.0
+    
+    
+def log_order(order, order_type, symbol, quantity, price):
+    """
+    Loguje zlecenie w pliku logfile.txt.
+    """
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_message = (
+        f"[{timestamp}] Zlecenie {order_type} dla {symbol}: "
+        f"ID={order['orderId']}, Ilość={quantity}, Cena={price}, "
+        f"Status={order['status']}"
+    )
+    log_to_file(log_message)
+    
+
 def execute_trade(signal, percentage=20):
     """
     Wykonuje transakcję na Binance na podstawie sygnału.
@@ -155,45 +208,29 @@ def execute_trade(signal, percentage=20):
     # Dostosuj liczbę celów do wymagań LOT_SIZE
     signal = adjust_targets_based_on_lot_size(signal)
 
-    # Reszta kodu funkcji execute_trade pozostaje bez zmian
-    base_asset = symbol.replace("USDT", "")
-    quote_asset = "USDT"
-
-    # Pobierz stan konta przed zleceniem
-    balance_before = get_account_balance()
-    log_to_file(f"Stan konta przed zleceniem: {balance_before}")
-
     # Pobierz dostępne środki
-    available_balance = get_available_balance(quote_asset)
+    available_balance = get_available_balance("USDT")
     if available_balance <= 0:
         print("Brak dostępnych środków.")
         return
 
-    # Oblicz kwotę transakcji
-    trade_amount_usdt = calculate_trade_amount(available_balance, percentage)
-    print(f"Dostępne środki: {available_balance} {quote_asset}")
-    print(f"Kwota transakcji ({percentage}%): {trade_amount_usdt} {quote_asset}")
+    # Oblicz ilość w jednostkach waluty bazowej
+    quantity = calculate_trade_amount(available_balance, percentage, symbol)
+    if quantity <= 0:
+        log_to_file(f"Nie można obliczyć ilości dla {symbol}.")
+        return
 
     # Pobierz aktualną cenę
     ticker = client.get_symbol_ticker(symbol=symbol)
     current_price = float(ticker['price'])
 
-    # Oblicz ilość w jednostkach waluty bazowej
-    quantity = trade_amount_usdt / current_price
-
-    # Sprawdź wymagania LOT_SIZE
-    symbol_info = client.get_symbol_info(symbol)
-    lot_size_filter = next(filter(lambda f: f['filterType'] == 'LOT_SIZE', symbol_info['filters']))
-    min_qty = float(lot_size_filter['minQty'])
-    step_size = float(lot_size_filter['stepSize'])
-
-    # Dostosuj ilość do wymagań LOT_SIZE
-    quantity = max(min_qty, quantity)
-    quantity = round(quantity // step_size * step_size, 8)
-
     side = SIDE_SELL if signal["signal_type"] == "SHORT" else SIDE_BUY
     num_targets = len(signal["targets"])
     quantity_per_target = quantity / num_targets
+    
+    # Pobierz stan konta po zleceniu
+    balance_after = get_account_balance()
+    log_to_file(f"Stan konta przed zleceniem: {balance_after}")
 
     # Wykonaj zlecenie marketowe
     try:
@@ -204,6 +241,7 @@ def execute_trade(signal, percentage=20):
             quantity=quantity
         )
         print(f"Zlecenie marketowe wykonane: {order}")
+        log_order(order, "MARKET", symbol, quantity, current_price)
 
         # Dodaj pozycję do listy otwartych pozycji
         open_positions[order['orderId']] = {
@@ -223,6 +261,7 @@ def execute_trade(signal, percentage=20):
             stopPrice=signal["stop_loss"]
         )
         print(f"Zlecenie stop-loss wykonane: {stop_loss_order}")
+        log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
 
         # Ustaw zlecenia take-profit
         for i, target in enumerate(signal["targets"]):
@@ -234,7 +273,7 @@ def execute_trade(signal, percentage=20):
                 stopPrice=target
             )
             print(f"Zlecenie take-profit {i + 1} wykonane: {take_profit_order}")
-
+            log_order(take_profit_order, "TAKE_PROFIT", symbol, quantity_per_target, target)
         # Pobierz stan konta po zleceniu
         balance_after = get_account_balance()
         log_to_file(f"Stan konta po zleceniu: {balance_after}")
