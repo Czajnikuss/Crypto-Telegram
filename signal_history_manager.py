@@ -29,26 +29,6 @@ def save_signal_history(history):
     with open(SIGNAL_HISTORY_FILE, 'w') as file:
         json.dump(history, file, indent=4)
 
-def update_signal_with_modifications(signal, modification):
-    """
-    Dodaje modyfikację do sygnału.
-    """
-    signal["modifications"] = signal.get("modifications", [])
-    signal["modifications"].append(modification)
-    return signal
-
-def update_legacy_signal(signal):
-    """
-    Aktualizuje starszy sygnał (bez struktury `orders`, `status` i `achieved_targets`) do nowego formatu.
-    """
-    if "orders" not in signal:
-        signal["orders"] = []
-    if "status" not in signal:
-        signal["status"] = "OPEN"
-    if "achieved_targets" not in signal:
-        signal["achieved_targets"] = []  # Lista osiągniętych celów
-    return signal
-
 def get_orders_for_signal(signal):
     """
     Pobiera wszystkie zlecenia (otwarte i zamknięte) dla danego sygnału z Binance i aktualizuje strukturę `orders`.
@@ -56,7 +36,7 @@ def get_orders_for_signal(signal):
     symbol = signal["currency"]
     try:
         # Pobierz wszystkie zlecenia (otwarte i zamknięte)
-        all_orders = client.get_all_orders(symbol=symbol)
+        all_orders = client.get_all_orders(symbol=symbol, limit=100)
         signal["orders"] = [
             {
                 "orderId": order['orderId'],
@@ -73,6 +53,17 @@ def get_orders_for_signal(signal):
     except Exception as e:
         log_to_file(f"Błąd podczas pobierania zleceń dla {symbol}: {e}")
     return signal
+
+def update_achieved_targets(signal, target_price):
+    """
+    Aktualizuje listę osiągniętych celów.
+    """
+    for i, target in enumerate(signal["targets"]):
+        if abs(target - target_price) / target <= 0.001:  # Tolerancja 0.1%
+            if i not in signal["achieved_targets"]:
+                signal["achieved_targets"].append(i)
+                log_to_file(f"Osiągnięto cel {i + 1} dla {signal['currency']}.")
+                break
 
 def check_stop_loss_execution(signal):
     """
@@ -97,62 +88,22 @@ def cancel_remaining_orders(signal):
     except Exception as e:
         log_to_file(f"Błąd podczas anulowania zleceń take-profit dla {symbol}: {e}")
 
-def update_stop_loss_if_needed(signal):
-    """
-    Aktualizuje stop-loss tylko wtedy, gdy jest to konieczne.
-    """
-    symbol = signal["currency"]
-    stop_loss_order = next((order for order in signal["orders"] if order['type'] == 'STOP_LOSS'), None)
-    if not stop_loss_order:
-        return
-
-    # Określ, na którym celu jesteśmy
-    current_target_index = len(signal["achieved_targets"])
-
-    # Określ nowy poziom stop-loss
-    if current_target_index == 0:
-        new_stop_loss = signal["stop_loss"]  # Oryginalny stop-loss
-    elif current_target_index == 1:
-        new_stop_loss = signal["entry"]  # Poziom wejścia
-    else:
-        new_stop_loss = signal["targets"][current_target_index - 2]  # Poprzedni cel
-
-    # Sprawdź, czy stop-loss jest już ustawiony na odpowiednim poziomie
-    if (signal["signal_type"] == "LONG" and stop_loss_order['stopPrice'] >= new_stop_loss) or \
-       (signal["signal_type"] == "SHORT" and stop_loss_order['stopPrice'] <= new_stop_loss):
-        return  # Stop-loss jest już ustawiony prawidłowo
-
-    # Zaktualizuj stop-loss
-    try:
-        client.cancel_order(symbol=symbol, orderId=stop_loss_order['orderId'])
-        new_order = client.create_order(
-            symbol=symbol,
-            side=stop_loss_order['side'],
-            type='STOP_LOSS',
-            quantity=stop_loss_order['quantity'],
-            stopPrice=new_stop_loss
-        )
-        log_to_file(f"Zaktualizowano stop-loss dla {symbol} na {new_stop_loss}.")
-        # Zaktualizuj zlecenie w historii
-        stop_loss_order['stopPrice'] = new_stop_loss
-        stop_loss_order['orderId'] = new_order['orderId']
-    except Exception as e:
-        log_to_file(f"Błąd podczas aktualizacji stop-loss dla {symbol}: {e}")
-
 def check_and_update_signal_history():
     """
     Sprawdza i aktualizuje historię sygnałów, modyfikując zlecenia stop-loss w miarę osiągania celów.
     """
     history = load_signal_history()
     for signal in history:
-        # Aktualizuj starsze sygnały do nowego formatu
-        signal = update_legacy_signal(signal)
-
         if signal.get("status") != "CLOSED":
             symbol = signal["currency"]
             try:
                 # Pobierz wszystkie zlecenia z Binance i zaktualizuj strukturę `orders`
                 signal = get_orders_for_signal(signal)
+
+                # Sprawdź, które cele zostały osiągnięte
+                for order in signal.get("orders", []):
+                    if order['type'] == 'TAKE_PROFIT' and order['status'] == 'FILLED':
+                        update_achieved_targets(signal, order['stopPrice'])
 
                 # Sprawdź, czy zlecenie stop-loss zostało wykonane
                 if check_stop_loss_execution(signal):
@@ -160,18 +111,7 @@ def check_and_update_signal_history():
                     log_to_file(f"Sygnał {symbol} został zamknięty (stop-loss).")
                     # Anuluj pozostałe zlecenia take-profit
                     cancel_remaining_orders(signal)
-                else:
-                    # Sprawdź, które cele zostały osiągnięte
-                    current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
-                    for i, target in enumerate(signal["targets"]):
-                        if i not in signal["achieved_targets"]:
-                            if (signal["signal_type"] == "LONG" and current_price >= target) or \
-                               (signal["signal_type"] == "SHORT" and current_price <= target):
-                                signal["achieved_targets"].append(i)
-                                log_to_file(f"Osiągnięto cel {i + 1} dla {symbol}.")
 
-                    # Zaktualizuj stop-loss tylko raz na cykl
-                    update_stop_loss_if_needed(signal)
             except Exception as e:
                 log_to_file(f"Błąd podczas sprawdzania zleceń dla {symbol}: {e}")
     save_signal_history(history)

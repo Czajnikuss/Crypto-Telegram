@@ -1,11 +1,5 @@
 from binance.client import Client
 
-# Dane z Binance Testnet
-testnet_api_key = 'MMQxEdMTPFMlApDksgsTIjmTEFlxqWfJ0Q8mzliABgm7CJDjiuN2aYLJkpdEtwan'
-testnet_api_secret = 'X3fb984en55qY9lixokpxRiB4xsBzCllDkgLkZBVZupus4u1aQyFAnW7D6rKA4RU'
-
-# Inicjalizacja klienta z użyciem Testnetu
-client = Client(testnet_api_key, testnet_api_secret, testnet=True)
 
 
 from binance.client import Client
@@ -122,5 +116,5 @@ def get_algo_orders_count(symbol):
 
 # Uruchom funkcję reset_account
 #reset_account()
-print(get_all_balances())
-#print(client.get_open_orders())
+#print(get_all_balances())
+print(client.get_open_orders())
