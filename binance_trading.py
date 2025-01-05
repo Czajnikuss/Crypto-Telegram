@@ -171,8 +171,10 @@ def execute_trade(signal, percentage=20):
         while True:
             try:
                 time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                order_status = client.get_order(symbol=symbol, orderId=order['orderId'])
+                params = "symbol"=symbol, "orderId"=order['orderId']
+                order_status = client.get_order(**params)
                 if order_status['status'] == 'FILLED':
+                    log_to_file(f"Wypełnienie zlecenia marketowego {order['orderId']}...")
                     break
                 log_to_file(f"Oczekiwanie na wypełnienie zlecenia marketowego {order['orderId']}...")
                 time.sleep(1)  # Czekaj 1 sekundę przed kolejnym sprawdzeniem
@@ -197,7 +199,7 @@ def execute_trade(signal, percentage=20):
             signal["orders"].append({
                 "orderId": stop_loss_order['orderId'],
                 "type": "STOP_LOSS",
-                "status": stop_loss_order['status'],
+                "status": "NEW",
                 "stopPrice": float(signal["stop_loss"]),
                 "side": stop_loss_order['side'],
                 "quantity": float(stop_loss_order['origQty']),
@@ -210,7 +212,8 @@ def execute_trade(signal, percentage=20):
             # Jeśli zlecenie stop-loss się nie uda, anuluj zlecenie marketowe (jeśli jeszcze istnieje)
             try:
                 time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                order_status = client.get_order(symbol=symbol, orderId=order['orderId'])
+                params = "symbol"=symbol, "orderId"=order['orderId']
+                order_status = client.get_order(**params)
                 if order_status['status'] in ['NEW', 'PARTIALLY_FILLED']:
                     client.cancel_order(symbol=symbol, orderId=order['orderId'])
                     log_to_file(f"Anulowano zlecenie marketowe {order['orderId']} z powodu błędu stop-loss.")
@@ -226,19 +229,17 @@ def execute_trade(signal, percentage=20):
                 take_profit_order = client.create_order(
                     symbol=symbol,
                     side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
-                    type="TAKE_PROFIT_LIMIT",  # Używamy TAKE_PROFIT_LIMIT
+                    type="TAKE_PROFIT",  # Używamy TAKE_PROFIT_LIMIT
                     quantity=quantity_per_target,
                     stopPrice=target,
-                    price=target,  # Cena wykonania
-                    timeInForce="GTC"  # Good Till Cancel
                 )
                 print(f"Zlecenie take-profit {i + 1} wykonane: {take_profit_order}")
                 log_order(take_profit_order, "TAKE_PROFIT_LIMIT", symbol, quantity_per_target, target)
                 # Dodaj zlecenie take-profit do historii sygnału
                 signal["orders"].append({
                     "orderId": take_profit_order['orderId'],
-                    "type": "TAKE_PROFIT_LIMIT",
-                    "status": take_profit_order['status'],
+                    "type": "TAKE_PROFIT",
+                    "status": "NEW",
                     "stopPrice": float(target),
                     "side": take_profit_order['side'],
                     "quantity": float(take_profit_order['origQty']),
@@ -250,7 +251,7 @@ def execute_trade(signal, percentage=20):
                 log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
                 # Jeśli zlecenie take-profit się nie uda, anuluj pozostałe zlecenia take-profit i stop-loss
                 for order in signal["orders"]:
-                    if order["type"] in ["TAKE_PROFIT_LIMIT", "STOP_LOSS"]:
+                    if order["type"] in ["TAKE_PROFIT", "STOP_LOSS"]:
                         try:
                             client.cancel_order(symbol=symbol, orderId=order['orderId'])
                             log_to_file(f"Anulowano zlecenie {order['type']} {order['orderId']} z powodu błędu.")
@@ -271,7 +272,9 @@ def check_open_positions():
     """
     for order_id, position in list(open_positions.items()):
         try:
-            order_status = client.get_order(symbol=position["symbol"], orderId=order_id)
+            params = "symbol"=position["symbol"], "orderId"=order_id
+            order_status = client.get_order(**params)
+            
             if order_status['status'] != position["status"]:
                 log_to_file(f"Zmiana statusu pozycji {order_id}: {position['status']} -> {order_status['status']}")
                 position["status"] = order_status['status']

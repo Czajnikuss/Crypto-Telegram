@@ -34,6 +34,20 @@ def get_all_balances():
     except Exception as e:
         print(f"Błąd podczas pobierania sald: {e}")
         return {}
+    
+    
+def place_order(symbol, side, quantity):
+    side = SIDE_SELL if side == "SELL" else SIDE_BUY
+    
+    take_profit_order = client.create_order(
+            symbol=symbol,
+            side=side,
+            type=ORDER_TYPE_MARKET,
+            quantity=quantity
+        )
+    print(take_profit_order['orderId'])
+    print(take_profit_order['status'])
+    return take_profit_order
 
 def reset_account(target_usdc=10000):
     """
@@ -85,13 +99,13 @@ def reset_account(target_usdc=10000):
                 continue
 
             # Wykonaj zlecenie marketowe (sprzedaż)
-            order = client.create_order(
+            take_profit_order = client.create_order(
                 symbol=symbol,
                 side=SIDE_SELL,
                 type=ORDER_TYPE_MARKET,
                 quantity=quantity
             )
-            print(f"Sprzedano {quantity} {asset} za USDC: {order}")
+            print(f"Sprzedano {quantity} {asset} za USDC: {take_profit_order}")
 
         except Exception as e:
             print(f"Błąd podczas sprzedaży {asset}: {e}")
@@ -108,13 +122,66 @@ def get_algo_orders_count(symbol):
     """
     try:
         open_orders = client.get_open_orders(symbol=symbol)
-        algo_orders = [order for order in open_orders if order['type'] in ['STOP_LOSS', 'TAKE_PROFIT']]
+        algo_orders = [take_profit_order for take_profit_order in open_orders if take_profit_order['type'] in ['STOP_LOSS', 'TAKE_PROFIT']]
         return len(algo_orders)
     except Exception as e:
         print(f"Błąd podczas pobierania aktywnych zleceń: {e}")
         return 0
+    
+def set_stop_loss_order(symbol, side, quantity, stopPrice=0):
+    avg_price = float(client.get_avg_price(symbol=symbol)['price'])
+    take_profit_order = client.create_order(
+                symbol=symbol,
+                side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
+                type="STOP_LOSS",  # Używamy STOP_LOSS
+                quantity=quantity,
+                stopPrice=stopPrice if stopPrice!= 0 else adjust_price_precision(symbol, avg_price * 1.05) if side == SIDE_SELL else adjust_price_precision(symbol, avg_price * 0.95)
+            )
+    print(take_profit_order)
+    return take_profit_order
 
+def set_take_profit_order(symbol, side, quantity, stopPrice=0):
+    avg_price = float(client.get_avg_price(symbol=symbol)['price'])
+    take_profit_order = client.create_order(
+                symbol=symbol,
+                side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
+                type="TAKE_PROFIT",  # Używamy STOP_LOSS
+                quantity=quantity,
+                stopPrice=stopPrice if stopPrice!= 0 else adjust_price_precision(symbol, avg_price * 0.95) if side == SIDE_SELL else adjust_price_precision(symbol, avg_price * 1.05)
+            )
+    print(take_profit_order)
+    return take_profit_order
+
+def adjust_price_precision(symbol, price):
+    """
+    Dostosowuje precyzję ceny do wymagań symbolu.
+    """
+    symbol_info = client.get_symbol_info(symbol)
+    price_filter = next(filter(lambda f: f['filterType'] == 'PRICE_FILTER', symbol_info['filters']))
+    tick_size = float(price_filter['tickSize'])
+    
+    # Oblicz liczbę miejsc dziesiętnych na podstawie tickSize
+    precision = len(str(tick_size).rstrip('0').split('.')[1]) if '.' in str(tick_size) else 0
+    return float('{:.{}f}'.format(price, precision))
+    
+def get_order_all(symbol, orderId):
+    params = {
+            'symbol': symbol,
+            'orderId': orderId
+        }
+    order = client.get_order(**params)
+    return order
+        
 # Uruchom funkcję reset_account
 #reset_account()
-print(get_all_balances())
+#print(get_all_balances())
 #print(client.get_open_orders())
+#take_profit_order = place_order("OMNIUSDT", "SELL", 1)
+#orderId= take_profit_order['orderId']
+
+
+#set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
+
+#print(get_order_all("OMNIUSDT", 1394960))
+print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
+

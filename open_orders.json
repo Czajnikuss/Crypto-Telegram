@@ -64,5 +64,94 @@
         "workingTime": -1,
         "origQuoteOrderQty": "0.00000000",
         "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    {
+        [
+            2025-01-05 19: 45: 50
+        ] Uzyskany sygnaĹ‚: {
+            "currency": "OMNIUSDT",
+            "signal_type": "LONG",
+            "entry": 9.55,
+            "targets": [
+                9.6,
+                9.84,
+                10.12,
+                10.51
+            ],
+            "stop_loss": 9.26,
+            "breakeven": 9.84,
+            "date": "2025-01-05T18: 45: 07+00: 00"
+        }
+    [
+            2025-01-05 19: 45: 52
+        ] Rozpoczynam skĹ‚adanie zlecenia MARKET dla OMNIUSDT: iloĹ›Ä‡=4.73, side=BUY
+    [
+            2025-01-05 19: 45: 53
+        ] [
+            2025-01-05 19: 45: 53
+        ] Zlecenie MARKET dla OMNIUSDT: ID=1386617, IloĹ›Ä‡=4.73, Cena=9.56, Status=FILLED
+    [
+            2025-01-05 19: 45: 53
+        ] Otwarto nowÄ… pozycjÄ™: 1386617
+    [
+            2025-01-05 19: 45: 56
+        ] Rozpoczynam skĹ‚adanie zlecenia STOP_LOSS dla OMNIUSDT: iloĹ›Ä‡=4.73, stopPrice=9.26
+    [
+            2025-01-05 19: 45: 56
+        ] BĹ‚Ä…d podczas skĹ‚adania zlecenia stop-loss: "status"[
+            2025-01-05 19: 45: 56
+        ] PeĹ‚ny kontekst bĹ‚Ä™du: {}
+    [
+            2025-01-05 19: 45: 59
+        ] Zmiana statusu pozycji 1386617: OPEN -> FILLED
+    [
+            2025-01-05 19: 45: 59
+        ] Pozycja 1386617 zostaĹ‚a zamkniÄ™ta.
+    [
+            2025-01-05 19: 46: 00
+        ] Stan konta po zamkniÄ™ciu pozycji: 181.05803
+    }
+
+
+{
+        "symbol": "OMNIUSDT",
+        "orderId": 1392377,
+        "orderListId": -1,
+        "clientOrderId": "x-HNA2TXFJ70ba01a687c9a14486d845",
+        "transactTime": 1736112426758,
+        "price": "0.00000000",
+        "origQty": "50.00000000",
+        "executedQty": "50.00000000",
+        "origQuoteOrderQty": "0.00000000",
+        "cummulativeQuoteQty": "500.41960000",
+        "status": "FILLED",
+        "timeInForce": "GTC",
+        "type": "MARKET",
+        "side": "SELL",
+        "workingTime": 1736112426758,
+        "fills": [
+            {
+                "price": "10.01000000",
+                "qty": "41.96000000",
+                "commission": "0.00000000",
+                "commissionAsset": "USDT",
+                "tradeId": 84805
+            },
+            {
+                "price": "10.00000000",
+                "qty": "8.04000000",
+                "commission": "0.00000000",
+                "commissionAsset": "USDT",
+                "tradeId": 84806
+            }
+        ],
+        "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    {
+        "symbol": "OMNIUSDT",
+        "orderId": 1396022,
+        "orderListId": -1,
+        "clientOrderId": "x-HNA2TXFJ7af4b7b4bf9a840cfcc6da",
+        "transactTime": 1736118168495
     }
 ]
