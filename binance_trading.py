@@ -171,8 +171,12 @@ def execute_trade(signal, percentage=20):
         while True:
             try:
                 time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                params = "symbol"=symbol, "orderId"=order['orderId']
+                params = {
+                    'symbol': symbol,
+                    'orderId': order['orderId']
+                }
                 order_status = client.get_order(**params)
+                
                 if order_status['status'] == 'FILLED':
                     log_to_file(f"Wypełnienie zlecenia marketowego {order['orderId']}...")
                     break
@@ -212,7 +216,10 @@ def execute_trade(signal, percentage=20):
             # Jeśli zlecenie stop-loss się nie uda, anuluj zlecenie marketowe (jeśli jeszcze istnieje)
             try:
                 time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                params = "symbol"=symbol, "orderId"=order['orderId']
+                params = {
+                    'symbol': symbol,
+                    'orderId': order['orderId']
+                }
                 order_status = client.get_order(**params)
                 if order_status['status'] in ['NEW', 'PARTIALLY_FILLED']:
                     client.cancel_order(symbol=symbol, orderId=order['orderId'])
@@ -272,7 +279,10 @@ def check_open_positions():
     """
     for order_id, position in list(open_positions.items()):
         try:
-            params = "symbol"=position["symbol"], "orderId"=order_id
+            params = {
+                'symbol':position["symbol"], 
+                'orderId': order_id
+            }
             order_status = client.get_order(**params)
             
             if order_status['status'] != position["status"]:
