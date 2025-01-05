@@ -116,5 +116,5 @@ def get_algo_orders_count(symbol):
 
 # Uruchom funkcję reset_account
 #reset_account()
-#print(get_all_balances())
-print(client.get_open_orders())
+print(get_all_balances())
+#print(client.get_open_orders())

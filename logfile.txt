@@ -70,3 +70,234 @@ ___________________________________
 [2025-01-03 16:45:41] Anulowano zlecenie take-profit 3895379 dla MASKUSDT.
 [2025-01-03 16:45:41] Sygnał AUCTIONUSDT został zamknięty (brak stop-loss).
 [2025-01-03 16:45:47] Sygnał MASKUSDT został zamknięty (brak stop-loss).
+[2025-01-05 09:38:33] Nowa wiadomość: ZKsync Trading Signal (Swing)
+
+Instrument: ZK/USDT
+My Opinion: Sell Stop (Pending order)
+Entry price: $0.1923
+Stop: $0.2085
+Target: $0.1750
+Risk Settings: 1%
+R. R. R: 1:2
+
+N.B: This pending order will be closed if not triggered in 24 hours.
+[2025-01-05 09:41:26] Nowa wiadomość: ZKsync Trading Signal (Swing)
+
+Instrument: ZK/USDT
+My Opinion: Sell Stop (Pending order)
+Entry price: $0.1923
+Stop: $0.2085
+Target: $0.1750
+Risk Settings: 1%
+R. R. R: 1:2
+
+N.B: This pending order will be closed if not triggered in 24 hours.
+[2025-01-05 09:41:26] Nowa wiadomość: Zksync (ZK/USDT) Eyes Potential Breakout in the Near Term
+
+In recent months, the market for Zksync against the Tether has experienced a consolidation phase characterized by interwoven Guppy Multiple Moving Averages (GMMAs). This shows that the pair has been oscillating within a close range before a previous rally towards the $0.2000 level.
+
+Recent price movement shows that the pair is poised for a potential price breakout as suggested by both indicators on the chart below. However, as the ZK/USDT market remains directionless, it presents an opportunity for traders to capitalize on a potential breakout.
+
+You can read more here:
+https://cryptosignals.org/trading/zksync-zk-usdt-eyes-potential-breakout-in-the-near-term/
+[2025-01-05 09:41:26] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 09:41:26] Nowa wiadomość: **🎉 Win AlgoBot FREE for Life & More! 🎉**
+
+**Want AlgoBot at no cost? **
+Now’s your chance! **We’re giving away lifetime access**, yearly memberships, monthly prizes, and more! 🚀 Enter every day to boost your odds and win big!
+
+[Click here to win and good luck! 🍀](https://whop.com/algobot?pass=prod_nSsQzw9HmZoO4)
+
+** • D’Shawn**
+
+@AlgoBotAnnouncements
+[2025-01-05 09:41:26] Nowa wiadomość: 🚀 “Real results from real traders!”
+**Imagine pocketing $9,880.19 in just 30 days! 💵**
+This isn’t a dream—it’s a success story from AlgoBot’s Forex Copy Trading users.
+
+💡 Join the revolution. It’s FREE: [www.algobot.com/forexcopytrading](http://www.algobot.com/forexcopytrading)
+[2025-01-05 10:15:11] Received signal: {'currency': None, 'signal_type': None, 'entry': 1.253, 'targets': [1.2279, 1.2154, 1.2029, 1.1904], 'stop_loss': 1.3031, 'breakeven': 1.253, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 10:21:23] Received signal: {'currency': 'FETUSDT.P', 'signal_type': 'SHORT', 'entry': 1.253, 'targets': [1.2279, 1.2154, 1.2029, 1.1904], 'stop_loss': 1.3031, 'breakeven': 1.253, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 10:37:56] Received signal: {'currency': 'FETUSDT', 'signal_type': 'SHORT', 'entry': 1.253, 'targets': [1.2279, 1.2154, 1.2029, 1.1904], 'stop_loss': 1.3031, 'breakeven': 1.253, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 10:38:54] Received signal: {'currency': 'ROSEUSDT', 'signal_type': 'SHORT', 'entry': 0.08669, 'targets': [0.08496, 0.08409, 0.08322, 0.08236], 'stop_loss': 0.09016, 'breakeven': 0.08669, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 10:56:37] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 10:56:37] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 10:56:39] [2025-01-05 10:56:39] Zlecenie MARKET dla BATUSDT: ID=2114867, Ilość=828.0, Cena=0.2602, Status=FILLED
+[2025-01-05 10:56:39] Otwarto nową pozycję: 2114867
+[2025-01-05 10:56:40] Błąd podczas wykonywania transakcji: 'status'
+[2025-01-05 10:56:40] Zmiana statusu pozycji 2114867: OPEN -> FILLED
+[2025-01-05 10:56:40] Pozycja 2114867 została zamknięta.
+[2025-01-05 10:56:41] Stan konta po zamknięciu pozycji: 862.06713
+[2025-01-05 11:09:39] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 11:09:39] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 11:09:42] [2025-01-05 11:09:42] Zlecenie MARKET dla BATUSDT: ID=2115172, Ilość=662.0, Cena=0.2604, Status=FILLED
+[2025-01-05 11:09:42] Otwarto nową pozycję: 2115172
+[2025-01-05 11:09:43] Błąd podczas składania zlecenia stop-loss: 'status'
+[2025-01-05 11:09:43] Błąd podczas wykonywania transakcji: APIError(code=-2011): Unknown order sent.
+[2025-01-05 11:09:44] Zmiana statusu pozycji 2115172: OPEN -> FILLED
+[2025-01-05 11:09:44] Pozycja 2115172 została zamknięta.
+[2025-01-05 11:09:44] Stan konta po zamknięciu pozycji: 689.68233
+[2025-01-05 11:14:32] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 11:14:32] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 11:14:35] [2025-01-05 11:14:35] Zlecenie MARKET dla BATUSDT: ID=2115272, Ilość=529.0, Cena=0.2607, Status=FILLED
+[2025-01-05 11:14:35] Otwarto nową pozycję: 2115272
+[2025-01-05 11:14:36] Błąd podczas wykonywania transakcji: APIError(code=-2013): Order does not exist.
+[2025-01-05 11:14:36] Zmiana statusu pozycji 2115272: OPEN -> FILLED
+[2025-01-05 11:14:36] Pozycja 2115272 została zamknięta.
+[2025-01-05 11:14:37] Stan konta po zamknięciu pozycji: 551.77203
+[2025-01-05 11:18:49] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 11:18:49] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 11:18:51] [2025-01-05 11:18:51] Zlecenie MARKET dla BATUSDT: ID=2115391, Ilość=423.0, Cena=0.2607, Status=FILLED
+[2025-01-05 11:18:51] Otwarto nową pozycję: 2115391
+[2025-01-05 11:18:52] Błąd podczas składania zlecenia stop-loss: 'status'
+[2025-01-05 11:18:53] Zmiana statusu pozycji 2115391: OPEN -> FILLED
+[2025-01-05 11:18:53] Pozycja 2115391 została zamknięta.
+[2025-01-05 11:18:53] Stan konta po zamknięciu pozycji: 441.49593
+[2025-01-05 11:37:25] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 11:37:25] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 11:37:28] Rozpoczynam składanie zlecenia MARKET dla BATUSDT: ilość=340.0, side=BUY
+[2025-01-05 11:37:29] [2025-01-05 11:37:29] Zlecenie MARKET dla BATUSDT: ID=2115804, Ilość=340.0, Cena=0.2596, Status=FILLED
+[2025-01-05 11:37:29] Otwarto nową pozycję: 2115804
+[2025-01-05 11:37:29] Błąd podczas sprawdzania statusu zlecenia 2115804: APIError(code=-2013): Order does not exist.
+[2025-01-05 11:37:30] Rozpoczynam składanie zlecenia STOP_LOSS dla BATUSDT: ilość=340.0, stopPrice=0.2575
+[2025-01-05 11:37:30] Błąd podczas składania zlecenia stop-loss: 'status'
+[2025-01-05 11:37:30] Pełny kontekst błędu: {}
+[2025-01-05 11:37:31] Zmiana statusu pozycji 2115804: OPEN -> FILLED
+[2025-01-05 11:37:31] Pozycja 2115804 została zamknięta.
+[2025-01-05 11:37:32] Stan konta po zamknięciu pozycji: 353.23193
+[2025-01-05 11:42:13] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 11:42:13] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 11:42:14] Rozpoczynam składanie zlecenia MARKET dla BATUSDT: ilość=272.0, side=BUY
+[2025-01-05 11:42:14] [2025-01-05 11:42:14] Zlecenie MARKET dla BATUSDT: ID=2115927, Ilość=272.0, Cena=0.2594, Status=FILLED
+[2025-01-05 11:42:14] Otwarto nową pozycję: 2115927
+[2025-01-05 11:42:15] Błąd podczas sprawdzania statusu zlecenia 2115927: APIError(code=-2013): Order does not exist.
+[2025-01-05 11:42:15] Pełny kontekst błędu: {'code': -2013, 'message': 'Order does not exist.', 'status_code': 400, 'response': <Response [400]>, 'request': <PreparedRequest [GET]>}
+[2025-01-05 11:42:16] Rozpoczynam składanie zlecenia STOP_LOSS dla BATUSDT: ilość=272.0, stopPrice=0.2575
+[2025-01-05 11:42:17] Błąd podczas składania zlecenia stop-loss: 'status'
+[2025-01-05 11:42:17] Pełny kontekst błędu: {}
+[2025-01-05 11:42:18] Zmiana statusu pozycji 2115927: OPEN -> FILLED
+[2025-01-05 11:42:18] Pozycja 2115927 została zamknięta.
+[2025-01-05 11:42:18] Stan konta po zamknięciu pozycji: 282.67513
+[2025-01-05 12:07:25] Nowa wiadomość: **BATUSDT.P LONG**
+
+Leverage: Cross 10x
+
+Entry: 0.2655
+
+Take profit 1: 0.2708 (Success rate: 45%)
+Take profit 2: 0.2735 (Success rate: 36%)
+Take profit 3: 0.2761 (Success rate: 18%)
+Take profit 4: 0.2788 (Success rate: 9%)
+
+Stop loss: 0.2575
+Trailing Configuration: Stop: Breakeven - Trigger: Target (1)
+
+Powered by @AlgoBot
+[2025-01-05 12:07:25] Received signal: {'currency': 'BATUSDT', 'signal_type': 'LONG', 'entry': 0.2655, 'targets': [0.2708, 0.2735, 0.2761, 0.2788], 'stop_loss': 0.2575, 'breakeven': 0.2655, 'date': '2025-01-05T06:00:02+00:00'}
+[2025-01-05 12:07:27] Rozpoczynam składanie zlecenia MARKET dla BATUSDT: ilość=217.0, side=BUY
+[2025-01-05 12:07:27] [2025-01-05 12:07:27] Zlecenie MARKET dla BATUSDT: ID=2116336, Ilość=217.0, Cena=0.2599, Status=FILLED
+[2025-01-05 12:07:27] Otwarto nową pozycję: 2116336
+[2025-01-05 12:07:30] Rozpoczynam składanie zlecenia STOP_LOSS dla BATUSDT: ilość=217.0, stopPrice=0.2575
+[2025-01-05 12:07:30] Błąd podczas składania zlecenia stop-loss: APIError(code=-2010): Filter failure: MAX_NUM_ALGO_ORDERS
+[2025-01-05 12:07:30] Pełny kontekst błędu: {'code': -2010, 'message': 'Filter failure: MAX_NUM_ALGO_ORDERS', 'status_code': 400, 'response': <Response [400]>, 'request': <PreparedRequest [POST]>}
+[2025-01-05 12:07:33] Zmiana statusu pozycji 2116336: OPEN -> FILLED
+[2025-01-05 12:07:33] Pozycja 2116336 została zamknięta.
+[2025-01-05 12:07:33] Stan konta po zamknięciu pozycji: 226.27683
