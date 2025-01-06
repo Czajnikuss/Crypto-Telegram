@@ -213,16 +213,22 @@ def execute_trade(signal, percentage=20):
 
         # Ustaw zlecenie stop-loss
         try:
-            log_to_file(f"Rozpoczynam składanie zlecenia STOP_LOSS dla {symbol}: ilość={quantity}, stopPrice={signal['stop_loss']}")
-            price_corrected_to_filers = fit_price_to_filter(symbol, signal["stop_loss"]) #zapewnia zdgodność z filtrami binance
+            price_corrected_to_filters = fit_price_to_filter(symbol, signal["stop_loss"]) #zapewnia zdgodność z filtrami binance
+            log_to_file(f"Rozpoczynam składanie zlecenia STOP_LOSS dla {symbol}: ilość={quantity}, stopPrice={price_corrected_to_filters}")
             stop_loss_order = client.create_order(
                 symbol=symbol,
                 side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
                 type="STOP_LOSS",  # Używamy STOP_LOSS
                 quantity=quantity,
-                stopPrice=price_corrected_to_filers
+                stopPrice=price_corrected_to_filters
             )
             print(f"Zlecenie stop-loss wykonane: {stop_loss_order}")
+            params = {
+                    'symbol': symbol,
+                    'orderId': stop_loss_order['orderId']
+                }
+            stop_loss_order = client.get_order(**params)
+            
             log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
             # Dodaj zlecenie stop-loss do historii sygnału
             if "orders" not in signal:
@@ -231,7 +237,7 @@ def execute_trade(signal, percentage=20):
                 "orderId": stop_loss_order['orderId'],
                 "type": "STOP_LOSS",
                 "status": "NEW",
-                "stopPrice": price_corrected_to_filers,
+                "stopPrice": price_corrected_to_filters,
                 "side": stop_loss_order['side'],
                 "quantity": float(stop_loss_order['origQty']),
                 "executedQty": float(stop_loss_order['executedQty']),
@@ -241,20 +247,6 @@ def execute_trade(signal, percentage=20):
             log_to_file(f"Błąd podczas składania zlecenia stop-loss: {str(e)}")
             log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
             # Jeśli zlecenie stop-loss się nie uda, anuluj zlecenie marketowe (jeśli jeszcze istnieje)
-            try:
-                time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                params = {
-                    'symbol': symbol,
-                    'orderId': order['orderId']
-                }
-                order_status = client.get_order(**params)
-                if order_status['status'] in ['NEW', 'PARTIALLY_FILLED']:
-                    client.cancel_order(symbol=symbol, orderId=order['orderId'])
-                    log_to_file(f"Anulowano zlecenie marketowe {order['orderId']} z powodu błędu stop-loss.")
-            except Exception as e:
-                log_to_file(f"Błąd podczas anulowania zlecenia marketowego {order['orderId']}: {str(e)}")
-                log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-            return
 
         # Ustaw zlecenia take-profit
         for i, target in enumerate(signal["targets"]):

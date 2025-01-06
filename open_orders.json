@@ -191,5 +191,27 @@
         "workingTime": -1,
         "origQuoteOrderQty": "0.00000000",
         "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    {
+        "symbol": "OMNIUSDT",
+        "orderId": 1418288,
+        "orderListId": -1,
+        "clientOrderId": "x-HNA2TXFJe4bec3966622816171749a",
+        "price": "0.00000000",
+        "origQty": "1.00000000",
+        "executedQty": "0.00000000",
+        "cummulativeQuoteQty": "0.00000000",
+        "status": "NEW",
+        "timeInForce": "GTC",
+        "type": "STOP_LOSS",
+        "side": "BUY",
+        "stopPrice": "10.51000000",
+        "icebergQty": "0.00000000",
+        "time": 1736181592696,
+        "updateTime": 1736181592696,
+        "isWorking": False,
+        "workingTime": -1,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
     }
 ]
