@@ -111,11 +111,31 @@ def log_order(order, order_type, symbol, quantity, price):
     log_message = (
         f"[{timestamp}] Zlecenie {order_type} dla {symbol}: "
         f"ID={order['orderId']}, Ilość={quantity}, Cena={price}, "
-        f"Status={order['status']}"
     )
     log_to_file(log_message)
 
-import time
+def fit_price_to_filter(symbol: str, cena: float) -> float:
+    """
+    Zapewnia zdgodność z filtrami binance
+    """
+    # Pobierz informacje o symbolu
+    symbol_info = client.get_symbol_info(symbol)
+    
+    # Znajdź filtr PRICE_FILTER
+    price_filter = next(filter(lambda x: x['filterType'] == 'PRICE_FILTER', symbol_info['filters']))
+    
+    tick_size = float(price_filter['tickSize'])
+    min_price = float(price_filter['minPrice'])
+    max_price = float(price_filter['maxPrice'])
+    
+    # Zaokrąglij cenę do najbliższej wartości zgodnej z tickSize
+    corrected_price = round(cena / tick_size) * tick_size
+    
+    # Upewnij się, że cena jest w dozwolonym zakresie
+    corrected_price = max(min_price, min(max_price, corrected_price))
+    
+    return corrected_price
+
 
 def execute_trade(signal, percentage=20):
     """
@@ -190,12 +210,13 @@ def execute_trade(signal, percentage=20):
         # Ustaw zlecenie stop-loss
         try:
             log_to_file(f"Rozpoczynam składanie zlecenia STOP_LOSS dla {symbol}: ilość={quantity}, stopPrice={signal['stop_loss']}")
+            price_corrected_to_filers = fit_price_to_filter(symbol, signal["stop_loss"]) #zapewnia zdgodność z filtrami binance
             stop_loss_order = client.create_order(
                 symbol=symbol,
                 side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
                 type="STOP_LOSS",  # Używamy STOP_LOSS
                 quantity=quantity,
-                stopPrice=signal["stop_loss"]
+                stopPrice=price_corrected_to_filers
             )
             print(f"Zlecenie stop-loss wykonane: {stop_loss_order}")
             log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
@@ -204,7 +225,7 @@ def execute_trade(signal, percentage=20):
                 "orderId": stop_loss_order['orderId'],
                 "type": "STOP_LOSS",
                 "status": "NEW",
-                "stopPrice": float(signal["stop_loss"]),
+                "stopPrice": price_corrected_to_filers,
                 "side": stop_loss_order['side'],
                 "quantity": float(stop_loss_order['origQty']),
                 "executedQty": float(stop_loss_order['executedQty']),
@@ -233,21 +254,22 @@ def execute_trade(signal, percentage=20):
         for i, target in enumerate(signal["targets"]):
             try:
                 log_to_file(f"Rozpoczynam składanie zlecenia TAKE_PROFIT_LIMIT {i + 1} dla {symbol}: ilość={quantity_per_target}, stopPrice={target}, price={target}")
+                target_corrected_to_filers = fit_price_to_filter(symbol, target) #zapewnia zdgodność z filtrami binance
                 take_profit_order = client.create_order(
                     symbol=symbol,
                     side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
                     type="TAKE_PROFIT",  # Używamy TAKE_PROFIT_LIMIT
                     quantity=quantity_per_target,
-                    stopPrice=target,
+                    stopPrice=target_corrected_to_filers,
                 )
                 print(f"Zlecenie take-profit {i + 1} wykonane: {take_profit_order}")
-                log_order(take_profit_order, "TAKE_PROFIT_LIMIT", symbol, quantity_per_target, target)
+                log_order(take_profit_order, "TAKE_PROFIT_LIMIT", symbol, quantity_per_target, target_corrected_to_filers)
                 # Dodaj zlecenie take-profit do historii sygnału
                 signal["orders"].append({
                     "orderId": take_profit_order['orderId'],
                     "type": "TAKE_PROFIT",
                     "status": "NEW",
-                    "stopPrice": float(target),
+                    "stopPrice": target_corrected_to_filers,
                     "side": take_profit_order['side'],
                     "quantity": float(take_profit_order['origQty']),
                     "executedQty": float(take_profit_order['executedQty']),
@@ -256,7 +278,7 @@ def execute_trade(signal, percentage=20):
             except Exception as e:
                 log_to_file(f"Błąd podczas składania zlecenia take-profit {i + 1}: {str(e)}")
                 log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-                # Jeśli zlecenie take-profit się nie uda, anuluj pozostałe zlecenia take-profit i stop-loss
+                # Jeśli zlecenie take-profit się nie uda, anuluj pozostałe zlecenia take-profit i stop-loss.
                 for order in signal["orders"]:
                     if order["type"] in ["TAKE_PROFIT", "STOP_LOSS"]:
                         try:
@@ -273,29 +295,3 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
         
         
-def check_open_positions():
-    """
-    Sprawdza status otwartych pozycji i loguje zmiany.
-    """
-    for order_id, position in list(open_positions.items()):
-        try:
-            params = {
-                'symbol':position["symbol"], 
-                'orderId': order_id
-            }
-            order_status = client.get_order(**params)
-            
-            if order_status['status'] != position["status"]:
-                log_to_file(f"Zmiana statusu pozycji {order_id}: {position['status']} -> {order_status['status']}")
-                position["status"] = order_status['status']
-
-                # Jeśli pozycja została zamknięta, usuń ją z listy
-                if order_status['status'] in ["FILLED", "CANCELED", "EXPIRED"]:
-                    del open_positions[order_id]
-                    log_to_file(f"Pozycja {order_id} została zamknięta.")
-                    # Pobierz stan konta po zamknięciu pozycji
-                    balance_after = get_available_balance("USDT")
-                    log_to_file(f"Stan konta po zamknięciu pozycji: {balance_after}")
-
-        except Exception as e:
-            print(f"Błąd podczas sprawdzania statusu pozycji {order_id}: {e}")

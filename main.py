@@ -72,7 +72,6 @@ async def main():
     """
     while True:
         await check_new_messages()
-        check_open_positions()  # Sprawdź status otwartych pozycji
         check_and_update_signal_history()  # Sprawdź i zaktualizuj historię sygnałów
         await asyncio.sleep(60)  # Czekaj 60 sekund przed kolejnym sprawdzeniem
         

@@ -5,6 +5,8 @@ from binance.client import Client
 from binance.client import Client
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
+
 import os
 
 # Wczytaj zmienne środowiskowe z pliku .env
@@ -49,72 +51,7 @@ def place_order(symbol, side, quantity):
     print(take_profit_order['status'])
     return take_profit_order
 
-def reset_account(target_usdc=10000):
-    """
-    Resetuje konto, sprzedając wszystkie dostępne waluty i kupując USDC, aby osiągnąć docelowe saldo.
-    """
-    # Pobierz wszystkie salda
-    balances = get_all_balances()
-    if not balances:
-        print("Brak dostępnych środków na koncie.")
-        return
-
-    # Sprawdź, czy już mamy wystarczająco USDC
-    current_usdc = balances.get('USDC', 0)
-    if current_usdc >= target_usdc:
-        print(f"Saldo USDC jest już wystarczające: {current_usdc} USDC.")
-        return
-
-    # Sprzedaj wszystkie waluty (oprócz USDC) i kup USDC
-    for asset, balance in balances.items():
-        if asset == 'USDC':
-            continue  # Pomijamy USDC
-
-        # Sprawdź, czy para handlowa istnieje (np. BTCUSDC, ETHUSDC)
-        symbol = f"{asset}USDC"
-        try:
-            symbol_info = client.get_symbol_info(symbol)
-            if not symbol_info:
-                print(f"Para handlowa {symbol} nie istnieje. Pomijam {asset}.")
-                continue
-
-            # Pobierz aktualną cenę
-            ticker = client.get_symbol_ticker(symbol=symbol)
-            current_price = float(ticker['price'])
-
-            # Oblicz ilość do sprzedania
-            quantity = balance
-
-            # Sprawdź wymagania LOT_SIZE
-            lot_size_filter = next(filter(lambda f: f['filterType'] == 'LOT_SIZE', symbol_info['filters']))
-            min_qty = float(lot_size_filter['minQty'])
-            step_size = float(lot_size_filter['stepSize'])
-
-            # Dostosuj ilość do wymagań LOT_SIZE
-            quantity = max(min_qty, quantity)
-            quantity = round(quantity // step_size * step_size, 8)
-
-            if quantity <= 0:
-                print(f"Nie można sprzedać {asset} (ilość zbyt mała).")
-                continue
-
-            # Wykonaj zlecenie marketowe (sprzedaż)
-            take_profit_order = client.create_order(
-                symbol=symbol,
-                side=SIDE_SELL,
-                type=ORDER_TYPE_MARKET,
-                quantity=quantity
-            )
-            print(f"Sprzedano {quantity} {asset} za USDC: {take_profit_order}")
-
-        except Exception as e:
-            print(f"Błąd podczas sprzedaży {asset}: {e}")
-
-    # Sprawdź końcowe saldo USDC
-    final_balances = get_all_balances()
-    final_usdc = final_balances.get('USDC', 0)
-    print(f"Końcowe saldo USDC: {final_usdc} USDC.")
-    
+  
     
 def get_algo_orders_count(symbol):
     """
@@ -171,17 +108,89 @@ def get_order_all(symbol, orderId):
         }
     order = client.get_order(**params)
     return order
+
+def cancel_position(symbol: str, days_back: int = 7):
+    try:
+        # Anuluj wszystkie aktywne zlecenia
+        open_orders = client.get_open_orders(symbol=symbol)
+        for order in open_orders:
+            client.cancel_order(symbol=symbol, orderId=order['orderId'])
+            print(f"Anulowano aktywne zlecenie: {order['orderId']}")
         
-# Uruchom funkcję reset_account
-#reset_account()
+        # Pobierz historię zleceń z ostatniego tygodnia
+        start_time = int((datetime.now() - timedelta(days=days_back)).timestamp() * 1000)
+        orders_history = client.get_all_orders(symbol=symbol, startTime=start_time)
+        
+        # Znajdź ostatnie zlecenie MARKET (otwierające pozycję)
+        market_orders = [o for o in orders_history if o['type'] == 'MARKET' and o['status'] == 'FILLED']
+        if not market_orders:
+            print(f"Nie znaleziono zleceń MARKET dla {symbol} z ostatnich {days_back} dni")
+            return None
+        
+        last_market_order = market_orders[-1]
+        original_side = last_market_order['side']
+        reverse_side = 'SELL' if original_side == 'BUY' else 'BUY'
+        
+        # Sprawdź dostępne środki
+        account = client.get_account()
+        balances = {asset['asset']: float(asset['free']) for asset in account['balances']}
+        
+        # Pobierz symbol base i quote
+        symbol_info = client.get_symbol_info(symbol)
+        base_asset = symbol_info['baseAsset']
+        quote_asset = symbol_info['quoteAsset']
+        
+        # Oblicz dostępną ilość do transakcji
+        if reverse_side == 'SELL':
+            available_quantity = balances.get(base_asset, 0)
+            quantity = min(float(last_market_order['executedQty']), available_quantity)
+        else:
+            # Dla BUY sprawdź dostępne quote asset i aktualną cenę
+            ticker = client.get_symbol_ticker(symbol=symbol)
+            current_price = float(ticker['price'])
+            available_quote = balances.get(quote_asset, 0)
+            max_possible = available_quote / current_price
+            quantity = min(float(last_market_order['executedQty']), max_possible)
+        
+        if quantity <= 0:
+            print(f"Niewystarczające środki do wykonania zlecenia odwrotnego")
+            return None
+            
+        # Dostosuj ilość do zasad LOT_SIZE
+        lot_filter = next(filter(lambda x: x['filterType'] == 'LOT_SIZE', symbol_info['filters']))
+        step_size = float(lot_filter['stepSize'])
+        quantity = round(quantity / step_size) * step_size
+        
+        # Złóż zlecenie odwrotne
+        reverse_order = client.create_order(
+            symbol=symbol,
+            side=reverse_side,
+            type='MARKET',
+            quantity=quantity
+        )
+        
+        print(f"Złożono zlecenie odwrotne:")
+        print(f"Symbol: {symbol}")
+        print(f"Strona: {reverse_side}")
+        print(f"Ilość: {quantity}")
+        print(f"Order ID: {reverse_order['orderId']}")
+        
+        return reverse_order
+        
+    except Exception as e:
+        print(f"Błąd podczas zamykania pozycji: {str(e)}")
+        return None
+
+        
+
 #print(get_all_balances())
 #print(client.get_open_orders())
 #take_profit_order = place_order("OMNIUSDT", "SELL", 1)
 #orderId= take_profit_order['orderId']
 
-
+#cancel_position("OMNIUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
-#print(get_order_all("OMNIUSDT", 1394960))
-print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
+print(get_order_all("OMNIUSDT", 1412370))
+#print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
 

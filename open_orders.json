@@ -153,5 +153,43 @@
         "orderListId": -1,
         "clientOrderId": "x-HNA2TXFJ7af4b7b4bf9a840cfcc6da",
         "transactTime": 1736118168495
+    },
+    {
+        "symbol": "OMNIUSDT",
+        "orderId": 1394960,
+        "orderListId": -1,
+        "clientOrderId": "x-HNA2TXFJe259ef0cd29dfcea31b4ee",
+        "price": "0.00000000",
+        "origQside": "BUY",
+        "stopPrice": "10.71000000",
+        "icebergQty": "0.00000000",
+        "time": 1736116488348,
+        "updateTime": 1736116488348,
+        "isWorking": False,
+        "workingTime": -1,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    {
+        "symbol": "OMNIUSDT",
+        "orderId": 1412370,
+        "orderListId": -1,
+        "clientOrderId": "x-HNA2TXFJa7e87ac5105ac3f5e4418a",
+        "price": "0.00000000",
+        "origQty": "1.00000000",
+        "executedQty": "0.00000000",
+        "cummulativeQuoteQty": "0.00000000",
+        "status": "NEW",
+        "timeInForce": "GTC",
+        "type": "STOP_LOSS",
+        "side": "BUY",
+        "stopPrice": "10.43000000",
+        "icebergQty": "0.00000000",
+        "time": 1736151931278,
+        "updateTime": 1736151931278,
+        "isWorking": False,
+        "workingTime": -1,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
     }
 ]
