@@ -1,6 +1,7 @@
 import json
 import os, time 
 from binance_trading import client
+from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from datetime import datetime
 
 SIGNAL_HISTORY_FILE = 'signal_history.json'
@@ -135,16 +136,18 @@ def handle_critical_error(signal):
         base_balance = balances.get(base_asset, 0)
         if base_balance > 0:
             try:
+
                 # Dostosuj ilość do zasad LOT_SIZE
                 lot_filter = next(filter(lambda x: x['filterType'] == 'LOT_SIZE', symbol_info['filters']))
                 step_size = float(lot_filter['stepSize'])
                 adjusted_quantity = round(base_balance / step_size) * step_size
+                closing_side = SIDE_BUY if signal['signal_type'] == 'SHORT' else SIDE_SELL
                 
                 if adjusted_quantity > 0:
                     client.create_order(
                         symbol=symbol,
-                        side='SELL',
-                        type='MARKET',
+                        side=closing_side,
+                        type=ORDER_TYPE_MARKET,
                         quantity=adjusted_quantity
                     )
                     log_to_file(f"Awaryjne zamknięcie pozycji dla {symbol}, ilość: {adjusted_quantity}")

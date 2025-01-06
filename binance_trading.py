@@ -150,6 +150,7 @@ def execute_trade(signal, percentage=20):
 
     # Pobierz dostępne środki
     available_balance = get_available_balance("USDT")
+    log_to_file(f"Stan konta USDT przd transakcją {available_balance}")
     if available_balance <= 0:
         print("Brak dostępnych środków.")
         return
@@ -174,7 +175,7 @@ def execute_trade(signal, percentage=20):
             quantity=quantity
         )
         executed_price = get_executed_price(order)
-        print(f"Zlecenie marketowe wykonane: {order}")
+        
         log_order(order, "MARKET", symbol, quantity, executed_price)
 
         if "orders" not in signal:
@@ -189,27 +190,8 @@ def execute_trade(signal, percentage=20):
             "executedQty": float(order['executedQty']),
             "time": order['transactTime']
         })
-        log_to_file(f"Otwarto nową pozycję: {order['orderId']}")
-
-        # Oczekuj na wypełnienie zlecenia marketowego
-        while True:
-            try:
-                time.sleep(2)  # Czekaj 2 sekundy przed sprawdzeniem statusu zlecenia
-                params = {
-                    'symbol': symbol,
-                    'orderId': order['orderId']
-                }
-                order_status = client.get_order(**params)
-                
-                if order_status['status'] == 'FILLED':
-                    log_to_file(f"Wypełnienie zlecenia marketowego {order['orderId']}...")
-                    break
-                log_to_file(f"Oczekiwanie na wypełnienie zlecenia marketowego {order['orderId']}...")
-                time.sleep(1)  # Czekaj 1 sekundę przed kolejnym sprawdzeniem
-            except Exception as e:
-                log_to_file(f"Błąd podczas sprawdzania statusu zlecenia {order['orderId']}: {str(e)}")
-                log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-                time.sleep(1)  # Poczekaj i spróbuj ponownie
+        print(f"Zlecenie marketowe wykonane: {order['orderId']} dla symbolu {order['symbol']} po cenie {executed_price} w ilości {quantity}")
+        log_to_file(f"Zlecenie marketowe wykonane: {order['orderId']} dla symbolu {order['symbol']} po cenie {executed_price} w ilości {quantity}")
 
         # Ustaw zlecenie stop-loss
         try:
@@ -223,30 +205,38 @@ def execute_trade(signal, percentage=20):
                 stopPrice=price_corrected_to_filters
             )
             print(f"Zlecenie stop-loss wykonane: {stop_loss_order}")
-            params = {
-                    'symbol': symbol,
-                    'orderId': stop_loss_order['orderId']
-                }
-            stop_loss_order = client.get_order(**params)
+            time.sleep(2)
+            # Poprawna implementacja sprawdzania statusu
+            max_retries = 3
+            for _ in range(max_retries):
+                order_status = client.get_order(
+                    **{
+                        'symbol': symbol,
+                        'orderId': stop_loss_order['orderId']
+                    }
+                )
+                if order_status['status'] == 'NEW':
+                    break
+                time.sleep(1)
             
-            log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
+            log_order(order_status, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
             # Dodaj zlecenie stop-loss do historii sygnału
             if "orders" not in signal:
                 signal["orders"] = []
             signal["orders"].append({
-                "orderId": stop_loss_order['orderId'],
+                "orderId": order_status['orderId'],
                 "type": "STOP_LOSS",
-                "status": "NEW",
+                "status": order_status['status'],
                 "stopPrice": price_corrected_to_filters,
-                "side": stop_loss_order['side'],
-                "quantity": float(stop_loss_order['origQty']),
-                "executedQty": float(stop_loss_order['executedQty']),
-                "time": stop_loss_order['transactTime']
+                "side": order_status['side'],
+                "quantity": float(order_status['origQty']),
+                "executedQty": float(order_status['executedQty']),
+                "time": order_status['transactTime']
             })
         except Exception as e:
             log_to_file(f"Błąd podczas składania zlecenia stop-loss: {str(e)}")
             log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-            # Jeśli zlecenie stop-loss się nie uda, anuluj zlecenie marketowe (jeśli jeszcze istnieje)
+            
 
         # Ustaw zlecenia take-profit
         for i, target in enumerate(signal["targets"]):
@@ -261,7 +251,7 @@ def execute_trade(signal, percentage=20):
                     stopPrice=target_corrected_to_filers,
                 )
                 print(f"Zlecenie take-profit {i + 1} wykonane: {take_profit_order}")
-                log_order(take_profit_order, "TAKE_PROFIT_LIMIT", symbol, quantity_per_target, target_corrected_to_filers)
+                log_order(take_profit_order, "TAKE_PROFIT", symbol, quantity_per_target, target_corrected_to_filers)
                 # Dodaj zlecenie take-profit do historii sygnału
                 signal["orders"].append({
                     "orderId": take_profit_order['orderId'],
@@ -276,16 +266,7 @@ def execute_trade(signal, percentage=20):
             except Exception as e:
                 log_to_file(f"Błąd podczas składania zlecenia take-profit {i + 1}: {str(e)}")
                 log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-                # Jeśli zlecenie take-profit się nie uda, anuluj pozostałe zlecenia take-profit i stop-loss.
-                for order in signal["orders"]:
-                    if order["type"] in ["TAKE_PROFIT", "STOP_LOSS"]:
-                        try:
-                            client.cancel_order(symbol=symbol, orderId=order['orderId'])
-                            log_to_file(f"Anulowano zlecenie {order['type']} {order['orderId']} z powodu błędu.")
-                        except Exception as e:
-                            log_to_file(f"Błąd podczas anulowania zlecenia {order['type']} {order['orderId']}: {str(e)}")
-                            log_to_file(f"Pełny kontekst błędu: {e.__dict__}")  # Logowanie pełnego kontekstu błędu
-                return
+
 
     except Exception as e:
         print(f"Błąd podczas wykonywania transakcji: {str(e)}")
