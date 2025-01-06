@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from crypto_signals_channel import process_signal_message
 from algo_bot_messages_processing import process_algo_bot_message
 from datetime import datetime
-from binance_trading import check_open_positions
 from signal_history_manager import check_and_update_signal_history
 
 # Wczytaj zmienne środowiskowe

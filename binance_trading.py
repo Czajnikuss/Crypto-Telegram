@@ -177,14 +177,18 @@ def execute_trade(signal, percentage=20):
         print(f"Zlecenie marketowe wykonane: {order}")
         log_order(order, "MARKET", symbol, quantity, executed_price)
 
-        # Dodaj pozycję do listy otwartych pozycji
-        open_positions[order['orderId']] = {
-            "symbol": symbol,
-            "side": side,
-            "quantity": quantity,
-            "status": "OPEN",
-            "executed_price": executed_price
-        }
+        if "orders" not in signal:
+            signal["orders"] = []
+        signal["orders"].append({
+            "orderId": order['orderId'],
+            "type": "MARKET",
+            "status": order['status'],
+            "stopPrice": executed_price,
+            "side": order['side'],
+            "quantity": float(order['origQty']),
+            "executedQty": float(order['executedQty']),
+            "time": order['transactTime']
+        })
         log_to_file(f"Otwarto nową pozycję: {order['orderId']}")
 
         # Oczekuj na wypełnienie zlecenia marketowego
@@ -221,6 +225,8 @@ def execute_trade(signal, percentage=20):
             print(f"Zlecenie stop-loss wykonane: {stop_loss_order}")
             log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, signal["stop_loss"])
             # Dodaj zlecenie stop-loss do historii sygnału
+            if "orders" not in signal:
+                signal["orders"] = []
             signal["orders"].append({
                 "orderId": stop_loss_order['orderId'],
                 "type": "STOP_LOSS",
