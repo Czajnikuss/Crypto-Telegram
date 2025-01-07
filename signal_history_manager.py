@@ -15,7 +15,7 @@ def save_signal_history(history):
         json.dump(history, file, indent=4)
 
 def update_signal_orders(signal):
-    """Aktualizuje stan zleceń w sygnale"""
+    """Aktualizuje stan zleceĹ„ w sygnale"""
     symbol = signal["currency"]
     try:
         orders = [get_order_details(symbol, order['orderId']) for order in signal.get('orders', [])]
@@ -34,7 +34,7 @@ def update_signal_orders(signal):
         ]
         return signal
     except Exception as e:
-        log_to_file(f"Błąd podczas aktualizacji zleceń dla {symbol}: {e}")
+        log_to_file(f"BĹ‚Ä…d podczas aktualizacji zleceĹ„ dla {symbol}: {e}")
         return signal
 
 def handle_critical_error(signal):
@@ -49,7 +49,7 @@ def handle_critical_error(signal):
             except:
                 continue
 
-        # Zamknij pozycję jeśli istnieje
+        # Zamknij pozycjÄ™ jeĹ›li istnieje
         account = client.get_account()
         symbol_info = client.get_symbol_info(symbol)
         base_asset = symbol_info['baseAsset']
@@ -66,13 +66,13 @@ def handle_critical_error(signal):
                     type='MARKET',
                     quantity=adjusted_quantity
                 )
-                log_to_file(f"Awaryjne zamknięcie pozycji dla {symbol}, ilość: {adjusted_quantity}")
+                log_to_file(f"Awaryjne zamkniÄ™cie pozycji dla {symbol}, iloĹ›Ä‡: {adjusted_quantity}")
 
         signal["status"] = "CLOSED"
         signal["error"] = "CRITICAL_ERROR"
         
     except Exception as e:
-        log_to_file(f"Błąd podczas obsługi sytuacji krytycznej dla {symbol}: {e}")
+        log_to_file(f"BĹ‚Ä…d podczas obsĹ‚ugi sytuacji krytycznej dla {symbol}: {e}")
 
 def check_and_update_signal_history():
     history = load_signal_history()
@@ -80,17 +80,19 @@ def check_and_update_signal_history():
         if signal.get("status") != "CLOSED":
             try:
                 signal = update_signal_orders(signal)
-                symbol =signal["symbol"]
+                symbol =signal["currency"]
                 
                 if not signal.get("orders"):
+                    log_to_file(f"no oreders for signal {symbol}")
                     handle_critical_error(signal)
                     continue
 
                 market_orders = [o for o in signal["orders"] if o['type'] == 'MARKET' and o['status'] == 'FILLED']
-                stop_loss_orders = [o for o in signal["orders"] if o['type'] == 'STOP_LOSS']
-                take_profit_orders = [o for o in signal["orders"] if o['type'] == 'TAKE_PROFIT']
+                stop_loss_orders = [o for o in signal["orders"] if o['type'] == 'STOP_LOSS_LIMIT']
+                take_profit_orders = [o for o in signal["orders"] if o['type'] == 'TAKE_PROFIT_LIMIT']
 
                 if not market_orders or not stop_loss_orders:
+                    log_to_file(f"no oreders Stop loss or market orders for signal {symbol}")
                     handle_critical_error(signal)
                     continue
 
@@ -118,9 +120,9 @@ def check_and_update_signal_history():
                                     price=new_stop
                                 )
                             except Exception as e:
-                                log_to_file(f"Błąd aktualizacji stop-loss: {e}")
+                                log_to_file(f"BĹ‚Ä…d aktualizacji stop-loss: {e}")
 
             except Exception as e:
-                log_to_file(f"Błąd podczas sprawdzania historii dla {signal['currency']}: {e}")
+                log_to_file(f"BĹ‚Ä…d podczas sprawdzania historii dla {signal['currency']}: {e}")
 
     save_signal_history(history)
