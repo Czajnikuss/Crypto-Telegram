@@ -1,50 +1,7 @@
-from binance.client import Client
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
-from dotenv import load_dotenv
-import os, time
-from datetime import datetime
-
-def log_to_file(message):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("logfile.txt", "a", encoding="utf-8") as log_file:
-        log_file.write(f"[{timestamp}] {message}\n")
-
-load_dotenv()
-testmode = os.getenv('TESTMODE', 'false').lower() == 'true'
-api_key = os.getenv('BINANCE_API_KEY')
-api_secret = os.getenv('BINANCE_API_SECRET')
-
-if testmode:
-    client = Client(api_key, api_secret, testnet=True)
-else:
-    client = Client(api_key, api_secret)
-
-def get_symbol_filters(symbol):
-    """Pobiera i zwraca wszystkie filtry dla danego symbolu"""
-    symbol_info = client.get_symbol_info(symbol)
-    filters = {}
-    for f in symbol_info['filters']:
-        filters[f['filterType']] = f
-    return filters
-
-def adjust_quantity(symbol, quantity):
-    """Dostosowuje ilość do wymogów LOT_SIZE"""
-    filters = get_symbol_filters(symbol)
-    lot_size = filters['LOT_SIZE']
-    step_size = float(lot_size['stepSize'])
-    min_qty = float(lot_size['minQty'])
-    
-    quantity = max(min_qty, quantity)
-    quantity = round(quantity / step_size) * step_size
-    return round(quantity, 8)
-
-def adjust_price(symbol, price):
-    """Dostosowuje cenę do wymogów PRICE_FILTER"""
-    filters = get_symbol_filters(symbol)
-    price_filter = filters['PRICE_FILTER']
-    tick_size = float(price_filter['tickSize'])
-    
-    return round(round(price / tick_size) * tick_size, 8)
+from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details
+import time
+from signal_history_manager import load_signal_history, save_signal_history
 
 def get_available_balance(asset):
     try:
@@ -73,10 +30,53 @@ def has_open_position(symbol):
         log_to_file(f"Błąd podczas sprawdzania otwartych pozycji: {e}")
         return False
 
-def log_order(order, order_type, symbol, quantity, price):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_message = f"[{timestamp}] Zlecenie {order_type} dla {symbol}: ID={order['orderId']}, Ilość={quantity}, Cena={price}"
-    log_to_file(log_message)
+def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
+    """Dodaje zlecenie do historii sygnału z obsługą błędów"""
+    if "orders" not in signal:
+        signal["orders"] = []
+    
+    # Czekaj na przetworzenie zlecenia
+    full_order = get_order_details(order['symbol'], order['orderId'])
+    
+    if full_order:
+        order_record = {
+            "orderId": full_order['orderId'],
+            "type": order_type,
+            "status": full_order['status'],
+            "stopPrice": float(full_order.get('stopPrice', 0)),
+            "side": full_order['side'],
+            "quantity": float(full_order['origQty']),
+            "executedQty": float(full_order['executedQty']),
+            "time": full_order['time']
+        }
+    else:
+        # Jeśli nie można pobrać szczegółów, użyj danych z oryginalnego zlecenia
+        order_record = {
+            "orderId": order['orderId'],
+            "type": order_type,
+            "status": order.get('status', 'UNKNOWN'),
+            "stopPrice": float(order.get('stopPrice', 0)),
+            "side": order['side'],
+            "quantity": float(order['origQty']),
+            "executedQty": float(order.get('executedQty', 0)),
+            "time": order.get('transactTime', int(time.time() * 1000))
+        }
+    
+    signal["orders"].append(order_record)
+    
+    # Aktualizuj historię
+    history = load_signal_history()
+    updated = False
+    for i, s in enumerate(history):
+        if s["currency"] == signal["currency"] and s["date"] == signal["date"]:
+            history[i] = signal
+            updated = True
+            break
+    
+    if not updated:
+        history.append(signal)
+    
+    save_signal_history(history)
 
 def execute_trade(signal, percentage=20):
     symbol = signal["currency"]
@@ -89,26 +89,28 @@ def execute_trade(signal, percentage=20):
     
     quantity = calculate_trade_amount(available_balance, percentage, symbol)
     if quantity <= 0:
-        log_to_file(f"Nieprawidłowa ilość dla {symbol}")
         return False
 
     side = SIDE_SELL if signal["signal_type"] == "SHORT" else SIDE_BUY
     quantity_per_target = adjust_quantity(symbol, quantity / len(signal["targets"]))
 
     try:
-        # Zlecenie MARKET
-        log_to_file(f"Składanie zlecenia MARKET: {symbol}, ilość={quantity}")
+        # Market order
+        log_to_file(f"Rozpoczynam składanie zlecenia MARKET dla {symbol}: ilość={quantity}, side={side}")
         market_order = client.create_order(
             symbol=symbol,
             side=side,
             type=ORDER_TYPE_MARKET,
             quantity=quantity
         )
-        log_order(market_order, "MARKET", symbol, quantity, market_order['fills'][0]['price'])
+        time.sleep(1)
+        add_order_to_history(signal, market_order, "MARKET")
         time.sleep(1)
 
         # Stop Loss
+        
         stop_price = adjust_price(symbol, signal["stop_loss"])
+        log_to_file(f"Rozpoczynam składanie zlecenia STOP_LOSS_LIMIT dla {symbol}: ilość={quantity}, side={side} price={stop_price}")
         stop_loss_order = client.create_order(
             symbol=symbol,
             side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
@@ -118,12 +120,13 @@ def execute_trade(signal, percentage=20):
             stopPrice=stop_price,
             price=stop_price
         )
-        log_order(stop_loss_order, "STOP_LOSS", symbol, quantity, stop_price)
+        add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
         time.sleep(1)
 
         # Take Profit orders
-        for i, target in enumerate(signal["targets"]):
+        for target in signal["targets"]:
             target_price = adjust_price(symbol, target)
+            log_to_file(f"Rozpoczynam składanie zlecenia TAKE_PROFIT_LIMI dla {symbol}: ilość={quantity_per_target}, side={side} price={target_price}")
             take_profit_order = client.create_order(
                 symbol=symbol,
                 side=SIDE_BUY if side == SIDE_SELL else SIDE_SELL,
@@ -133,11 +136,30 @@ def execute_trade(signal, percentage=20):
                 stopPrice=target_price,
                 price=target_price
             )
-            log_order(take_profit_order, f"TAKE_PROFIT_{i+1}", symbol, quantity_per_target, target_price)
+            add_order_to_history(signal, take_profit_order, "TAKE_PROFIT")
             time.sleep(1)
 
         return True
 
     except Exception as e:
         log_to_file(f"Błąd podczas wykonywania transakcji: {str(e)}")
+        log_to_file(f"Pełny kontekst błędu: {e.__dict__}")
         return False
+
+
+    
+test_signal = {
+        "currency": "MASKUSDT",
+        "signal_type": "LONG",
+        "entry": 3.0,
+        "targets": [
+            3.1,
+            3.196,
+            3.3,
+            3.373
+        ],
+        "stop_loss": 2.788,
+        "breakeven": 2.9,
+        "date": "2025-01-07T15:00:28+00:00"
+}
+#execute_trade(test_signal, 5)

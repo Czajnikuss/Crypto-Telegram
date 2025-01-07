@@ -301,3 +301,55 @@ Powered by @AlgoBot
 [2025-01-05 12:07:33] Zmiana statusu pozycji 2116336: OPEN -> FILLED
 [2025-01-05 12:07:33] Pozycja 2116336 została zamknięta.
 [2025-01-05 12:07:33] Stan konta po zamknięciu pozycji: 226.27683
+[2025-01-07 17:06:52] Stan konta USDT przed transakcją 3335.96643
+[2025-01-07 17:06:55] Składanie zlecenia MARKET: MASKUSDT, ilość=112.8
+[2025-01-07 17:06:55] [2025-01-07 17:06:55] Zlecenie MARKET dla MASKUSDT: ID=4087513, Ilość=112.8, Cena=2.95500000
+[2025-01-07 17:06:57] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:09:36] Stan konta USDT przed transakcją 3002.64243
+[2025-01-07 17:09:39] Składanie zlecenia MARKET: MASKUSDT, ilość=101.4
+[2025-01-07 17:09:39] [2025-01-07 17:09:39] Zlecenie MARKET dla MASKUSDT: ID=4087670, Ilość=101.4, Cena=2.95800000
+[2025-01-07 17:09:41] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:15:08] Stan konta USDT przed transakcją 3302.56683
+[2025-01-07 17:15:11] Składanie zlecenia MARKET: MASKUSDT, ilość=55.8
+[2025-01-07 17:15:11] [2025-01-07 17:15:11] Zlecenie MARKET dla MASKUSDT: ID=4087920, Ilość=55.8, Cena=2.95900000
+[2025-01-07 17:15:13] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:15:16] Stan konta USDT przed transakcją 3467.57413
+[2025-01-07 17:15:18] Składanie zlecenia MARKET: MASKUSDT, ilość=58.6
+[2025-01-07 17:15:19] [2025-01-07 17:15:19] Zlecenie MARKET dla MASKUSDT: ID=4087924, Ilość=58.6, Cena=2.95800000
+[2025-01-07 17:15:20] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:16:45] Stan konta USDT przed transakcją 3640.91293
+[2025-01-07 17:16:47] Składanie zlecenia MARKET: MASKUSDT, ilość=61.5
+[2025-01-07 17:16:48] [2025-01-07 17:16:48] Zlecenie MARKET dla MASKUSDT: ID=4087988, Ilość=61.5, Cena=2.95400000
+[2025-01-07 17:16:51] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:18:26] Stan konta USDT przed transakcją 3822.58393
+[2025-01-07 17:18:27] Składanie zlecenia MARKET: MASKUSDT, ilość=64.7
+[2025-01-07 17:18:28] [2025-01-07 17:18:28] Zlecenie MARKET dla MASKUSDT: ID=4088062, Ilość=64.7, Cena=2.95100000
+[2025-01-07 17:18:31] [2025-01-07 17:18:31] Zlecenie STOP_LOSS dla MASKUSDT: ID=4088070, Ilość=64.7, Cena=3.288
+[2025-01-07 17:18:32] Błąd podczas wykonywania transakcji: APIError(code=-2010): Stop price would trigger immediately.
+[2025-01-07 17:23:14] Otwarta pozycja dla MASKUSDT już istnieje.
+[2025-01-07 17:26:38] Stan konta USDT przed transakcją 3822.51923
+[2025-01-07 17:26:40] Składanie zlecenia MARKET: MASKUSDT, ilość=64.8
+[2025-01-07 17:26:40] [2025-01-07 17:26:40] Zlecenie MARKET dla MASKUSDT: ID=4088400, Ilość=64.8, Cena=2.95300000
+[2025-01-07 17:26:43] [2025-01-07 17:26:43] Zlecenie STOP_LOSS dla MASKUSDT: ID=4088401, Ilość=64.8, Cena=2.788
+[2025-01-07 17:26:46] [2025-01-07 17:26:46] Zlecenie TAKE_PROFIT_1 dla MASKUSDT: ID=4088406, Ilość=16.2, Cena=3.1
+[2025-01-07 17:26:48] [2025-01-07 17:26:48] Zlecenie TAKE_PROFIT_2 dla MASKUSDT: ID=4088408, Ilość=16.2, Cena=3.196
+[2025-01-07 17:26:52] [2025-01-07 17:26:52] Zlecenie TAKE_PROFIT_3 dla MASKUSDT: ID=4088411, Ilość=16.2, Cena=3.3
+[2025-01-07 17:26:54] [2025-01-07 17:26:54] Zlecenie TAKE_PROFIT_4 dla MASKUSDT: ID=4088412, Ilość=16.2, Cena=3.373
+[2025-01-07 17:43:19] Otwarta pozycja dla MASKUSDT już istnieje.
+[2025-01-07 17:44:45] Stan konta USDT przed transakcją 3823.86723
+[2025-01-07 17:44:47] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=64.1, side=BUY
+[2025-01-07 17:44:50] Błąd podczas wykonywania transakcji: APIError(code=-1111): Parameter 'price' has too much precision.
+[2025-01-07 17:46:10] Stan konta USDT przed transakcją 3632.85263
+[2025-01-07 17:46:11] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=60.9, side=BUY
+[2025-01-07 17:46:13] Błąd podczas wykonywania transakcji: name 'math' is not defined
+[2025-01-07 17:47:05] Stan konta USDT przed transakcją 3451.43153
+[2025-01-07 17:47:06] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=57.9, side=BUY
+[2025-01-07 17:47:09] Błąd podczas wykonywania transakcji: 'status'
+[2025-01-07 18:10:09] Otwarta pozycja dla MASKUSDT już istnieje.
+[2025-01-07 18:10:58] Stan konta USDT przed transakcją 3279.00533
+[2025-01-07 18:11:00] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=55.4, side=BUY
+[2025-01-07 18:11:01] Błąd podczas pobierania szczegółów zlecenia 4089493: APIError(code=-2013): Order does not exist.
+[2025-01-07 18:11:04] Błąd podczas pobierania szczegółów zlecenia 4089495: APIError(code=-2013): Order does not exist.
+[2025-01-07 18:11:15] Błąd podczas pobierania szczegółów zlecenia 4089509: APIError(code=-2013): Order does not exist.
+[2025-01-07 18:21:17] Stan konta USDT przed transakcją 3114.91053
+[2025-01-07 18:21:19] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=52.5, side=BUY
