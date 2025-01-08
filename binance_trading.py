@@ -122,7 +122,7 @@ def execute_trade(signal, percentage=20):
         )
         add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
         time.sleep(1)
-
+        """
         # Take Profit orders
         for target in signal["targets"]:
             target_price = adjust_price(symbol, target)
@@ -140,6 +140,7 @@ def execute_trade(signal, percentage=20):
             time.sleep(1)
 
         return True
+        """
 
     except Exception as e:
         log_to_file(f"Błąd podczas wykonywania transakcji: {str(e)}")
