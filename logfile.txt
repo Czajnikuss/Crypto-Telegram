@@ -353,3 +353,20 @@ Powered by @AlgoBot
 [2025-01-07 18:11:15] Błąd podczas pobierania szczegółów zlecenia 4089509: APIError(code=-2013): Order does not exist.
 [2025-01-07 18:21:17] Stan konta USDT przed transakcją 3114.91053
 [2025-01-07 18:21:19] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT: ilość=52.5, side=BUY
+[2025-01-09 17:47:19] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 17:47:23] Rozpoczynam składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-09 17:47:23] Ilość: 11492.0, Strona: SELL, Wartość USDT: 3795.92, Cena: 0.33031
+[2025-01-09 17:47:24] Błąd podczas wykonywania transakcji: APIError(code=-2010): Account has insufficient balance for requested action.
+[2025-01-09 17:47:24] Pełny kontekst błędu: {'code': -2010, 'message': 'Account has insufficient balance for requested action.', 'status_code': 400, 'response': <Response [400]>, 'request': <PreparedRequest [POST]>}
+[2025-01-09 18:01:16] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 18:01:17] Błąd podczas obliczania kwoty transakcji: APIError(code=-2008): Invalid Api-Key ID.
+[2025-01-09 18:01:17] Nie można obliczyć prawidłowej wielkości zlecenia dla DOGEUSDT
+[2025-01-09 18:01:18] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 18:01:18] Błąd podczas obliczania kwoty transakcji: APIError(code=-2008): Invalid Api-Key ID.
+[2025-01-09 18:01:18] Nie można obliczyć prawidłowej wielkości zlecenia dla DOGEUSDT
+[2025-01-09 18:04:16] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 18:04:16] Błąd podczas obliczania kwoty transakcji: APIError(code=-2008): Invalid Api-Key ID.
+[2025-01-09 18:04:16] Nie można obliczyć prawidłowej wielkości zlecenia dla DOGEUSDT
+[2025-01-09 18:04:17] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 18:04:18] Błąd podczas obliczania kwoty transakcji: APIError(code=-2008): Invalid Api-Key ID.
+[2025-01-09 18:04:18] Nie można obliczyć prawidłowej wielkości zlecenia dla DOGEUSDT
