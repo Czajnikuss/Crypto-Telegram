@@ -1,7 +1,25 @@
 from binance.client import Client
 from dotenv import load_dotenv
-import os, math, time
+import os, math, time, json
 from datetime import datetime
+from telethon import TelegramClient
+
+
+SIGNAL_HISTORY_FILE = 'signal_history.json'
+MAX_HISTORY_SIZE = 50  # Maksymalna liczba sygnałów w historii
+
+last_message_ids = set()
+
+def load_env_variables():
+    load_dotenv()
+    api_id = os.getenv('API_ID')
+    api_hash = os.getenv('API_HASH')
+    return api_id, api_hash
+
+def create_telegram_client(session_name):
+    api_id, api_hash = load_env_variables()
+    return TelegramClient(session_name, api_id, api_hash)
+
 
 def log_to_file(message):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,3 +76,32 @@ def get_order_details(symbol: str, order_id: int, max_retries: int = 3) -> dict:
                 log_to_file(f"Błąd podczas pobierania szczegółów zlecenia {order_id} (próba {attempt+1}/{max_retries}): {str(e)}")
                 return None
             continue
+        
+def load_signal_history():
+    """
+    Ładuje historię sygnałów z pliku JSON.
+    """
+    if os.path.exists(SIGNAL_HISTORY_FILE):
+        with open(SIGNAL_HISTORY_FILE, 'r') as file:
+            return json.load(file)
+    return []
+
+def save_signal_history(history):
+    """
+    Zapisuje historię sygnałów do pliku JSON.
+    """
+    with open(SIGNAL_HISTORY_FILE, 'w') as file:
+        json.dump(history, file, indent=4)
+
+def is_signal_new(signal, history):
+    """
+    Sprawdza, czy sygnał jest nowy (nie istnieje w historii).
+    """
+    for existing_signal in history:
+        if (existing_signal["currency"] == signal["currency"] and
+            existing_signal["signal_type"] == signal["signal_type"] and
+            existing_signal["entry"] == signal["entry"] and
+            existing_signal["stop_loss"] == signal["stop_loss"] and
+            existing_signal["targets"] == signal["targets"]):
+            return False
+    return True

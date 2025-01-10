@@ -370,3 +370,991 @@ Powered by @AlgoBot
 [2025-01-09 18:04:17] Stan konta USDT przed transakcją: 19170.5441281
 [2025-01-09 18:04:18] Błąd podczas obliczania kwoty transakcji: APIError(code=-2008): Invalid Api-Key ID.
 [2025-01-09 18:04:18] Nie można obliczyć prawidłowej wielkości zlecenia dla DOGEUSDT
+[2025-01-09 18:16:36] Stan konta USDT przed transakcją: 19170.5441281
+[2025-01-09 18:16:38] Rozpoczynam składanie zlecenia MARKET dla MASKUSDT:
+[2025-01-09 18:16:38] Ilość: 334.5, Strona: BUY, Wartość USDT: 948.98, Cena: 2.837
+[2025-01-09 18:16:44] Rozpoczynam składanie zlecenia STOP_LOSS_LIMIT dla MASKUSDT:
+[2025-01-09 18:16:44] Ilość: 334.5, Strona: SELL, Cena stop: 2.788
+[2025-01-10 23:32:49] Wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-10 23:32:49] Wiadomość z Bybit: **ATTENTION  ATTENTION❗️❗️
+
+For those that invested in our company's promo plan
+
+Please send me your wallet Address so we could forward your profits to you 
+
+Keep investing...we are the best
+
+****#INVEST**** AND ****#EARN****
+💰💰💰💰💰💰💰💰💰💰💰💰💰💰
+
+****#INVESTORS**** 
+
+****#READY**
+[2025-01-10 23:32:49] Wiadomość z Bybit: 
+[2025-01-10 23:32:49] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#BSV/USDT Cancelled ❌
+Target achieved before entering the entry zone
+[2025-01-10 23:32:49] Wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-10 23:34:56] Wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-10 23:34:56] Wiadomość z Bybit: **ATTENTION  ATTENTION❗️❗️
+
+For those that invested in our company's promo plan
+
+Please send me your wallet Address so we could forward your profits to you 
+
+Keep investing...we are the best
+
+****#INVEST**** AND ****#EARN****
+💰💰💰💰💰💰💰💰💰💰💰💰💰💰
+
+****#INVESTORS**** 
+
+****#READY**
+[2025-01-10 23:34:56] Wiadomość z Bybit: 
+[2025-01-10 23:34:56] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#BSV/USDT Cancelled ❌
+Target achieved before entering the entry zone
+[2025-01-10 23:34:56] Wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-10 23:34:56] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#AAVE/USDT All entry targets achieved
+Average Entry Price: 287.58 💵
+[2025-01-10 23:34:56] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#AAVE/USDT Entry 1 ✅
+Average Entry Price: 297.4 💵
+[2025-01-10 23:34:56] Wiadomość z Bybit: ⚡️⚡️#AAVE/USDT ⚡️⚡️
+𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷 : LONG
+Leverage : Cross 20x
+Entry : 297.39999 - 277.77159 
+
+Take-Profit target 
+ 1 - 300.9688
+ 2 - 302.45579
+ 3 - 306.91679
+ 4 - 309.59339
+ 5 - 317.32579
+ 6 - 320.5972
+ 7 - 331.89839
+ 8 - 364.31499
+
+Stoploss : 260.22499
+[2025-01-10 23:34:56] Wiadomość z Bybit: ⚡️⚡️#RUNE/USDT ⚡️⚡️
+𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷 : LONG
+Leverage : Cross 20x
+Entry : 3.285 - 3.248 
+
+Take-Profit target 
+ 1 - 3.301425
+ 2 - 3.31785
+ 3 - 3.3507
+ 4 - 3.38355
+ 5 - 3.4164
+ 6 - 3.44925
+ 7 - 3.4821
+ 8 - 3.51495
+
+Stoploss : 3.0222
+[2025-01-10 23:34:56] Wiadomość z Bybit: **__ASSALAMUALAIKUM
+GOOD MORNING BROOO
+
+WHO IS READY TO EARN TODAY LET ME KNOW__**
+[2025-01-10 23:34:56] Wiadomość z Bybit: 
+[2025-01-10 23:34:56] Wiadomość z Bybit: **EARLY MORNING VIP PROFIT 
+
+****#Al16Z**** USDT ACHIEVED ALL TARGETS WITH 947% PROFIT ****🔥****🤑**** 
+
+WHAT A AMAZING RESULTS OF VIP ****👏**** 
+
+VIP PREMIUM MEMBERS ALWAYS PRINTING DOLLAR'S ****🥵****🤑****
+
+YOU CAN CLOSE THE TRADES AND CLAIM YOUR PROFIT IF YOU'RE STILL HOLDING YOURS.
+
+CONTACT ADMIN ☎️ TO ACCESS VIP
+
+****t.me/MIKE_ADMIINFX****
+****t.me/MIKE_ADMIINFX****
+****t.me/MIKE_ADMIINFX**
+[2025-01-10 23:34:56] Wiadomość z Bybit: 
+[2025-01-10 23:34:56] Wiadomość z Bybit: 
+[2025-01-10 23:34:56] Wiadomość z Bybit: 
+[2025-01-10 23:58:20] Wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-10 23:58:20] Wiadomość z Bybit: **ATTENTION  ATTENTION❗️❗️
+
+For those that invested in our company's promo plan
+
+Please send me your wallet Address so we could forward your profits to you 
+
+Keep investing...we are the best
+
+****#INVEST**** AND ****#EARN****
+💰💰💰💰💰💰💰💰💰💰💰💰💰💰
+
+****#INVESTORS**** 
+
+****#READY**
+[2025-01-10 23:58:20] Wiadomość z Bybit: 
+[2025-01-10 23:58:20] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#BSV/USDT Cancelled ❌
+Target achieved before entering the entry zone
+[2025-01-10 23:58:20] Wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-10 23:58:20] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#AAVE/USDT All entry targets achieved
+Average Entry Price: 287.58 💵
+[2025-01-10 23:58:20] Wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#AAVE/USDT Entry 1 ✅
+Average Entry Price: 297.4 💵
+[2025-01-10 23:58:20] Wiadomość z Bybit: ⚡️⚡️#AAVE/USDT ⚡️⚡️
+𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷 : LONG
+Leverage : Cross 20x
+Entry : 297.39999 - 277.77159 
+
+Take-Profit target 
+ 1 - 300.9688
+ 2 - 302.45579
+ 3 - 306.91679
+ 4 - 309.59339
+ 5 - 317.32579
+ 6 - 320.5972
+ 7 - 331.89839
+ 8 - 364.31499
+
+Stoploss : 260.22499
+[2025-01-10 23:58:20] Wiadomość z Bybit: ⚡️⚡️#RUNE/USDT ⚡️⚡️
+𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷 : LONG
+Leverage : Cross 20x
+Entry : 3.285 - 3.248 
+
+Take-Profit target 
+ 1 - 3.301425
+ 2 - 3.31785
+ 3 - 3.3507
+ 4 - 3.38355
+ 5 - 3.4164
+ 6 - 3.44925
+ 7 - 3.4821
+ 8 - 3.51495
+
+Stoploss : 3.0222
+[2025-01-10 23:58:20] Wiadomość z Bybit: **__ASSALAMUALAIKUM
+GOOD MORNING BROOO
+
+WHO IS READY TO EARN TODAY LET ME KNOW__**
+[2025-01-10 23:58:20] Wiadomość z Bybit: 
+[2025-01-10 23:58:20] Wiadomość z Bybit: **EARLY MORNING VIP PROFIT 
+
+****#Al16Z**** USDT ACHIEVED ALL TARGETS WITH 947% PROFIT ****🔥****🤑**** 
+
+WHAT A AMAZING RESULTS OF VIP ****👏**** 
+
+VIP PREMIUM MEMBERS ALWAYS PRINTING DOLLAR'S ****🥵****🤑****
+
+YOU CAN CLOSE THE TRADES AND CLAIM YOUR PROFIT IF YOU'RE STILL HOLDING YOURS.
+
+CONTACT ADMIN ☎️ TO ACCESS VIP
+
+****t.me/MIKE_ADMIINFX****
+****t.me/MIKE_ADMIINFX****
+****t.me/MIKE_ADMIINFX**
+[2025-01-10 23:58:20] Wiadomość z Bybit: 
+[2025-01-10 23:58:20] Wiadomość z Bybit: 
+[2025-01-10 23:58:20] Wiadomość z Bybit: 
+[2025-01-10 23:58:21] Nowa wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-10 23:58:21] No entry price found in message
+[2025-01-10 23:58:21] Found 0 take profit targets
+[2025-01-10 23:58:21] Parsed signal data: {'currency': '/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-10 23:58:21] Received signal: {'currency': '/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T19:53:49+00:00'}
+[2025-01-10 23:58:21] Processing new signal for /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2
+[2025-01-10 23:58:21] Pomijam sygnał, ponieważ nie jest to LONG: /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2
+[2025-01-10 23:58:21] Nowa wiadomość z Bybit: **ATTENTION  ATTENTION❗️❗️
+
+For those that invested in our company's promo plan
+
+Please send me your wallet Address so we could forward your profits to you 
+
+Keep investing...we are the best
+
+****#INVEST**** AND ****#EARN****
+💰💰💰💰💰💰💰💰💰💰💰💰💰💰
+
+****#INVESTORS**** 
+
+****#READY**
+[2025-01-10 23:58:21] No entry price found in message
+[2025-01-10 23:58:21] Found 0 take profit targets
+[2025-01-10 23:58:21] Parsed signal data: {'currency': 'INVEST', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-10 23:58:21] Received signal: {'currency': 'INVEST', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T17:29:56+00:00'}
+[2025-01-10 23:58:21] Processing new signal for INVEST
+[2025-01-10 23:58:21] Pomijam sygnał, ponieważ nie jest to LONG: INVEST
+[2025-01-10 23:58:21] Nowa wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#BSV/USDT Cancelled ❌
+Target achieved before entering the entry zone
+[2025-01-10 23:58:21] No entry price found in message
+[2025-01-10 23:58:21] Found 0 take profit targets
+[2025-01-10 23:58:21] Parsed signal data: {'currency': 'BSV/USDT', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-10 23:58:21] Received signal: {'currency': 'BSV/USDT', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T17:17:24+00:00'}
+[2025-01-10 23:58:21] Processing new signal for BSV/USDT
+[2025-01-10 23:58:21] Pomijam sygnał, ponieważ nie jest to LONG: BSV/USDT
+[2025-01-10 23:58:21] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-10 23:58:21] Entry calculated as average: 56.99 from range 56.99-56.99
+[2025-01-10 23:58:21] Found 6 take profit targets
+[2025-01-10 23:58:21] Found stop loss raw value: 5-10%
+[2025-01-10 23:58:21] Calculated stop loss from 7.5% as 52.71575000000001
+[2025-01-10 23:58:21] Parsed signal data: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [1.0, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.71575000000001, 'breakeven': 56.99}
+[2025-01-10 23:58:21] Received signal: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [1.0, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.71575000000001, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-10 23:58:21] Processing new signal for BSV/USDT
+[2025-01-10 23:58:22] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-10 23:58:23] Stan konta USDT przed transakcją: 19153.8108281
+[2025-01-10 23:58:23] Błąd podczas obliczania kwoty transakcji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-10 23:58:23] Nie można obliczyć prawidłowej wielkości zlecenia dla BSV/USDT
+[2025-01-10 23:58:32] Błąd podczas pobierania szczegółów zlecenia 3013939 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:58:41] Błąd podczas pobierania szczegółów zlecenia 3013940 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:58:49] Błąd podczas pobierania szczegółów zlecenia 3014205 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:58:58] Błąd podczas pobierania szczegółów zlecenia 3014206 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:59:01] Saldo ACE: 538.0, Aktualna cena ACEUSDT: 1.814
+[2025-01-10 23:59:01] Brak zlecenia market dla ACEUSDT
+[2025-01-10 23:59:10] Błąd podczas pobierania szczegółów zlecenia 2114867 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:59:17] Błąd podczas pobierania szczegółów zlecenia 2114869 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:59:26] Błąd podczas pobierania szczegółów zlecenia 2115172 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-10 23:59:35] Błąd podczas pobierania szczegółów zlecenia 2115173 (próba 3/3): APIError(code=-2013): Order does not exist.
+[2025-01-11 00:01:25] Nowa wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-11 00:01:25] No entry price found in message
+[2025-01-11 00:01:25] Found 0 take profit targets
+[2025-01-11 00:01:25] Parsed signal data: {'currency': '/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-11 00:01:25] Received signal: {'currency': '/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T19:53:49+00:00'}
+[2025-01-11 00:01:25] Processing new signal for /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2
+[2025-01-11 00:01:25] Pomijam sygnał, ponieważ nie jest to LONG: /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2
+[2025-01-11 00:01:25] Nowa wiadomość z Bybit: **ATTENTION  ATTENTION❗️❗️
+
+For those that invested in our company's promo plan
+
+Please send me your wallet Address so we could forward your profits to you 
+
+Keep investing...we are the best
+
+****#INVEST**** AND ****#EARN****
+💰💰💰💰💰💰💰💰💰💰💰💰💰💰
+
+****#INVESTORS**** 
+
+****#READY**
+[2025-01-11 00:01:25] No entry price found in message
+[2025-01-11 00:01:25] Found 0 take profit targets
+[2025-01-11 00:01:25] Parsed signal data: {'currency': 'INVEST', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-11 00:01:25] Received signal: {'currency': 'INVEST', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T17:29:56+00:00'}
+[2025-01-11 00:01:25] Processing new signal for INVEST
+[2025-01-11 00:01:25] Pomijam sygnał, ponieważ nie jest to LONG: INVEST
+[2025-01-11 00:01:25] Nowa wiadomość z Bybit: Binance Futures, Bitget Futures, ByBit USDT, KuCoin Futures, OKX Futures
+#BSV/USDT Cancelled ❌
+Target achieved before entering the entry zone
+[2025-01-11 00:01:25] No entry price found in message
+[2025-01-11 00:01:25] Found 0 take profit targets
+[2025-01-11 00:01:25] Parsed signal data: {'currency': 'BSV/USDT', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None}
+[2025-01-11 00:01:25] Received signal: {'currency': 'BSV/USDT', 'signal_type': None, 'entry': None, 'targets': [], 'stop_loss': None, 'breakeven': None, 'date': '2025-01-10T17:17:24+00:00'}
+[2025-01-11 00:01:25] Processing new signal for BSV/USDT
+[2025-01-11 00:01:25] Pomijam sygnał, ponieważ nie jest to LONG: BSV/USDT
+[2025-01-11 00:01:25] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:01:25] Entry calculated as average: 56.99 from range 56.99-56.99
+[2025-01-11 00:01:25] Found 6 take profit targets
+[2025-01-11 00:01:25] Found stop loss raw value: 5-10%
+[2025-01-11 00:01:25] Calculated stop loss from 7.5% as 52.71575000000001
+[2025-01-11 00:01:25] Parsed signal data: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [1.0, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.71575000000001, 'breakeven': 56.99}
+[2025-01-11 00:01:25] Received signal: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [1.0, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.71575000000001, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 00:01:25] Processing new signal for BSV/USDT
+[2025-01-11 00:01:26] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:01:27] Stan konta USDT przed transakcją: 19153.8108281
+[2025-01-11 00:01:27] Błąd podczas obliczania kwoty transakcji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:01:27] Nie można obliczyć prawidłowej wielkości zlecenia dla BSV/USDT
+[2025-01-11 00:01:27] Błąd podczas sprawdzania historii dla /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:01:28] Błąd podczas sprawdzania historii dla INVEST: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:01:28] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:01:29] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:00] Błąd podczas sprawdzania historii dla /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:00] Błąd podczas sprawdzania historii dla INVEST: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:02:00] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:01] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:32] Błąd podczas sprawdzania historii dla /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:33] Błąd podczas sprawdzania historii dla INVEST: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:02:34] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:02:35] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:03:05] Błąd podczas sprawdzania historii dla /transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:03:06] Błąd podczas sprawdzania historii dla INVEST: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:09:59] Nowa wiadomość z Bybit: **__SUCCESSFUL INVESTMENT PAYOUT PROOFS TO OUR INVESTORS FOR  JANUARY, 10TH, 2025. CONGRATULATIONS TO ALL OUR INVESTORS 👏🎉👏__****__🎉__****__
+
+
+Amounts (USDT)
+$15,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/60515c6486e084b356ed426b4be1c53ad23f4d5b7f8c8aa1f85666fa2d33a5a2__****__
+
+
+Amounts (USDT)
+$15,008
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9651a9257d388ad1a4c889b9e9c1efdf00dfcf192b2c604fd22952bce50423a7__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2bc4086bda4129a0b26d2b479606c015c0e259c5aa7bde8e6d8fcbc98166a3f2__****__
+
+
+Amounts (USDT)
+$31,370
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/63312578e78d4d34071866593574c8a63b0d05f1cc3889543c83ecec5dde4af8__****__
+
+
+Amounts (USDT)
+$30,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/9d455ac25e11e57d222ec23fa8caff278e036953ada562cd5180559dcd1b2d46__****__
+
+
+Amounts (USDT)
+$48,732
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/093b6ee8cd4663652e483c8972439cb4db96b2b2f7be5b929e6e9f876a9cdad3__****__
+
+
+Amounts (USDT)
+$75,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/2ccd1cdfbcd30bc9896a30267d76f0832f196e51755bbf839dcbfaaf7b03a36c__****__
+
+
+Amounts (USDT)
+$83,693
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/c473f7c7551a0e5b602448898e1942dff7a382f0f7b487f1f1eaf86febfaa887__****__
+
+
+Amounts (USDT)
+$120,633
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/bb5098bd05c421bfe20cbacbb32bdf9707c24f0b45ce4b881d45cd9293c3dcf6__****__
+
+
+Amounts (USDT)
+$130,066
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/1484c794636db89311a99823d800a80cd6ef357fc79e83a75fc09a05a601326c__****__
+
+
+Amounts (USDT)
+$200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/b2c1e48d6aa7b215d72e2e9f8d70e5e86bbf4a348b48de5ed53d56665dad8f0a__****__
+
+
+Amounts (USDT)
+$376,408
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/3d5a3054e0503b2d025b6ad0024ab7da8638b323054d82e464c6f8a2727166f1__****__
+
+
+Amounts (USDT)
+$541,930
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/25ec56a4fadd74dc5ff031de28e4e3fb1e8944b3e62ccb3704aeb911ad482d4f__****__
+
+
+Amounts (USDT)
+$1,011,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/a50d5a75bbc99642b0f9b0f6867c8c3fca1fece0c0135b76e1cc712278957f5a__****__
+
+
+Amounts (USDT)
+$2,200,000
+Successfully Paid✅️
+__****__https://tronscan.org/#/transaction/0ace126ef772fafd586252e6828728608cd29a31c6d9fc795b5192038343defa__****__
+
+
+CONGRATULATIONS TO ALL OUR INVESTORS 🎉🎈👏🥳
+
+
+✅✅ INVEST & EARN  ✅️✅️__**
+[2025-01-11 00:15:00] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:15:00] Direction not found

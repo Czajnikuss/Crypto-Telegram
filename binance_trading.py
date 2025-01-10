@@ -145,5 +145,19 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Pełny kontekst błędu: {e.__dict__}")
         return False
 
-
+test_signal ={
+        "currency": "MASKUSDT",
+        "signal_type": "LONG",
+        "entry": 3.0,
+        "targets": [
+            3.1,
+            3.196,
+            3.3,
+            3.373
+        ],
+        "stop_loss": 2.788,
+        "breakeven": 2.9,
+        "date": "2025-01-07T15:00:28+00:00"
+}
+#execute_trade(test_signal, 5)
 

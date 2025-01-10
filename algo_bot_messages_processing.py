@@ -45,7 +45,7 @@ def is_signal_new(signal, history):
             return False
     return True
 
-def parse_signal_message(message_text):
+def parse_signal_message_algo(message_text):
     """
     Parses the signal message text and extracts relevant information.
     """
@@ -88,7 +88,7 @@ async def process_algo_bot_message(message):
     """
     Przetwarza wiadomość sygnału i uruchamia handel, jeśli sygnał jest nowy.
     """
-    signal_data = parse_signal_message(message["text"])
+    signal_data = parse_signal_message_algo(message["text"])
     signal_data["date"] = message["date"]
 
     # Logowanie uzyskanego sygnału
