@@ -23,101 +23,148 @@ async def display_last_messages(client_telegram):
             log_to_file(f"Wiadomość z {message.date}: {message.text}")
 
 def parse_signal_message_byBit_standard(message_text):
-    """
-    Parses the signal message text and extracts relevant information with stricter validation.
-    """
     try:
         if not message_text or not isinstance(message_text, str):
             log_to_file("Invalid message format")
             return None
 
         log_to_file(f"Rozpoczynam parsowanie wiadomości:\n{message_text}")
-
-        # Normalizacja tekstu - zamiana problematycznych znaków
+        
+        # Normalizacja tekstu
         message_text = message_text.replace('ń…', 'x').replace('đź', '').replace('х', 'x').replace('👉', '')
-        log_to_file("Znormalizowany tekst wiadomości")
-
-        # Podstawowe sprawdzenie czy wiadomość wygląda jak sygnał
-        required_markers = ['Entry', 'Take-Profit']
-        if not all(marker in message_text for marker in required_markers):
-            log_to_file(f"Brak wymaganych markerów. Znaleziono: {[m for m in required_markers if m in message_text]}")
-            return None
-
-        # Extract currency (tylko jeśli zaczyna się od # i zawiera /)
-        currency_match = re.search(r'#([A-Z0-9]+/USDT)', message_text)
-        if not currency_match:
-            log_to_file("Nieprawidłowy format waluty")
-            return None
-        currency = currency_match.group(1).replace('/', '')
-        log_to_file(f"Znaleziona waluta: {currency}")
-
-        # Extract direction z większą precyzją i obsługą różnych formatów
-        direction_pattern = r'Signal Type:\s*Regular\s*\(\s*Long'
-        if re.search(direction_pattern, message_text, re.IGNORECASE):
-            signal_type = "LONG"
-            log_to_file(f"Znaleziony kierunek: {signal_type}")
-        else:
-            log_to_file(f"Nie znaleziono kierunku. Szukany pattern: {direction_pattern}")
-            return None
-
-        # Extract entry values z walidacją
-        entry_match = re.search(r'Entry[^:]*:?[\s\n]*([\d.]+)(?:\s*-\s*([\d.]+))?', message_text)
-        if not entry_match:
-            log_to_file("Nie znaleziono ceny wejścia")
-            return None
-
-        entry_low = float(entry_match.group(1))
-        entry_high = float(entry_match.group(2)) if entry_match.group(2) else entry_low
-        entry = (entry_low + entry_high) / 2
         
-        # Określenie precyzji na podstawie entry
-        decimal_places = len(str(entry_low).split('.')[-1]) if '.' in str(entry_low) else 0
-        log_to_file(f"Wykryta precyzja: {decimal_places} miejsc po przecinku")
+        # Wykrywanie negatywnych markerów
+        negative_markers = ["All entry targets achieved", "All targets achieved", "targets achieved", "Cancelled"]
+        if any(marker in message_text for marker in negative_markers):
+            log_to_file("Wiadomość zawiera negatywny marker")
+            return None
+
+        # Szukanie waluty - różne możliwe formaty
+        currency = None
+        currency_patterns = [
+            r'#([A-Z0-9]+/USDT)',
+            r'#(1000[A-Z0-9]+/USDT)',
+        ]
         
-        # Zaokrąglenie entry jeśli był liczony jako średnia
-        entry = round(entry, decimal_places)
-        log_to_file(f"Znaleziona cena wejścia: {entry}")
+        for pattern in currency_patterns:
+            match = re.search(pattern, message_text)
+            if match:
+                currency = match.group(1).replace('/', '')
+                log_to_file(f"Znaleziona waluta: {currency}")
+                break
+                
+        if not currency:
+            log_to_file("Nie znaleziono waluty")
+            return None
 
-        # Extract target values z walidacją względem entry
-        take_profit_matches = re.findall(r'\d+\)\s*([\d.]+)', message_text)
+        # Szukanie kierunku - różne możliwe formaty
+        signal_type = None
+        direction_patterns = [
+            (r'Signal Type:\s*Regular\s*\(\s*(Long|Short)', 1),
+            (r'𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷\s*:\s*(LONG|SHORT)', 2),
+            (r'^\s*(LONG|SHORT)\s*$', 1),
+            (r'Direction\s*:\s*(LONG|SHORT)', 1),
+            (r'Signal Type[^:]*:\s*[^(]*\(\s*(Long|Short)', 1)
+        ]
+        
+        for pattern, group in direction_patterns:
+            match = re.search(pattern, message_text, re.IGNORECASE | re.MULTILINE)
+            if match:
+                signal_type = match.group(group).upper()
+                log_to_file(f"Znaleziony kierunek: {signal_type}")
+                break
 
+        if not signal_type:
+            log_to_file("Nie znaleziono kierunku")
+            return None
+
+        # Szukanie entry - różne możliwe formaty
+        entry = None
+        entry_patterns = [
+            r'Entry[^:]*:?\s*([\d.]+)(?:\s*-\s*([\d.]+))?',
+            r'Entry Targets:\s*([\d.]+)',
+        ]
+        
+        for pattern in entry_patterns:
+            match = re.search(pattern, message_text)
+            if match:
+                entry_low = float(match.group(1))
+                entry_high = float(match.group(2)) if match.group(2) else entry_low
+                entry = (entry_low + entry_high) / 2
+                decimal_places = len(str(entry_low).split('.')[-1]) if '.' in str(entry_low) else 0
+                entry = round(entry, decimal_places)
+                log_to_file(f"Znalezione entry: {entry}")
+                break
+
+        if not entry:
+            log_to_file("Nie znaleziono entry")
+            return None
+
+        # Szukanie targetów - analiza linii po linii
         targets = []
-
-        for tp in take_profit_matches:
-            try:
-                target_value = float(tp)
-                if target_value > entry:
-                    targets.append(target_value)
-                    log_to_file(f"Dodano target: {target_value}")
-                else:
-                    log_to_file(f"Pominięto target {target_value} - mniejszy niż entry {entry}")
-            except ValueError:
-                log_to_file(f"Nieprawidłowa wartość targetu: {tp}")
+        lines = message_text.split('\n')
+        in_target_section = False
+        
+        for line in lines:
+            if 'Take-Profit' in line or 'Target' in line:
+                in_target_section = True
                 continue
+            
+            if in_target_section:
+                # Szukamy linii z targetem (numer/enumerator + wartość)
+                target_match = re.search(r'(?:\d+[\s)*.-]|Target\s*\d+\s*[-:]\s*)([\d.]+)', line)
+                if target_match:
+                    try:
+                        target_value = float(target_match.group(1))
+                        # Sprawdzenie logiczności targetu względem entry i kierunku
+                        if signal_type == "LONG" and target_value > entry:
+                            targets.append(target_value)
+                        elif signal_type == "SHORT" and target_value < entry:
+                            targets.append(target_value)
+                    except ValueError:
+                        continue
+                elif line.strip() and not any(c.isdigit() for c in line):
+                    # Pusta linia lub linia bez liczb - koniec sekcji targetów
+                    in_target_section = False
 
         if not targets:
             log_to_file("Nie znaleziono prawidłowych targetów")
             return None
 
-        # Extract stop loss z walidacją
-        stop_loss = None
-        stop_loss_match = re.search(r'Stop[^:]*:?[\s\n]*([\d.]+(?:\s*-\s*[\d.]+)?%?)', message_text)
-
-        if stop_loss_match:
-            stop_loss_raw = stop_loss_match.group(1)
-            log_to_file(f"Znaleziony stop loss raw: {stop_loss_raw}")
-            if '%' in stop_loss_raw:
-                percentage_match = re.search(r'([\d.]+)(?:\s*-\s*([\d.]+))?%', stop_loss_raw)
-                if percentage_match:
-                    low_percent = float(percentage_match.group(1))
-                    high_percent = float(percentage_match.group(2)) if percentage_match.group(2) else low_percent
-                    avg_percent = (low_percent + high_percent) / 2
-                    stop_loss = round(entry * (1 - avg_percent / 100), decimal_places)
-                    log_to_file(f"Obliczony stop loss z {avg_percent}%: {stop_loss}")
-
-        if not stop_loss or stop_loss >= entry:
-            log_to_file(f"Nieprawidłowy stop loss: {stop_loss}")
+        # Sprawdzenie czy pierwszy target jest logiczny (nie za daleko od entry)
+        first_target_deviation = abs((targets[0] - entry) / entry) * 100
+        if first_target_deviation > 5:  # 5% jako maksymalna różnica dla pierwszego targetu
+            log_to_file(f"Pierwszy target zbyt odległy od entry: {first_target_deviation}%")
             return None
+
+        # Szukanie stop loss
+        stop_loss = None
+        stop_loss_patterns = [
+            r'Stop[^:]*:?\s*([\d.]+)(?:\s*-\s*([\d.]+)?%?)',
+            r'Stoploss\s*:\s*([\d.]+)',
+        ]
+
+        for pattern in stop_loss_patterns:
+            match = re.search(pattern, message_text, re.IGNORECASE)
+            if match:
+                stop_loss_raw = match.group(1)
+                if '%' in stop_loss_raw:
+                    percentage_match = re.search(r'([\d.]+)(?:\s*-\s*([\d.]+))?%', stop_loss_raw)
+                    if percentage_match:
+                        low_percent = float(percentage_match.group(1))
+                        high_percent = float(percentage_match.group(2)) if percentage_match.group(2) else low_percent
+                        avg_percent = (low_percent + high_percent) / 2
+                        stop_loss = round(entry * (1 - avg_percent / 100), decimal_places)
+                else:
+                    stop_loss = float(stop_loss_raw)
+                break
+
+        # Końcowa walidacja logiczności sygnału
+        if stop_loss:
+            if (signal_type == "LONG" and stop_loss >= entry) or \
+               (signal_type == "SHORT" and stop_loss <= entry):
+                log_to_file("Stop loss nielogiczny względem kierunku")
+                return None
 
         signal_data = {
             "currency": currency,
@@ -127,6 +174,7 @@ def parse_signal_message_byBit_standard(message_text):
             "stop_loss": stop_loss,
             "breakeven": entry
         }
+        
         log_to_file(f"Utworzono sygnał: {signal_data}")
         return signal_data
 
