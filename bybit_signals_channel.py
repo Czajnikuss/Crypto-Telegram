@@ -31,86 +31,95 @@ def parse_signal_message_byBit_standard(message_text):
             log_to_file("Invalid message format")
             return None
 
+        log_to_file(f"Rozpoczynam parsowanie wiadomości:\n{message_text}")
+
+        # Normalizacja tekstu - zamiana problematycznych znaków
+        message_text = message_text.replace('ń…', 'x').replace('đź', '').replace('х', 'x').replace('👉', '')
+        log_to_file("Znormalizowany tekst wiadomości")
+
         # Podstawowe sprawdzenie czy wiadomość wygląda jak sygnał
         required_markers = ['Entry', 'Take-Profit']
         if not all(marker in message_text for marker in required_markers):
-            log_to_file("Message missing required markers")
+            log_to_file(f"Brak wymaganych markerów. Znaleziono: {[m for m in required_markers if m in message_text]}")
             return None
 
         # Extract currency (tylko jeśli zaczyna się od # i zawiera /)
-        currency_match = re.search(r'#([A-Z0-9]+/USDT)\s', message_text)
+        currency_match = re.search(r'#([A-Z0-9]+/USDT)', message_text)
         if not currency_match:
-            log_to_file("Invalid currency format")
+            log_to_file("Nieprawidłowy format waluty")
             return None
-        currency = currency_match.group(1)
+        currency = currency_match.group(1).replace('/', '')
+        log_to_file(f"Znaleziona waluta: {currency}")
 
-        # Extract direction z większą precyzją
-        direction_match = re.search(r'(?:Signal Type:\s*(?:Regular)?\s*\((Long|Short)\)|𝓓𝓲𝓻𝓮𝓬𝓽𝓲𝓸𝓷\s*:\s*(LONG|SHORT))', message_text, re.IGNORECASE)
-        if not direction_match:
-            log_to_file("Direction not found")
+        # Extract direction z większą precyzją i obsługą różnych formatów
+        direction_pattern = r'Signal Type:\s*Regular\s*\(\s*Long'
+        if re.search(direction_pattern, message_text, re.IGNORECASE):
+            signal_type = "LONG"
+            log_to_file(f"Znaleziony kierunek: {signal_type}")
+        else:
+            log_to_file(f"Nie znaleziono kierunku. Szukany pattern: {direction_pattern}")
             return None
-        signal_type = (direction_match.group(1) or direction_match.group(2)).upper()
 
         # Extract entry values z walidacją
-        entry_match = re.search(r'Entry(?:\s*Targets)?[\s:\-]\s*([\d.]+)(?:\s*-\s*([\d.]+))?', message_text)
+        entry_match = re.search(r'Entry[^:]*:?[\s\n]*([\d.]+)(?:\s*-\s*([\d.]+))?', message_text)
         if not entry_match:
-            log_to_file("Entry price not found")
+            log_to_file("Nie znaleziono ceny wejścia")
             return None
 
         entry_low = float(entry_match.group(1))
         entry_high = float(entry_match.group(2)) if entry_match.group(2) else entry_low
         entry = (entry_low + entry_high) / 2
+        
+        # Określenie precyzji na podstawie entry
+        decimal_places = len(str(entry_low).split('.')[-1]) if '.' in str(entry_low) else 0
+        log_to_file(f"Wykryta precyzja: {decimal_places} miejsc po przecinku")
+        
+        # Zaokrąglenie entry jeśli był liczony jako średnia
+        entry = round(entry, decimal_places)
+        log_to_file(f"Znaleziona cena wejścia: {entry}")
 
         # Extract target values z walidacją względem entry
-        take_profit_matches = re.findall(r'(?:Take-Profit\s*Targets?:?\s*[\r\n]+(?:\d+\)?[\s:]*|-)?([\d.]+))', message_text)
+        take_profit_matches = re.findall(r'\d+\)\s*([\d.]+)', message_text)
+
         targets = []
-        min_target_diff = 0.001  # Minimalna różnica 0.1%
-        
+
         for tp in take_profit_matches:
             try:
                 target_value = float(tp)
-                target_diff = abs((target_value - entry) / entry)
-                
-                if target_diff < min_target_diff:
-                    continue
-                    
-                if (signal_type == "LONG" and target_value > entry) or \
-                   (signal_type == "SHORT" and target_value < entry):
+                if target_value > entry:
                     targets.append(target_value)
+                    log_to_file(f"Dodano target: {target_value}")
+                else:
+                    log_to_file(f"Pominięto target {target_value} - mniejszy niż entry {entry}")
             except ValueError:
+                log_to_file(f"Nieprawidłowa wartość targetu: {tp}")
                 continue
 
         if not targets:
-            log_to_file("No valid targets found")
+            log_to_file("Nie znaleziono prawidłowych targetów")
             return None
 
         # Extract stop loss z walidacją
         stop_loss = None
-        stop_loss_match = re.search(r'Stop(?:loss|[-\s]loss|\sTargets)\s*:?\s*([\d.]+(?:\s*-\s*[\d.]+)?%?)', message_text, re.IGNORECASE)
-        
+        stop_loss_match = re.search(r'Stop[^:]*:?[\s\n]*([\d.]+(?:\s*-\s*[\d.]+)?%?)', message_text)
+
         if stop_loss_match:
             stop_loss_raw = stop_loss_match.group(1)
+            log_to_file(f"Znaleziony stop loss raw: {stop_loss_raw}")
             if '%' in stop_loss_raw:
                 percentage_match = re.search(r'([\d.]+)(?:\s*-\s*([\d.]+))?%', stop_loss_raw)
                 if percentage_match:
                     low_percent = float(percentage_match.group(1))
                     high_percent = float(percentage_match.group(2)) if percentage_match.group(2) else low_percent
-                    avg_percent = min((low_percent + high_percent) / 2, 20)  # Max 20% stop loss
-                    stop_loss = entry * (1 - avg_percent / 100) if signal_type == "LONG" else entry * (1 + avg_percent / 100)
-            else:
-                sl_values = re.findall(r'[\d.]+', stop_loss_raw)
-                if sl_values:
-                    stop_loss = float(sl_values[0])
-                    if len(sl_values) > 1:
-                        stop_loss = (float(sl_values[0]) + float(sl_values[1])) / 2
+                    avg_percent = (low_percent + high_percent) / 2
+                    stop_loss = round(entry * (1 - avg_percent / 100), decimal_places)
+                    log_to_file(f"Obliczony stop loss z {avg_percent}%: {stop_loss}")
 
-        if not stop_loss or \
-           (signal_type == "LONG" and stop_loss >= entry) or \
-           (signal_type == "SHORT" and stop_loss <= entry):
-            log_to_file("Invalid stop loss")
+        if not stop_loss or stop_loss >= entry:
+            log_to_file(f"Nieprawidłowy stop loss: {stop_loss}")
             return None
 
-        return {
+        signal_data = {
             "currency": currency,
             "signal_type": signal_type,
             "entry": entry,
@@ -118,10 +127,13 @@ def parse_signal_message_byBit_standard(message_text):
             "stop_loss": stop_loss,
             "breakeven": entry
         }
+        log_to_file(f"Utworzono sygnał: {signal_data}")
+        return signal_data
 
     except Exception as e:
-        log_to_file(f"Error parsing signal: {str(e)}")
+        log_to_file(f"Błąd podczas parsowania sygnału: {str(e)}")
         return None
+
 
 async def process_byBit_standard_message(message):
     """

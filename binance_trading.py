@@ -1,5 +1,5 @@
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
-from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details
+from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details, check_binance_pair_and_price
 import time
 from signal_history_manager import load_signal_history, save_signal_history
 
@@ -90,6 +90,16 @@ def execute_trade(signal, percentage=20):
         return False
 
     symbol = signal["currency"]
+    result = check_binance_pair_and_price(client, symbol, signal['entry'])
+    if result.get("error"):
+        log_to_file(result["error"])
+        if "status" not in signal:
+            signal["status"] = "CLOSED"
+        return False
+    else:
+        log_to_file(f"Znaleziono parę {result['symbol']} z ceną {result['price']}")
+    symbol = result['price'] 
+    
     if has_open_position(symbol):
         log_to_file(f"Otwarta pozycja dla {symbol} już istnieje.")
         return False

@@ -76,6 +76,70 @@ def get_order_details(symbol: str, order_id: int, max_retries: int = 3) -> dict:
                 log_to_file(f"Błąd podczas pobierania szczegółów zlecenia {order_id} (próba {attempt+1}/{max_retries}): {str(e)}")
                 return None
             continue
+
+def check_binance_pair_and_price(client, pair, entry_level):
+    """
+    Sprawdza dostępność pary na Binance i porównuje cenę z poziomem wejścia.
+    
+    Args:
+        client: Skonfigurowany klient Binance API
+        pair: Para walutowa z sygnału (np. "BSV/USDT")
+        entry_level: Cena wejścia z sygnału
+        
+    Returns:
+        dict: Wynik sprawdzenia zawierający status i ewentualnie cenę lub błąd
+    """
+    try:
+        # Pobierz wszystkie dostępne pary handlowe z Binance
+        exchange_info = client.get_exchange_info()
+        symbols = [symbol['symbol'] for symbol in exchange_info['symbols']]
+
+        # Usuń znak '/' z pary, aby dopasować do formatu Binance
+        formatted_pair = pair.replace('/', '')
+        
+        # Sprawdź alternatywne oznaczenia dla BSV
+        possible_pairs = [formatted_pair]
+        if 'BSV' in formatted_pair:
+            # BSV to Bitcoin SV, który może być oznaczony jako BCHSV na niektórych giełdach
+            possible_pairs.append(formatted_pair.replace('BSV', 'BCHSV'))
+
+        found_pair = None
+        for test_pair in possible_pairs:
+            if test_pair in symbols:
+                found_pair = test_pair
+                break
+
+        if not found_pair:
+            return {
+                "error": f"Para {pair} nie jest dostępna na Binance.",
+                "price": None
+            }
+
+        # Pobierz aktualną cenę dla pary
+        ticker = client.get_ticker(symbol=found_pair)
+        current_price = float(ticker['lastPrice'])
+
+        # Sprawdź, czy cena odbiega od poziomu wejścia o więcej niż 10-15%
+        deviation = abs((current_price - entry_level) / entry_level) * 100
+        if deviation > 15:
+            return {
+                "error": f"Cena {found_pair} odbiega od poziomu wejścia o {deviation:.2f}%.",
+                "price": current_price
+            }
+
+        return {
+            "success": True,
+            "symbol": found_pair,
+            "price": current_price
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e),
+            "price": None
+        }
+
+
         
 def load_signal_history():
     """

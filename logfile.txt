@@ -1358,3 +1358,292 @@ Take-Profit Targets:
 Stop Targets:
 5-10%
 [2025-01-11 00:15:00] Direction not found
+[2025-01-11 00:23:37] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:27:59] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:27:59] Rozpoczynam parsowanie wiadomości:
+#BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:27:59] Znormalizowany tekst wiadomości
+[2025-01-11 00:27:59] Znaleziona waluta: BSV/USDT
+[2025-01-11 00:27:59] Znaleziony kierunek: LONG
+[2025-01-11 00:27:59] Znaleziona cena wejścia: 56.99
+[2025-01-11 00:27:59] Dodano target: 58.13
+[2025-01-11 00:27:59] Znaleziony stop loss raw: 5-10%
+[2025-01-11 00:27:59] Obliczony stop loss z 7.5%: 52.71575000000001
+[2025-01-11 00:27:59] Utworzono sygnał: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13], 'stop_loss': 52.71575000000001, 'breakeven': 56.99}
+[2025-01-11 00:27:59] Received signal: {'currency': 'BSV/USDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13], 'stop_loss': 52.71575000000001, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 00:27:59] Processing new signal for BSV/USDT
+[2025-01-11 00:28:00] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:28:00] Stan konta USDT przed transakcją: 19153.8108281
+[2025-01-11 00:28:01] Błąd podczas obliczania kwoty transakcji: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:28:01] Nie można obliczyć prawidłowej wielkości zlecenia dla BSV/USDT
+[2025-01-11 00:28:01] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:28:32] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:29:03] Błąd podczas sprawdzania historii dla BSV/USDT: APIError(code=-1100): Illegal characters found in parameter 'symbol'; legal range is '^[A-Z0-9-_.]{1,20}$'.
+[2025-01-11 00:35:54] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:35:54] Rozpoczynam parsowanie wiadomości:
+#BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:35:54] Znormalizowany tekst wiadomości
+[2025-01-11 00:35:54] Znaleziona waluta: BSVUSDT
+[2025-01-11 00:35:54] Znaleziony kierunek: LONG
+[2025-01-11 00:35:54] Wykryta precyzja: 2 miejsc po przecinku
+[2025-01-11 00:35:54] Znaleziona cena wejścia: 56.99
+[2025-01-11 00:35:54] Dodano target: 58.13
+[2025-01-11 00:35:54] Znaleziony stop loss raw: 5-10%
+[2025-01-11 00:35:54] Obliczony stop loss z 7.5%: 52.72
+[2025-01-11 00:35:54] Utworzono sygnał: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13], 'stop_loss': 52.72, 'breakeven': 56.99}
+[2025-01-11 00:35:54] Received signal: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13], 'stop_loss': 52.72, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 00:35:54] Processing new signal for BSVUSDT
+[2025-01-11 00:35:55] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:35:55] Stan konta USDT przed transakcją: 19153.8108281
+[2025-01-11 00:35:56] Błąd podczas obliczania kwoty transakcji: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:35:56] Nie można obliczyć prawidłowej wielkości zlecenia dla BSVUSDT
+[2025-01-11 00:35:56] Błąd podczas sprawdzania historii dla BSVUSDT: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:53:51] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:53:51] Rozpoczynam parsowanie wiadomości:
+#BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 00:53:51] Znormalizowany tekst wiadomości
+[2025-01-11 00:53:51] Znaleziona waluta: BSVUSDT
+[2025-01-11 00:53:51] Znaleziony kierunek: LONG
+[2025-01-11 00:53:51] Wykryta precyzja: 2 miejsc po przecinku
+[2025-01-11 00:53:51] Znaleziona cena wejścia: 56.99
+[2025-01-11 00:53:51] Dodano target: 58.13
+[2025-01-11 00:53:51] Dodano target: 58.7
+[2025-01-11 00:53:51] Dodano target: 59.27
+[2025-01-11 00:53:51] Dodano target: 59.84
+[2025-01-11 00:53:51] Dodano target: 64.63
+[2025-01-11 00:53:51] Dodano target: 69.8
+[2025-01-11 00:53:51] Znaleziony stop loss raw: 5-10%
+[2025-01-11 00:53:51] Obliczony stop loss z 7.5%: 52.72
+[2025-01-11 00:53:51] Utworzono sygnał: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99}
+[2025-01-11 00:53:51] Received signal: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 00:53:51] Processing new signal for BSVUSDT
+[2025-01-11 00:53:53] Para BSV/USDT nie jest dostępna na Binance.
+[2025-01-11 00:53:53] Błąd podczas sprawdzania historii dla BSVUSDT: APIError(code=-1121): Invalid symbol.
+[2025-01-11 00:54:24] Błąd podczas sprawdzania historii dla BSVUSDT: APIError(code=-1121): Invalid symbol.
+[2025-01-11 01:00:12] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 01:00:12] Rozpoczynam parsowanie wiadomości:
+#BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 01:00:12] Znormalizowany tekst wiadomości
+[2025-01-11 01:00:12] Znaleziona waluta: BSVUSDT
+[2025-01-11 01:00:12] Znaleziony kierunek: LONG
+[2025-01-11 01:00:12] Wykryta precyzja: 2 miejsc po przecinku
+[2025-01-11 01:00:12] Znaleziona cena wejścia: 56.99
+[2025-01-11 01:00:12] Dodano target: 58.13
+[2025-01-11 01:00:12] Dodano target: 58.7
+[2025-01-11 01:00:12] Dodano target: 59.27
+[2025-01-11 01:00:12] Dodano target: 59.84
+[2025-01-11 01:00:12] Dodano target: 64.63
+[2025-01-11 01:00:12] Dodano target: 69.8
+[2025-01-11 01:00:12] Znaleziony stop loss raw: 5-10%
+[2025-01-11 01:00:12] Obliczony stop loss z 7.5%: 52.72
+[2025-01-11 01:00:12] Utworzono sygnał: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99}
+[2025-01-11 01:00:12] Received signal: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 01:00:12] Signal already exists in history for BSVUSDT
+[2025-01-11 01:00:13] Błąd podczas sprawdzania historii dla BSVUSDT: APIError(code=-1121): Invalid symbol.
+[2025-01-11 01:01:09] Nowa wiadomość z Bybit: #BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 01:01:09] Rozpoczynam parsowanie wiadomości:
+#BSV/USDT  
+Exchanges: Bingx 👉
+Registration
+Signal Type: Regular (Long 
+Leverage: Cross (20х)
+Entry Targets:
+56.99
+Take-Profit Targets:
+1) 58.13
+2) 58.70
+3) 59.27
+4) 59.84
+5) 64.63
+6) 69.80
+7) 🚀🚀🚀
+
+Stop Targets:
+5-10%
+[2025-01-11 01:01:09] Znormalizowany tekst wiadomości
+[2025-01-11 01:01:09] Znaleziona waluta: BSVUSDT
+[2025-01-11 01:01:09] Znaleziony kierunek: LONG
+[2025-01-11 01:01:09] Wykryta precyzja: 2 miejsc po przecinku
+[2025-01-11 01:01:09] Znaleziona cena wejścia: 56.99
+[2025-01-11 01:01:09] Dodano target: 58.13
+[2025-01-11 01:01:09] Dodano target: 58.7
+[2025-01-11 01:01:09] Dodano target: 59.27
+[2025-01-11 01:01:09] Dodano target: 59.84
+[2025-01-11 01:01:09] Dodano target: 64.63
+[2025-01-11 01:01:09] Dodano target: 69.8
+[2025-01-11 01:01:09] Znaleziony stop loss raw: 5-10%
+[2025-01-11 01:01:09] Obliczony stop loss z 7.5%: 52.72
+[2025-01-11 01:01:09] Utworzono sygnał: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99}
+[2025-01-11 01:01:09] Received signal: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
+[2025-01-11 01:01:09] Processing new signal for BSVUSDT
+[2025-01-11 01:01:10] Para BSVUSDT nie jest dostępna na Binance.
