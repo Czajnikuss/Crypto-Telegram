@@ -10,6 +10,27 @@ MAX_HISTORY_SIZE = 50  # Maksymalna liczba sygnałów w historii
 
 last_message_ids = set()
 
+currency_aliases = {
+    "BSV": ["BCHSV"],     # Bitcoin SV
+    "BTC": ["XBT"],       # Bitcoin
+    "ETH": ["ETH2"],      # Ethereum (z uwzględnieniem ETH 2.0)
+    "DOGE": ["XDG"],      # Dogecoin
+    "USDT": ["TETHER"],   # Tether
+    "BCH": ["BCC"],       # Bitcoin Cash
+    "XRP": ["RIPPLE"],    # Ripple
+    "IOTA": ["MIOTA"],    # IOTA
+    "LUNA": ["LUNC"],     # Luna Classic
+    "UST": ["USTC"],      # TerraUSD Classic
+    "SHIB": ["SHIBAINU"], # Shiba Inu
+    "DOT": ["POLKADOT"],  # Polkadot
+    "LINK": ["CHAINLINK"], # Chainlink
+    "GRIFFAI": ["GRIFFAIN"], # Griffai/Griffain
+    "GRIFFAIN": ["GRIFFAI"] # Dodajemy też w drugą stronę dla pewności
+}
+
+
+
+
 def load_env_variables():
     load_dotenv()
     api_id = os.getenv('API_ID')
@@ -94,15 +115,26 @@ def check_binance_pair_and_price(client, pair, entry_level):
         exchange_info = client.get_exchange_info()
         symbols = [symbol['symbol'] for symbol in exchange_info['symbols']]
 
-        # Usuń znak '/' z pary, aby dopasować do formatu Binance
+        # Usuń znak '/' z pary i rozdziel na base i quote
         formatted_pair = pair.replace('/', '')
+        base_currency = formatted_pair.replace('USDT', '')
         
-        # Sprawdź alternatywne oznaczenia dla BSV
+        # Lista możliwych oznaczeń pary
         possible_pairs = [formatted_pair]
-        if 'BSV' in formatted_pair:
-            # BSV to Bitcoin SV, który może być oznaczony jako BCHSV na niektórych giełdach
-            possible_pairs.append(formatted_pair.replace('BSV', 'BCHSV'))
+        
+        # Dodaj alternatywne oznaczenia z currency_aliases
+        if base_currency in currency_aliases:
+            for alias in currency_aliases[base_currency]:
+                possible_pairs.append(f"{alias}USDT")
+        
+        # Sprawdź specjalne przypadki (np. 1000SHIB)
+        if base_currency.startswith('1000'):
+            base_without_prefix = base_currency[4:]
+            if base_without_prefix in currency_aliases:
+                for alias in currency_aliases[base_without_prefix]:
+                    possible_pairs.append(f"1000{alias}USDT")
 
+        # Znajdź pierwszą dostępną parę
         found_pair = None
         for test_pair in possible_pairs:
             if test_pair in symbols:
@@ -132,6 +164,13 @@ def check_binance_pair_and_price(client, pair, entry_level):
             "symbol": found_pair,
             "price": current_price
         }
+
+    except Exception as e:
+        return {
+            "error": str(e),
+            "price": None
+        }
+
 
     except Exception as e:
         return {

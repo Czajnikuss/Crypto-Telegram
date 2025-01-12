@@ -84,11 +84,7 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     save_signal_history(history)
 
 def execute_trade(signal, percentage=20):
-    # Sprawdzenie czy sygnał jest typu LONG
-    if signal["signal_type"] != "LONG":
-        log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {signal['currency']}")
-        return False
-
+    #szukam czypara jest w binance
     symbol = signal["currency"]
     result = check_binance_pair_and_price(client, symbol, signal['entry'])
     if result.get("error"):
@@ -99,7 +95,13 @@ def execute_trade(signal, percentage=20):
     else:
         log_to_file(f"Znaleziono parę {result['symbol']} z ceną {result['price']}")
     symbol = result['price'] 
-    
+        
+    # Sprawdzenie czy sygnał jest typu LONG
+    if signal["signal_type"] != "LONG":
+        log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {signal['currency']}")
+        return False
+
+
     if has_open_position(symbol):
         log_to_file(f"Otwarta pozycja dla {symbol} już istnieje.")
         return False
