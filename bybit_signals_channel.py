@@ -21,7 +21,8 @@ async def display_last_messages(client_telegram):
     for message in messages:
         if message and hasattr(message, 'text') and message.text:
             log_to_file(f"Wiadomość z {message.date}: {message.text}")
-
+            
+            
 def parse_signal_message_byBit_standard(message_text):
     try:
         if not message_text or not isinstance(message_text, str):
@@ -100,15 +101,19 @@ def parse_signal_message_byBit_standard(message_text):
             log_to_file("Nie znaleziono entry")
             return None
 
-        # Szukanie targetów - analiza linii po linii
-        target_patterns = [
-            r'(?:\d+[\s)*.-]+)([\d.]+)',
-            r'Target\s*\d+\s*[-:]\s*([\d.]+)'
-        ]
+        # Określenie formatu liczb na podstawie entry
+        is_small_number = entry < 1
+        entry_magnitude = len(str(int(entry))) if entry >= 1 else len(str(entry).split('.')[-1])
 
+        # Szukanie targetów - analiza linii po linii
         targets = []
         lines = message_text.split('\n')
         in_target_section = False
+        target_patterns = [
+            r'(?:\d+[\s)*.-]+)([\d.]+)',
+            r'Target\s*\d+\s*[-:]\s*([\d.]+)',
+            r'\d+\)\s*([\d.]+)'
+        ]
 
         for line in lines:
             if 'Take-Profit' in line or 'Target' in line:
@@ -116,33 +121,44 @@ def parse_signal_message_byBit_standard(message_text):
                 continue
 
             if in_target_section:
+                if not any(c.isdigit() for c in line):
+                    continue
+
                 for pattern in target_patterns:
                     target_match = re.search(pattern, line)
                     if target_match:
                         try:
                             target_value = float(target_match.group(1))
-                            # Sprawdzenie logiczności targetu względem entry i kierunku
+                            
+                            # Korekta formatu liczby
+                            if is_small_number and target_value > 1:
+                                target_value = target_value / (10 ** entry_magnitude)
+                            
+                            # Sprawdzenie logiczności targetu
+                            target_deviation = abs((target_value - entry) / entry) * 100
+                            if target_deviation > 50:  # Maksymalne odchylenie 50%
+                                log_to_file(f"Pominięto target {target_value} - zbyt duże odchylenie od entry")
+                                continue
+
                             if signal_type == "LONG" and target_value > entry:
-                                targets.append(target_value)
+                                targets.append(round(target_value, decimal_places))
                                 log_to_file(f"Dodano target: {target_value}")
                             elif signal_type == "SHORT" and target_value < entry:
-                                targets.append(target_value)
+                                targets.append(round(target_value, decimal_places))
                                 log_to_file(f"Dodano target: {target_value}")
                         except ValueError:
-                            log_to_file(f"Nieprawidłowa wartość targetu w linii: {line}")
                             continue
-                # Koniec sekcji targetów, jeśli linia jest pusta lub nie zawiera liczb
-                if line.strip() == "" or not any(c.isdigit() for c in line):
+                
+                if line.strip() == "":
                     in_target_section = False
 
         if not targets:
             log_to_file("Nie znaleziono prawidłowych targetów")
             return None
 
-
-        # Sprawdzenie czy pierwszy target jest logiczny (nie za daleko od entry)
+        # Sprawdzenie czy pierwszy target jest logiczny
         first_target_deviation = abs((targets[0] - entry) / entry) * 100
-        if first_target_deviation > 5:  # 5% jako maksymalna różnica dla pierwszego targetu
+        if first_target_deviation > 5:
             log_to_file(f"Pierwszy target zbyt odległy od entry: {first_target_deviation}%")
             return None
 
@@ -166,14 +182,19 @@ def parse_signal_message_byBit_standard(message_text):
                         stop_loss = round(entry * (1 - avg_percent / 100), decimal_places)
                 else:
                     stop_loss = float(stop_loss_raw)
+                    if is_small_number and stop_loss > 1:
+                        stop_loss = stop_loss / (10 ** entry_magnitude)
                 break
 
+        if not stop_loss:
+            # Domyślny stop loss 7.5%
+            stop_loss = round(entry * (1 - 7.5 / 100), decimal_places)
+
         # Końcowa walidacja logiczności sygnału
-        if stop_loss:
-            if (signal_type == "LONG" and stop_loss >= entry) or \
-               (signal_type == "SHORT" and stop_loss <= entry):
-                log_to_file("Stop loss nielogiczny względem kierunku")
-                return None
+        if (signal_type == "LONG" and stop_loss >= entry) or \
+           (signal_type == "SHORT" and stop_loss <= entry):
+            log_to_file("Stop loss nielogiczny względem kierunku")
+            return None
 
         signal_data = {
             "currency": currency,
