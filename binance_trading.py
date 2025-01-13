@@ -186,5 +186,5 @@ test_signal =    {
         "breakeven": 0.5114,
         "date": "2025-01-13T13:57:37+00:00"
     }
-execute_trade(test_signal, 5)
+#execute_trade(test_signal, 5)
 
