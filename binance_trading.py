@@ -84,7 +84,6 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     save_signal_history(history)
 
 def execute_trade(signal, percentage=20):
-    #szukam czypara jest w binance
     symbol = signal["currency"]
     result = check_binance_pair_and_price(client, symbol, signal['entry'])
     if result.get("error"):
@@ -92,34 +91,48 @@ def execute_trade(signal, percentage=20):
         if "status" not in signal:
             signal["status"] = "CLOSED"
         return False
-    else:
-        log_to_file(f"Znaleziono parę {result['symbol']} z ceną {result['price']}")
-    symbol = result['price'] 
-        
-    # Sprawdzenie czy sygnał jest typu LONG
+    
+    # Używamy symbolu z result, a nie ceny
+    symbol = result['symbol']  # Zmiana z result['price'] na result['symbol']
+    current_price = float(result['price'])
+    
     if signal["signal_type"] != "LONG":
-        log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {signal['currency']}")
+        log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {symbol}")
+        if "status" not in signal:
+            signal["status"] = "CLOSED"
         return False
-
-
-    if has_open_position(symbol):
-        log_to_file(f"Otwarta pozycja dla {symbol} już istnieje.")
-        return False
-
-    available_balance = get_available_balance("USDT")
-    log_to_file(f"Stan konta USDT przed transakcją: {available_balance}")
     
-    quantity, usdt_value, current_price = calculate_trade_amount(
-        available_balance, 
-        percentage, 
-        symbol
-    )
-    
-    if quantity <= 0:
-        log_to_file(f"Nie można obliczyć prawidłowej wielkości zlecenia dla {symbol}")
-        return False
+        # Walidacja stop loss
+    if signal["stop_loss"] < current_price * 0.2:  # Przyjmujemy 80% jako maksymalną stratę
+        log_to_file(f"Stop loss {signal['stop_loss']} jest zbyt niski względem aktualnej ceny {current_price}")
+        signal["stop_loss"] = current_price * 0.8  # Ustawiamy stop loss na 20% poniżej ceny
 
     try:
+        # Sprawdzamy czy para istnieje w exchange info
+        exchange_info = client.get_exchange_info()
+        symbol_info = next((s for s in exchange_info['symbols'] if s['symbol'] == symbol), None)
+        
+        if not symbol_info:
+            log_to_file(f"Para {symbol} nie istnieje na Binance")
+            return False
+            
+        if has_open_position(symbol):
+            log_to_file(f"Otwarta pozycja dla {symbol} już istnieje.")
+            return False
+
+        available_balance = get_available_balance("USDT")
+        log_to_file(f"Stan konta USDT przed transakcją: {available_balance}")
+        
+        quantity, usdt_value, current_price = calculate_trade_amount(
+            available_balance, 
+            percentage, 
+            symbol
+        )
+        
+        if quantity <= 0:
+            log_to_file(f"Nie można obliczyć prawidłowej wielkości zlecenia dla {symbol}")
+            return False
+
         # Market order
         log_to_file(f"Rozpoczynam składanie zlecenia MARKET dla {symbol}:")
         log_to_file(f"Ilość: {quantity}, Strona: BUY, Wartość USDT: {usdt_value:.2f}, Cena: {current_price}")
@@ -130,6 +143,7 @@ def execute_trade(signal, percentage=20):
             type=ORDER_TYPE_MARKET,
             quantity=quantity
         )
+        
         time.sleep(1)
         add_order_to_history(signal, market_order, "MARKET")
         time.sleep(1)
@@ -157,19 +171,20 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Pełny kontekst błędu: {e.__dict__}")
         return False
 
-test_signal ={
-        "currency": "MASKUSDT",
+
+test_signal =    {
+        "currency": "USUALUSDT",
         "signal_type": "LONG",
-        "entry": 3.0,
+        "entry": 0.5114,
         "targets": [
-            3.1,
-            3.196,
-            3.3,
-            3.373
+            0.531,
+            0.549,
+            0.563,
+            0.578
         ],
-        "stop_loss": 2.788,
-        "breakeven": 2.9,
-        "date": "2025-01-07T15:00:28+00:00"
-}
-#execute_trade(test_signal, 5)
+        "stop_loss": 0.0005,
+        "breakeven": 0.5114,
+        "date": "2025-01-13T13:57:37+00:00"
+    }
+execute_trade(test_signal, 5)
 

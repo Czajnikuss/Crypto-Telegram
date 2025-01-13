@@ -1647,3 +1647,16 @@ Stop Targets:
 [2025-01-11 01:01:09] Received signal: {'currency': 'BSVUSDT', 'signal_type': 'LONG', 'entry': 56.99, 'targets': [58.13, 58.7, 59.27, 59.84, 64.63, 69.8], 'stop_loss': 52.72, 'breakeven': 56.99, 'date': '2025-01-10T17:10:50+00:00'}
 [2025-01-11 01:01:09] Processing new signal for BSVUSDT
 [2025-01-11 01:01:10] Para BSVUSDT nie jest dostępna na Binance.
+[2025-01-13 17:35:49] Stan konta USDT przed transakcją: 19153.8108281
+[2025-01-13 17:35:50] Rozpoczynam składanie zlecenia MARKET dla USUALUSDT:
+[2025-01-13 17:35:50] Ilość: 1794.4, Strona: BUY, Wartość USDT: 957.67, Cena: 0.5337
+[2025-01-13 17:35:53] Rozpoczynam składanie zlecenia STOP_LOSS_LIMIT dla USUALUSDT:
+[2025-01-13 17:35:53] Ilość: 1794.4, Strona: SELL, Cena stop: 0.0005
+[2025-01-13 17:35:54] Błąd podczas wykonywania transakcji: APIError(code=-1013): Filter failure: PERCENT_PRICE_BY_SIDE
+[2025-01-13 17:35:54] Pełny kontekst błędu: {'code': -1013, 'message': 'Filter failure: PERCENT_PRICE_BY_SIDE', 'status_code': 400, 'response': <Response [400]>, 'request': <PreparedRequest [POST]>}
+[2025-01-13 17:43:37] Stop loss 0.0005 jest zbyt niski względem aktualnej ceny 0.5341
+[2025-01-13 17:43:38] Stan konta USDT przed transakcją: 18194.7822181
+[2025-01-13 17:43:39] Rozpoczynam składanie zlecenia MARKET dla USUALUSDT:
+[2025-01-13 17:43:39] Ilość: 1703.3, Strona: BUY, Wartość USDT: 909.73, Cena: 0.5341
+[2025-01-13 17:43:43] Rozpoczynam składanie zlecenia STOP_LOSS_LIMIT dla USUALUSDT:
+[2025-01-13 17:43:43] Ilość: 1703.3, Strona: SELL, Cena stop: 0.4273

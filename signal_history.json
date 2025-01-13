@@ -1,2 +1,38 @@
 [
+    {
+        "currency": "USUALUSDT",
+        "signal_type": "LONG",
+        "entry": 0.5114,
+        "targets": [
+            0.531,
+            0.549,
+            0.563,
+            0.578
+        ],
+        "stop_loss": 0.42728000000000005,
+        "breakeven": 0.5114,
+        "date": "2025-01-13T13:57:37+00:00",
+        "orders": [
+            {
+                "orderId": 746897,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 1703.3,
+                "executedQty": 1703.3,
+                "time": 1736786619727
+            },
+            {
+                "orderId": 746907,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.4273,
+                "side": "SELL",
+                "quantity": 1703.3,
+                "executedQty": 0.0,
+                "time": 1736786623670
+            }
+        ]
+    }
 ]
