@@ -103,7 +103,7 @@ def execute_trade(signal, percentage=20):
         return False
     
         # Walidacja stop loss
-    if signal["stop_loss"] < current_price * 0.2:  # Przyjmujemy 80% jako maksymalną stratę
+    if signal["stop_loss"] < current_price * 0.7 or signal["stop_loss"] > current_price:  # Przyjmujemy 70% jako maksymalną stratę
         log_to_file(f"Stop loss {signal['stop_loss']} jest zbyt niski względem aktualnej ceny {current_price}")
         signal["stop_loss"] = current_price * 0.8  # Ustawiamy stop loss na 20% poniżej ceny
 
