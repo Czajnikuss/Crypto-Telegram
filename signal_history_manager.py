@@ -42,14 +42,13 @@ def calculate_dynamic_stop_loss(signal, current_price, entry_price):
             target_reached = i
     
     if target_reached is None:
-        return signal.get('initial_stop_loss')
+        return signal.get('stop_loss')  # Używamy początkowego stop-loss
     
-    # Po pierwszym targecie, stop-loss na 50% zysku między entry a pierwszym targetem
+    # Po pierwszym targecie, stop-loss powinien być na entry
     if target_reached == 0:
-        profit_range = abs(targets[0] - entry_price)
-        return entry_price + (profit_range * 0.5) if is_long else entry_price - (profit_range * 0.5)
+        return entry_price
     
-    # Po drugim targecie, stop-loss na poprzedni target
+    # Po drugim targecie i kolejnych, stop-loss na poprzedni target
     return targets[target_reached - 1]
 
 def update_signal_orders(signal):
@@ -167,7 +166,8 @@ def check_and_update_signal_history():
                             try:
                                 client.cancel_order(symbol=symbol, orderId=order['orderId'])
                                 time.sleep(1)
-                                client.create_order(
+                                # W miejscu gdzie tworzymy nowe zlecenie stop-loss
+                                new_order = client.create_order(
                                     symbol=symbol,
                                     side='SELL' if is_long else 'BUY',
                                     type="STOP_LOSS_LIMIT",
@@ -176,6 +176,19 @@ def check_and_update_signal_history():
                                     stopPrice=new_stop,
                                     price=new_stop
                                 )
+                                # Dodaj nowe zlecenie do listy zleceń
+                                signal["orders"].append({
+                                    "orderId": new_order['orderId'],
+                                    "type": "STOP_LOSS_LIMIT",
+                                    "status": "NEW",
+                                    "stopPrice": float(new_stop),
+                                    "side": 'SELL' if is_long else 'BUY',
+                                    "quantity": float(order['quantity']),
+                                    "executedQty": 0.0,
+                                    "price": float(new_stop),
+                                    "time": new_order['time']
+                                })
+
                                 log_to_file(f"Zaktualizowano stop-loss dla {symbol} na poziom {new_stop}")
                             except Exception as e:
                                 log_to_file(f"Błąd aktualizacji stop-loss: {e}")
