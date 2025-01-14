@@ -35,21 +35,30 @@ def calculate_dynamic_stop_loss(signal, current_price, entry_price):
     targets = signal["targets"]
     is_long = signal['signal_type'] == 'LONG'
     
+    # Dodajemy logowanie początkowych wartości
+    log_to_file(f"Kalkulacja stop-loss: current_price={current_price}, entry_price={entry_price}, is_long={is_long}")
+    
     # Sprawdzamy który target został osiągnięty
     target_reached = None
     for i, target in enumerate(targets):
         if (current_price >= target if is_long else current_price <= target):
             target_reached = i
+            log_to_file(f"Osiągnięty target {i}: {target}")
     
     if target_reached is None:
-        return signal.get('stop_loss')  # Używamy początkowego stop-loss
+        stop_loss = signal.get('stop_loss')
+        log_to_file(f"Brak osiągniętego targetu, używam początkowego stop-loss: {stop_loss}")
+        return stop_loss
     
     # Po pierwszym targecie, stop-loss powinien być na entry
     if target_reached == 0:
+        log_to_file(f"Pierwszy target osiągnięty, ustawiam stop-loss na entry: {entry_price}")
         return entry_price
     
     # Po drugim targecie i kolejnych, stop-loss na poprzedni target
-    return targets[target_reached - 1]
+    new_stop = targets[target_reached - 1]
+    log_to_file(f"Target {target_reached} osiągnięty, ustawiam stop-loss na poprzedni target: {new_stop}")
+    return new_stop
 
 def update_signal_orders(signal):
     """Aktualizuje stan zleceń w sygnale"""
@@ -158,6 +167,17 @@ def check_and_update_signal_history():
                     # Oblicz właściwy poziom stop-loss
                     new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
                     try:
+                        new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
+                        log_to_file(f"""
+                        Próba utworzenia zlecenia stop-loss:
+                        Symbol: {symbol}
+                        Typ: STOP_LOSS_LIMIT
+                        Strona: {'SELL' if is_long else 'BUY'}
+                        Ilość: {adjusted_quantity}
+                        Stop Price: {new_stop}
+                        Aktualna cena: {current_price}
+                        """)
+                        
                         adjusted_quantity = adjust_quantity(symbol, base_balance)
                         new_stop_loss_order = client.create_order(
                             symbol=symbol,
