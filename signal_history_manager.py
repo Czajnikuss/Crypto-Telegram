@@ -105,29 +105,45 @@ def handle_critical_error(signal):
 
 def check_and_update_signal_history():
     history = load_signal_history()
+    
     for signal in history:
         if signal.get("status") != "CLOSED":
             try:
-                signal = update_signal_orders(signal)
                 symbol = signal["currency"]
                 
-                # Pobierz aktualną cenę
+                # Pobierz wszystkie aktywne zlecenia dla symbolu
+                open_orders = client.get_open_orders(symbol=symbol)
+                active_stop_loss = any(
+                    order['type'] == 'STOP_LOSS_LIMIT' 
+                    for order in open_orders
+                )
+                
+                # Pobierz aktualną cenę i saldo
                 ticker = client.get_symbol_ticker(symbol=symbol)
                 current_price = float(ticker['price'])
                 
-                # Sprawdź saldo
-                account = client.get_account()
                 symbol_info = client.get_symbol_info(symbol)
                 base_asset = symbol_info['baseAsset']
-                base_balance = float(next((b['free'] for b in account['balances'] if b['asset'] == base_asset), 0))
+                account = client.get_account()
+                base_balance = float(next(
+                    (b['free'] for b in account['balances'] if b['asset'] == base_asset), 
+                    0
+                ))
+                
                 log_to_file(f"Saldo {base_asset}: {base_balance}, Aktualna cena {symbol}: {current_price}")
-
-                market_order = next((o for o in signal.get('orders', []) if o['type'] == 'MARKET' and o['status'] == 'FILLED'), None)
+                
+                # Weryfikacja zlecenia market
+                market_order = next((
+                    o for o in signal.get('orders', []) 
+                    if o['type'] == 'MARKET' and o['status'] == 'FILLED'
+                ), None)
+                
                 if not market_order:
                     log_to_file(f"Brak zlecenia market dla {symbol}")
                     signal["status"] = "CLOSED"
                     continue
 
+                # Sprawdzenie statusu pozycji
                 position_status = verify_position_status(signal, base_balance)
                 if position_status in ["CLOSED", "INVALID"]:
                     signal["status"] = "CLOSED"
@@ -137,7 +153,39 @@ def check_and_update_signal_history():
                 entry_price = float(market_order['price'])
                 is_long = signal['signal_type'] == 'LONG'
 
-                # Sprawdź czy osiągnęliśmy któryś z targetów
+                # Sprawdzenie czy mamy aktywny stop-loss gdy posiadamy saldo
+                if base_balance > 0 and not active_stop_loss:
+                    # Oblicz właściwy poziom stop-loss
+                    new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
+                    try:
+                        adjusted_quantity = adjust_quantity(symbol, base_balance)
+                        new_stop_loss_order = client.create_order(
+                            symbol=symbol,
+                            side='SELL' if is_long else 'BUY',
+                            type="STOP_LOSS_LIMIT",
+                            timeInForce="GTC",
+                            quantity=adjusted_quantity,
+                            stopPrice=adjust_price(symbol, new_stop),
+                            price=adjust_price(symbol, new_stop)
+                        )
+                        log_to_file(f"Utworzono brakujący stop-loss dla {symbol} na poziomie {new_stop}")
+                        
+                        # Dodaj nowe zlecenie do historii
+                        signal["orders"].append({
+                            "orderId": new_stop_loss_order['orderId'],
+                            "type": "STOP_LOSS_LIMIT",
+                            "status": "NEW",
+                            "stopPrice": float(new_stop),
+                            "side": 'SELL' if is_long else 'BUY',
+                            "quantity": adjusted_quantity,
+                            "executedQty": 0.0,
+                            "price": float(new_stop),
+                            "time": new_stop_loss_order['time']
+                        })
+                    except Exception as e:
+                        log_to_file(f"Błąd podczas tworzenia brakującego stop-loss: {e}")
+
+                # Sprawdź osiągnięcie targetów
                 for i, target in enumerate(signal["targets"]):
                     target_reached = (current_price >= target if is_long else current_price <= target)
                     if target_reached:
@@ -157,43 +205,48 @@ def check_and_update_signal_history():
                                 log_to_file(f"Zamknięto pozycję po osiągnięciu ostatniego celu dla {symbol}")
                                 continue
 
-                # Aktualizuj stop-loss
-                new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
-                if new_stop:
-                    stop_loss_orders = [o for o in signal["orders"] if o['type'] == 'STOP_LOSS_LIMIT']
-                    for order in stop_loss_orders:
-                        if order['status'] == 'NEW' and abs(float(order['stopPrice']) - new_stop) > 0.0001:
-                            try:
-                                client.cancel_order(symbol=symbol, orderId=order['orderId'])
-                                time.sleep(1)
-                                # W miejscu gdzie tworzymy nowe zlecenie stop-loss
-                                new_order = client.create_order(
-                                    symbol=symbol,
-                                    side='SELL' if is_long else 'BUY',
-                                    type="STOP_LOSS_LIMIT",
-                                    timeInForce="GTC",
-                                    quantity=float(order['quantity']),
-                                    stopPrice=new_stop,
-                                    price=new_stop
-                                )
-                                # Dodaj nowe zlecenie do listy zleceń
-                                signal["orders"].append({
-                                    "orderId": new_order['orderId'],
-                                    "type": "STOP_LOSS_LIMIT",
-                                    "status": "NEW",
-                                    "stopPrice": float(new_stop),
-                                    "side": 'SELL' if is_long else 'BUY',
-                                    "quantity": float(order['quantity']),
-                                    "executedQty": 0.0,
-                                    "price": float(new_stop),
-                                    "time": new_order['time']
-                                })
-
-                                log_to_file(f"Zaktualizowano stop-loss dla {symbol} na poziom {new_stop}")
-                            except Exception as e:
-                                log_to_file(f"Błąd aktualizacji stop-loss: {e}")
+                # Aktualizacja stop-loss jeśli jest aktywny
+                if active_stop_loss:
+                    new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
+                    current_stop = next(
+                        (o['stopPrice'] for o in open_orders if o['type'] == 'STOP_LOSS_LIMIT'),
+                        None
+                    )
+                    
+                    if current_stop and abs(float(current_stop) - new_stop) > 0.0001:
+                        for order in open_orders:
+                            if order['type'] == 'STOP_LOSS_LIMIT':
+                                try:
+                                    client.cancel_order(symbol=symbol, orderId=order['orderId'])
+                                    time.sleep(1)
+                                    new_order = client.create_order(
+                                        symbol=symbol,
+                                        side='SELL' if is_long else 'BUY',
+                                        type="STOP_LOSS_LIMIT",
+                                        timeInForce="GTC",
+                                        quantity=float(order['origQty']),
+                                        stopPrice=adjust_price(symbol, new_stop),
+                                        price=adjust_price(symbol, new_stop)
+                                    )
+                                    log_to_file(f"Zaktualizowano stop-loss dla {symbol} na poziom {new_stop}")
+                                    
+                                    # Aktualizuj listę zleceń w sygnale
+                                    signal["orders"].append({
+                                        "orderId": new_order['orderId'],
+                                        "type": "STOP_LOSS_LIMIT",
+                                        "status": "NEW",
+                                        "stopPrice": float(new_stop),
+                                        "side": 'SELL' if is_long else 'BUY',
+                                        "quantity": float(order['origQty']),
+                                        "executedQty": 0.0,
+                                        "price": float(new_stop),
+                                        "time": new_order['time']
+                                    })
+                                except Exception as e:
+                                    log_to_file(f"Błąd aktualizacji stop-loss: {e}")
 
             except Exception as e:
                 log_to_file(f"Błąd podczas sprawdzania historii dla {signal['currency']}: {e}")
+                handle_critical_error(signal)
 
     save_signal_history(history)
