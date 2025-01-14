@@ -167,7 +167,9 @@ def check_and_update_signal_history():
                     # Oblicz właściwy poziom stop-loss
                     new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
                     try:
+                        
                         new_stop = calculate_dynamic_stop_loss(signal, current_price, entry_price)
+                        adjusted_quantity = adjust_quantity(symbol, base_balance)
                         log_to_file(f"""
                         Próba utworzenia zlecenia stop-loss:
                         Symbol: {symbol}
@@ -178,7 +180,7 @@ def check_and_update_signal_history():
                         Aktualna cena: {current_price}
                         """)
                         
-                        adjusted_quantity = adjust_quantity(symbol, base_balance)
+                        
                         new_stop_loss_order = client.create_order(
                             symbol=symbol,
                             side='SELL' if is_long else 'BUY',
