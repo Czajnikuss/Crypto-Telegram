@@ -84,30 +84,10 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     save_signal_history(history)
 
 def execute_trade(signal, percentage=20):
-    symbol = signal["currency"]
-    result = check_binance_pair_and_price(client, symbol, signal['entry'])
-    if result.get("error"):
-        log_to_file(result["error"])
-        if "status" not in signal:
-            signal["status"] = "CLOSED"
-        return False
-    
-    symbol = result['symbol']
-    current_price = float(result['price'])
-    
-    if signal["signal_type"] != "LONG":
-        log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {symbol}")
-        if "status" not in signal:
-            signal["status"] = "CLOSED"
-        return False
-    
-    # Walidacja stop loss
-    if signal["stop_loss"] < current_price * 0.7 or signal["stop_loss"] > current_price:
-        log_to_file(f"Stop loss {signal['stop_loss']} jest zbyt niski względem aktualnej ceny {current_price}")
-        signal["stop_loss"] = current_price * 0.8
-
     try:
-        # Sprawdzenie czy para istnieje
+        symbol = signal["currency"]
+        
+        # 1. Walidacja wstępna
         exchange_info = client.get_exchange_info()
         symbol_info = next((s for s in exchange_info['symbols'] if s['symbol'] == symbol), None)
         
@@ -116,32 +96,46 @@ def execute_trade(signal, percentage=20):
             return False
             
         if has_open_position(symbol):
-            log_to_file(f"Otwarta pozycja dla {symbol} już istnieje.")
+            log_to_file(f"Otwarta pozycja dla {symbol} już istnieje")
             return False
-
-        # Sprawdzenie dostępnych środków przed transakcją
+            
+        if signal["signal_type"] != "LONG":
+            log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {symbol}")
+            return False
+            
+        # 2. Pobranie parametrów handlowych
+        filters = {f['filterType']: f for f in symbol_info['filters']}
+        min_notional = float(filters['MIN_NOTIONAL']['minNotional'])
+        tick_size = float(filters['PRICE_FILTER']['tickSize'])
+        lot_size = float(filters['LOT_SIZE']['stepSize'])
+        
+        ticker = client.get_symbol_ticker(symbol=symbol)
+        current_price = float(ticker['price'])
+        
+        # Walidacja stop loss
+        if signal["stop_loss"] < current_price * 0.7 or signal["stop_loss"] > current_price:
+            log_to_file(f"Stop loss {signal['stop_loss']} jest nieprawidłowy względem ceny {current_price}")
+            return False
+            
+        # 3. Kalkulacja wielkości zlecenia
         available_balance = get_available_balance("USDT")
         log_to_file(f"Stan konta USDT przed transakcją: {available_balance}")
         
-        # Obliczenie wielkości zlecenia z uwzględnieniem prowizji
-        quantity, usdt_value, current_price = calculate_trade_amount(
-            available_balance * 0.98,  # Zostawiamy 2% na prowizje
-            percentage, 
-            symbol
-        )
+        max_usdt = available_balance * (percentage / 100) * 0.998  # 0.2% na prowizje
+        quantity = max_usdt / current_price
         
-        if quantity <= 0:
-            log_to_file(f"Nie można obliczyć prawidłowej wielkości zlecenia dla {symbol}")
+        # Dostosowanie do LOT_SIZE
+        quantity = float(round(quantity / lot_size) * lot_size)
+        actual_value = quantity * current_price
+        
+        if actual_value < min_notional:
+            log_to_file(f"Wartość zlecenia ({actual_value} USDT) poniżej minimum ({min_notional} USDT)")
             return False
-
-        # Sprawdzenie minimalnej wartości transakcji
-        min_notional = float(next(f for f in symbol_info['filters'] 
-                                if f['filterType'] == 'MIN_NOTIONAL')['minNotional'])
-        if usdt_value < min_notional:
-            log_to_file(f"Wartość transakcji ({usdt_value} USDT) jest poniżej minimum ({min_notional} USDT)")
-            return False
-
-        # Market order
+            
+        # 4. Realizacja MARKET
+        log_to_file(f"Składanie zlecenia MARKET dla {symbol}:")
+        log_to_file(f"Ilość: {quantity}, Strona: BUY, Wartość USDT: {actual_value:.2f}, Cena: {current_price}")
+        
         market_order = client.create_order(
             symbol=symbol,
             side=SIDE_BUY,
@@ -149,36 +143,54 @@ def execute_trade(signal, percentage=20):
             quantity=quantity
         )
         
-        time.sleep(2)  # Zwiększamy czas oczekiwania
+        if market_order.get('status') != 'FILLED':
+            log_to_file(f"Zlecenie MARKET nie zostało zrealizowane. Status: {market_order.get('status')}")
+            return False
+            
+        executed_qty = float(market_order['executedQty'])
+        log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty}")
         add_order_to_history(signal, market_order, "MARKET")
         
-        # Pobieramy aktualną pozycję po wykonaniu market order
-        filled_quantity = float(market_order['executedQty'])
-        if filled_quantity <= 0:
-            log_to_file("Market order nie został wykonany poprawnie")
+        # 5. Realizacja STOP_LOSS
+        time.sleep(2)
+        
+        currency = symbol.replace('USDT', '')
+        currency_balance = get_available_balance(currency)
+        log_to_file(f"Dostępne {currency}: {currency_balance}")
+        
+        if currency_balance < executed_qty:
+            log_to_file(f"Niedostateczne saldo {currency} do złożenia STOP_LOSS")
             return False
-
-        # Stop Loss z ceną limit niższą o 0.5% od stop price
-        stop_price = adjust_price(symbol, signal["stop_loss"])
-        limit_price = adjust_price(symbol, stop_price * 0.995)  # Cena limit 0.5% poniżej stop price
+            
+        stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
+        limit_price = float(round((stop_price * 0.995) / tick_size) * tick_size)  # 0.5% poniżej stop
+        
+        log_to_file(f"Składanie zlecenia STOP_LOSS_LIMIT dla {symbol}:")
+        log_to_file(f"Ilość: {executed_qty}, Stop: {stop_price}, Limit: {limit_price}")
         
         stop_loss_order = client.create_order(
             symbol=symbol,
             side=SIDE_SELL,
             type="STOP_LOSS_LIMIT",
             timeInForce="GTC",
-            quantity=filled_quantity,  # Używamy rzeczywistej wykonanej ilości
+            quantity=executed_qty,
             stopPrice=stop_price,
             price=limit_price
         )
-        add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
         
+        if stop_loss_order.get('status') != 'NEW':
+            log_to_file(f"Błąd aktywacji STOP_LOSS_LIMIT. Status: {stop_loss_order.get('status')}")
+            return False
+            
+        log_to_file(f"STOP_LOSS_LIMIT aktywowany pomyślnie")
+        add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
         return True
-
+        
     except Exception as e:
-        log_to_file(f"Błąd podczas wykonywania transakcji: {str(e)}")
-        log_to_file(f"Pełny kontekst błędu: {e.__dict__}")
+        log_to_file(f"Błąd wykonania transakcji: {str(e)}")
+        log_to_file(f"Kontekst błędu: {e.__dict__}")
         return False
+
 
 
 
