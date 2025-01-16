@@ -14,19 +14,23 @@ def get_available_balance(asset):
 def calculate_trade_amount(available_balance, percentage, symbol):
     try:
         max_usdt = available_balance * (percentage / 100)
+        min_notional = get_min_notional(symbol)
+        
+        if max_usdt < min_notional:
+            log_to_file(f"Wartość zlecenia ({max_usdt} USDT) jest poniżej minimum ({min_notional} USDT)")
+            return 0.0, 0.0, 0.0
+            
         ticker = client.get_symbol_ticker(symbol=symbol)
         current_price = float(ticker['price'])
-
         quantity = max_usdt / current_price
         quantity = adjust_quantity(symbol, quantity)
-
-        actual_usdt_value = quantity * current_price
-
-        if actual_usdt_value > max_usdt:
-            quantity = adjust_quantity(symbol, (max_usdt * 0.99) / current_price)
-            actual_usdt_value = quantity * current_price
-
-        return quantity, actual_usdt_value, current_price
+        
+        actual_value = quantity * current_price
+        if actual_value < min_notional:
+            quantity = adjust_quantity(symbol, (min_notional * 1.01) / current_price)
+            actual_value = quantity * current_price
+            
+        return quantity, actual_value, current_price
     except Exception as e:
         log_to_file(f"Błąd podczas obliczania kwoty transakcji: {e}")
         return 0.0, 0.0, 0.0
@@ -82,6 +86,13 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
         history.append(signal)
     
     save_signal_history(history)
+    
+def get_min_notional(symbol):
+    info = client.get_symbol_info(symbol)
+    min_notional = float(next(f for f in info['filters'] 
+                            if f['filterType'] == 'MIN_NOTIONAL')['minNotional'])
+    return min_notional
+
 
 def execute_trade(signal, percentage=20):
     try:

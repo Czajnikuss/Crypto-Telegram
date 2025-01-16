@@ -1660,3 +1660,135 @@ Stop Targets:
 [2025-01-13 17:43:39] Ilość: 1703.3, Strona: BUY, Wartość USDT: 909.73, Cena: 0.5341
 [2025-01-13 17:43:43] Rozpoczynam składanie zlecenia STOP_LOSS_LIMIT dla USUALUSDT:
 [2025-01-13 17:43:43] Ilość: 1703.3, Strona: SELL, Cena stop: 0.4273
+[2025-01-16 17:21:43] Nowa wiadomość: 🚨 Crypto Signal Alert: #TAOUSDT | LONG 
+
+• Entry Zone: 464 
+• 🔥 Strategy Accuracy: 95% 
+
+• Targets: 466.3, 477.9, 491.8, 510.4 
+
+• Stop-Loss: 450.1 
+💬 Move to breakeven after hitting 477.9
+___________________________________
+
+• 🚀 Double Your Signals, Double Your Opportunities – Unlock Premium Access Now at www.cryptosignals.org!
+[2025-01-16 17:21:43] Uzyskany sygnał: {'currency': 'TAOUSDT', 'signal_type': 'LONG', 'entry': 464.0, 'targets': [466.3, 477.9, 491.8, 510.4], 'stop_loss': 450.1, 'breakeven': 477.9, 'date': '2025-01-16T13:45:15+00:00'}
+[2025-01-16 17:21:43] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-16 17:21:43] Kontekst błędu: {}
+[2025-01-16 17:21:44] Nowa wiadomość: 📍SIGNAL ID: #1764📍
+**COIN: ****$KSM****/USDT (3-5x)**
+Direction: LONG📈
+➖➖➖➖➖➖➖
+Target 1: 28.544✅
+Target 2: 29✅
+Target 3: 29.5✅
+Target 4: 30✅
+Target 5: 31✅
+Target 6: 32✅
+
+🔥75.1% Profit (5x)🔥
+
+Our VIPs know exactly what to do to maximize profits. Book your seat now and never miss another move!😉
+Message: t.me/BKCEO
+➖➖➖➖➖➖➖
+- Binance Killers®
+[2025-01-16 17:35:07] Nowa wiadomość: 🚨 Crypto Signal Alert: #TAOUSDT | LONG 
+
+• Entry Zone: 464 
+• 🔥 Strategy Accuracy: 95% 
+
+• Targets: 466.3, 477.9, 491.8, 510.4 
+
+• Stop-Loss: 450.1 
+💬 Move to breakeven after hitting 477.9
+___________________________________
+
+• 🚀 Double Your Signals, Double Your Opportunities – Unlock Premium Access Now at www.cryptosignals.org!
+[2025-01-16 17:35:07] Uzyskany sygnał: {'currency': 'TAOUSDT', 'signal_type': 'LONG', 'entry': 464.0, 'targets': [466.3, 477.9, 491.8, 510.4], 'stop_loss': 450.1, 'breakeven': 477.9, 'date': '2025-01-16T13:45:15+00:00'}
+[2025-01-16 17:35:07] Nowa wiadomość: 📍SIGNAL ID: #1764📍
+**COIN: ****$KSM****/USDT (3-5x)**
+Direction: LONG📈
+➖➖➖➖➖➖➖
+Target 1: 28.544✅
+Target 2: 29✅
+Target 3: 29.5✅
+Target 4: 30✅
+Target 5: 31✅
+Target 6: 32✅
+
+🔥75.1% Profit (5x)🔥
+
+Our VIPs know exactly what to do to maximize profits. Book your seat now and never miss another move!😉
+Message: t.me/BKCEO
+➖➖➖➖➖➖➖
+- Binance Killers®
+[2025-01-16 17:35:09] Saldo USUAL: 0.0, Aktualna cena USUALUSDT: 0.5545
+[2025-01-16 17:35:09] Pozycja zamknięta dla USUALUSDT
+[2025-01-16 17:35:10] Saldo TAO: 2.0, Aktualna cena TAOUSDT: 457.3
+[2025-01-16 17:35:10] Brak zlecenia market dla TAOUSDT
+[2025-01-16 17:38:15] Nowa wiadomość: 🚨 Crypto Signal Alert: #TAOUSDT | LONG 
+
+• Entry Zone: 464 
+• 🔥 Strategy Accuracy: 95% 
+
+• Targets: 466.3, 477.9, 491.8, 510.4 
+
+• Stop-Loss: 450.1 
+💬 Move to breakeven after hitting 477.9
+___________________________________
+
+• 🚀 Double Your Signals, Double Your Opportunities – Unlock Premium Access Now at www.cryptosignals.org!
+[2025-01-16 17:38:15] Uzyskany sygnał: {'currency': 'TAOUSDT', 'signal_type': 'LONG', 'entry': 464.0, 'targets': [466.3, 477.9, 491.8, 510.4], 'stop_loss': 450.1, 'breakeven': 477.9, 'date': '2025-01-16T13:45:15+00:00'}
+[2025-01-16 17:38:16] Nowa wiadomość: 📍SIGNAL ID: #1764📍
+**COIN: ****$KSM****/USDT (3-5x)**
+Direction: LONG📈
+➖➖➖➖➖➖➖
+Target 1: 28.544✅
+Target 2: 29✅
+Target 3: 29.5✅
+Target 4: 30✅
+Target 5: 31✅
+Target 6: 32✅
+
+🔥75.1% Profit (5x)🔥
+
+Our VIPs know exactly what to do to maximize profits. Book your seat now and never miss another move!😉
+Message: t.me/BKCEO
+➖➖➖➖➖➖➖
+- Binance Killers®
+[2025-01-16 17:38:16] Uzyskany sygnał: {'signal_id': '1764', 'currency': 'KSMUSDT', 'signal_type': 'LONG', 'entry': 28.544, 'targets': [29.0, 29.5, 30.0, 31.0, 32.0], 'stop_loss': 27.116799999999998, 'profit_percentage': 75.1, 'date': '2025-01-16T14:16:37+00:00'}
+[2025-01-16 17:38:17] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-16 17:38:17] Kontekst błędu: {}
+[2025-01-16 17:38:18] Saldo KSM: 30.0, Aktualna cena KSMUSDT: 32.73
+[2025-01-16 17:38:18] Brak zlecenia market dla KSMUSDT
+[2025-01-16 17:44:26] Nowa wiadomość: 🚨 Crypto Signal Alert: #TAOUSDT | LONG 
+
+• Entry Zone: 464 
+• 🔥 Strategy Accuracy: 95% 
+
+• Targets: 466.3, 477.9, 491.8, 510.4 
+
+• Stop-Loss: 450.1 
+💬 Move to breakeven after hitting 477.9
+___________________________________
+
+• 🚀 Double Your Signals, Double Your Opportunities – Unlock Premium Access Now at www.cryptosignals.org!
+[2025-01-16 17:44:26] Uzyskany sygnał: {'currency': 'TAOUSDT', 'signal_type': 'LONG', 'entry': 464.0, 'targets': [466.3, 477.9, 491.8, 510.4], 'stop_loss': 450.1, 'breakeven': 477.9, 'date': '2025-01-16T13:45:15+00:00'}
+[2025-01-16 17:44:26] Nowa wiadomość: 📍SIGNAL ID: #1764📍
+**COIN: ****$KSM****/USDT (3-5x)**
+Direction: LONG📈
+➖➖➖➖➖➖➖
+Target 1: 28.544✅
+Target 2: 29✅
+Target 3: 29.5✅
+Target 4: 30✅
+Target 5: 31✅
+Target 6: 32✅
+
+🔥75.1% Profit (5x)🔥
+
+Our VIPs know exactly what to do to maximize profits. Book your seat now and never miss another move!😉
+Message: t.me/BKCEO
+➖➖➖➖➖➖➖
+- Binance Killers®
+[2025-01-16 17:44:26] Uzyskany sygnał: {'signal_id': '1764', 'currency': 'KSMUSDT', 'signal_type': 'LONG', 'entry': 28.544, 'targets': [29.0, 29.5, 30.0, 31.0, 32.0], 'stop_loss': 27.116799999999998, 'breakeven': None, 'profit_percentage': 75.1, 'date': '2025-01-16T14:16:37+00:00'}
