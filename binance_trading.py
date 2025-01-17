@@ -267,5 +267,5 @@ test_signal =    {
         "date": "2025-01-17T12:00:17+00:00",
         "highest_price": 0.41274,
     }
-execute_trade(test_signal, 2)
+#execute_trade(test_signal, 2)
 
