@@ -1792,3 +1792,111 @@ Message: t.me/BKCEO
 ➖➖➖➖➖➖➖
 - Binance Killers®
 [2025-01-16 17:44:26] Uzyskany sygnał: {'signal_id': '1764', 'currency': 'KSMUSDT', 'signal_type': 'LONG', 'entry': 28.544, 'targets': [29.0, 29.5, 30.0, 31.0, 32.0], 'stop_loss': 27.116799999999998, 'breakeven': None, 'profit_percentage': 75.1, 'date': '2025-01-16T14:16:37+00:00'}
+[2025-01-17 14:25:39] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-17 14:25:39] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-17 14:25:39] Kontekst błędu: {}
+[2025-01-17 14:26:26] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-17 14:26:26] Kontekst błędu: {}
+[2025-01-17 14:46:52] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-17 14:46:52] Kontekst błędu: {}
+[2025-01-17 14:50:11] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 14:50:11] Pobieram exchange_info...
+[2025-01-17 14:50:11] Szukam informacji o symbolu...
+[2025-01-17 14:50:12] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-17 14:50:12] Kontekst błędu: {}
+[2025-01-17 14:57:02] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 14:57:02] Pobieram exchange_info...
+[2025-01-17 14:57:02] Szukam informacji o symbolu...
+[2025-01-17 14:57:02] wykonuję walidację pary handlowej
+[2025-01-17 14:57:04] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 14:57:04] potwierdziłem brak otwartych pozycji
+[2025-01-17 14:57:04] Sygnał jest typu LONG
+[2025-01-17 14:57:04] Błąd wykonania transakcji: 'MIN_NOTIONAL'
+[2025-01-17 14:57:04] Kontekst błędu: {}
+[2025-01-17 15:00:36] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 15:00:36] Pobieram exchange_info...
+[2025-01-17 15:00:36] Szukam informacji o symbolu...
+[2025-01-17 15:00:36] wykonuję walidację pary handlowej
+[2025-01-17 15:00:38] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 15:00:38] potwierdziłem brak otwartych pozycji
+[2025-01-17 15:00:38] Sygnał jest typu LONG
+[2025-01-17 15:00:38] Dodano filtr: PRICE_FILTER
+[2025-01-17 15:00:38] Dodano filtr: LOT_SIZE
+[2025-01-17 15:00:38] Dodano filtr: ICEBERG_PARTS
+[2025-01-17 15:00:38] Dodano filtr: MARKET_LOT_SIZE
+[2025-01-17 15:00:38] Dodano filtr: TRAILING_DELTA
+[2025-01-17 15:00:38] Dodano filtr: PERCENT_PRICE_BY_SIDE
+[2025-01-17 15:00:38] Dodano filtr: NOTIONAL
+[2025-01-17 15:00:38] Dodano filtr: MAX_NUM_ORDERS
+[2025-01-17 15:00:38] Dodano filtr: MAX_NUM_ALGO_ORDERS
+[2025-01-17 15:00:38] Brak filtru MIN_NOTIONAL dla DOGEUSDT
+[2025-01-17 15:08:26] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 15:08:26] Pobieram exchange_info...
+[2025-01-17 15:08:27] Szukam informacji o symbolu...
+[2025-01-17 15:08:27] wykonuję walidację pary handlowej
+[2025-01-17 15:08:28] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 15:08:28] potwierdziłem brak otwartych pozycji
+[2025-01-17 15:08:28] Sygnał jest typu LONG
+[2025-01-17 15:08:29] Błąd wykonania transakcji: cannot access local variable 'actual_value' where it is not associated with a value
+[2025-01-17 15:08:29] Kontekst błędu: {}
+[2025-01-17 15:14:10] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 15:14:10] Pobieram exchange_info...
+[2025-01-17 15:14:11] Szukam informacji o symbolu...
+[2025-01-17 15:14:11] wykonuję walidację pary handlowej
+[2025-01-17 15:14:11] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 15:14:12] potwierdziłem brak otwartych pozycji
+[2025-01-17 15:14:12] Sygnał jest typu LONG
+[2025-01-17 15:14:12] Uzyskałęm filtry dla symbolu: DOGEUSDT
+[2025-01-17 15:14:12] Uzyskałęm ticker dla symbolu: DOGEUSDT, aktualna cena: 0.40812000
+[2025-01-17 15:14:12] Stan konta USDT przed transakcją: 43995.0735881
+[2025-01-17 15:14:13] Składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-17 15:14:13] Ilość: 5379.0, Strona: BUY, Wartość USDT: 2195.28, Cena: 0.40812
+[2025-01-17 15:14:13] Wymagane minimum (MIN_NOTIONAL): 1.0 USDT
+[2025-01-17 15:14:13] Zlecenie MARKET zrealizowane. Kupiono: 5379.0
+[2025-01-17 15:14:18] Dostępne DOGE: 8259.0
+[2025-01-17 15:14:18] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
+[2025-01-17 15:14:18] Ilość: 5379.0, Stop: 0.39479000000000003, Limit: 0.39282000000000006
+[2025-01-17 15:14:18] Błąd wykonania transakcji: APIError(code=-1111): Parameter 'price' has too much precision.
+[2025-01-17 15:14:18] Kontekst błędu: {'code': -1111, 'message': "Parameter 'price' has too much precision.", 'status_code': 400, 'response': <Response [400]>, 'request': <PreparedRequest [POST]>}
+[2025-01-17 15:17:16] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 15:17:16] Pobieram exchange_info...
+[2025-01-17 15:17:17] Szukam informacji o symbolu...
+[2025-01-17 15:17:17] wykonuję walidację pary handlowej
+[2025-01-17 15:17:17] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 15:17:17] potwierdziłem brak otwartych pozycji
+[2025-01-17 15:17:17] Sygnał jest typu LONG
+[2025-01-17 15:17:18] Uzyskałęm filtry dla symbolu: DOGEUSDT
+[2025-01-17 15:17:18] Uzyskałęm ticker dla symbolu: DOGEUSDT, aktualna cena: 0.40940000
+[2025-01-17 15:17:19] Stan konta USDT przed transakcją: 41799.7961081
+[2025-01-17 15:17:19] Składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-17 15:17:19] Ilość: 2038.0, Strona: BUY, Wartość USDT: 834.36, Cena: 0.4094
+[2025-01-17 15:17:19] Wymagane minimum (MIN_NOTIONAL): 1.0 USDT
+[2025-01-17 15:17:19] Zlecenie MARKET zrealizowane. Kupiono: 2038.0
+[2025-01-17 15:17:23] Dostępne DOGE: 10297.0
+[2025-01-17 15:17:24] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
+[2025-01-17 15:17:24] Ilość: 2038.0, Stop: 0.39479, Limit: 0.39282
+[2025-01-17 15:17:25] Błąd aktywacji STOP_LOSS_LIMIT. Status: None
+[2025-01-17 15:20:35] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 15:20:35] Pobieram exchange_info...
+[2025-01-17 15:20:35] Szukam informacji o symbolu...
+[2025-01-17 15:20:35] wykonuję walidację pary handlowej
+[2025-01-17 15:20:37] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 15:20:37] Otwarta pozycja dla DOGEUSDT już istnieje
+[2025-01-17 17:16:26] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-17 17:16:26] Pobieram exchange_info...
+[2025-01-17 17:16:27] Szukam informacji o symbolu...
+[2025-01-17 17:16:27] wykonuję walidację pary handlowej
+[2025-01-17 17:16:28] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-17 17:16:28] potwierdziłem brak otwartych pozycji
+[2025-01-17 17:16:28] Sygnał jest typu LONG
+[2025-01-17 17:16:29] Uzyskałęm filtry dla symbolu: DOGEUSDT
+[2025-01-17 17:16:29] Uzyskałęm ticker dla symbolu: DOGEUSDT, aktualna cena: 0.41073000
+[2025-01-17 17:16:30] Stan konta USDT przed transakcją: 41800.4819581
+[2025-01-17 17:16:31] Składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-17 17:16:31] Ilość: 2031.0, Strona: BUY, Wartość USDT: 834.19, Cena: 0.41073
+[2025-01-17 17:16:31] Wymagane minimum (MIN_NOTIONAL): 1.0 USDT
+[2025-01-17 17:16:31] Zlecenie MARKET zrealizowane. Kupiono: 2031.0
+[2025-01-17 17:16:36] Dostępne DOGE: 10290.0
+[2025-01-17 17:16:38] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
+[2025-01-17 17:16:38] Ilość: 2031.0, Stop: 0.39479, Limit: 0.39282
+[2025-01-17 17:16:46] STOP_LOSS_LIMIT aktywowany pomyślnie

@@ -70,5 +70,42 @@
         "date": "2025-01-16T14:16:37+00:00",
         "highest_price": 32.73,
         "status": "CLOSED"
+    },
+    {
+        "currency": "DOGEUSDT",
+        "signal_type": "LONG",
+        "entry": 0.41124,
+        "targets": [
+            0.41946,
+            0.42358,
+            0.42769,
+            0.4318
+        ],
+        "stop_loss": 0.39479,
+        "breakeven": 0.41124,
+        "date": "2025-01-17T12:00:17+00:00",
+        "highest_price": 0.41274,
+        "orders": [
+            {
+                "orderId": 1293688,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 2031.0,
+                "executedQty": 2031.0,
+                "time": 1737130591639
+            },
+            {
+                "orderId": 1293717,
+                "type": "STOP_LOSS",
+                "status": "NEW",
+                "stopPrice": 0.39479,
+                "side": "SELL",
+                "quantity": 2031.0,
+                "executedQty": 0.0,
+                "time": 1737130602449
+            }
+        ]
     }
 ]
