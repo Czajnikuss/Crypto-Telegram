@@ -184,16 +184,23 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Wymagane minimum (MIN_NOTIONAL): {min_notional} USDT")
 
         
-        market_order = client.create_order(
-            symbol=symbol,
-            side=SIDE_BUY,
-            type=ORDER_TYPE_MARKET,
-            quantity=quantity
-        )
-        
-        if market_order.get('status') != 'FILLED':
-            log_to_file(f"Zlecenie MARKET nie zostało zrealizowane. Status: {market_order.get('status')}")
-            return False
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                market_order = client.create_order(
+                    symbol=symbol,
+                    side=SIDE_BUY,
+                    type=ORDER_TYPE_MARKET,
+                    quantity=quantity
+                )
+                if market_order.get('status') == 'FILLED':
+                    break
+                time.sleep(2 ** attempt)  # exponential backoff
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    log_to_file(f"Wszystkie próby wykonania zlecenia MARKET nieudane: {str(e)}")
+                    return False
+                continue
             
         executed_qty = float(market_order['executedQty'])
         log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty}")
