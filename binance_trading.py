@@ -54,6 +54,8 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     full_order = get_order_details(order['symbol'], order['orderId'])
     
     if full_order:
+        executed_qty = float(full_order['executedQty'])
+        cumulative_quote = float(full_order.get('cummulativeQuoteQty', 0))
         order_record = {
             "orderId": full_order['orderId'],
             "type": order_type,
@@ -61,10 +63,13 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
             "stopPrice": float(full_order.get('stopPrice', 0)),
             "side": full_order['side'],
             "quantity": float(full_order['origQty']),
-            "executedQty": float(full_order['executedQty']),
+            "executedQty": executed_qty,
+            "avgPrice": cumulative_quote / executed_qty if executed_qty > 0 else 0,
             "time": full_order['time']
         }
+
     else:
+        executed_qty = float(order.get('executedQty', 0))
         order_record = {
             "orderId": order['orderId'],
             "type": order_type,
@@ -72,11 +77,13 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
             "stopPrice": float(order.get('stopPrice', 0)),
             "side": order['side'],
             "quantity": float(order['origQty']),
-            "executedQty": float(order.get('executedQty', 0)),
+            "executedQty": executed_qty,
+            "avgPrice": float(order.get('cummulativeQuoteQty', 0)) / executed_qty if executed_qty > 0 else 0,
             "time": order.get('transactTime', int(time.time() * 1000))
         }
     
     signal["orders"].append(order_record)
+
     
     history = load_signal_history()
     updated = False
@@ -157,6 +164,11 @@ def execute_trade(signal, percentage=20):
         available_balance = get_available_balance("USDT")
         log_to_file(f"Stan konta USDT przed transakcją: {available_balance}")
         
+        currency = symbol.replace('USDT', '')
+        # Dodajemy sprawdzenie początkowego salda
+        initial_currency_balance = get_available_balance(currency)
+        log_to_file(f"Początkowe saldo {currency}: {initial_currency_balance}")
+        
        
         max_usdt = available_balance * (percentage / 100) * 0.998
         quantity = max_usdt / current_price
@@ -201,7 +213,24 @@ def execute_trade(signal, percentage=20):
                     log_to_file(f"Wszystkie próby wykonania zlecenia MARKET nieudane: {str(e)}")
                     return False
                 continue
+        
+        time.sleep(2)  # Czekamy na aktualizację salda
+        final_balance = get_available_balance(currency)
+        balance_diff = final_balance - initial_currency_balance
+        
+        if balance_diff > 0:
+            executed_qty = float(market_order.get('executedQty', balance_diff))
+            avg_price = float(market_order.get('cummulativeQuoteQty', 0)) / executed_qty
+            log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty} po średniej cenie: {avg_price}")
             
+            # Dodajemy real_entry do sygnału
+            signal["real_entry"] = avg_price
+            add_order_to_history(signal, market_order, "MARKET")
+        else:
+            log_to_file(f"Zlecenie MARKET nie powiodło się. Status: {market_order.get('status')}")
+            log_to_file(f"Brak zmiany salda {currency}: {initial_currency_balance} -> {final_balance}")
+            return False    
+        
         executed_qty = float(market_order['executedQty'])
         log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty}")
         add_order_to_history(signal, market_order, "MARKET")

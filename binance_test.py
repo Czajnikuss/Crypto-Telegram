@@ -1,13 +1,9 @@
 from binance.client import Client
-
-
-
-from binance.client import Client
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
-import os
+import os, time
 
 # Wczytaj zmienne środowiskowe z pliku .env
 load_dotenv()
@@ -109,6 +105,84 @@ def get_order_all(symbol, orderId):
     order = client.get_order(**params)
     return order
 
+def adjust_quantity_precision(symbol, quantity):
+    """Dostosowuje precyzję ilości do wymagań symbolu"""
+    symbol_info = client.get_symbol_info(symbol)
+    lot_filter = next(filter(lambda x: x['filterType'] == 'LOT_SIZE', symbol_info['filters']))
+    step_size = float(lot_filter['stepSize'])
+    precision = len(str(step_size).rstrip('0').split('.')[1]) if '.' in str(step_size) else 0
+    return float('{:.{}f}'.format(quantity, precision))
+
+
+
+def reset_account_to_usdt():
+    """
+    Resetuje konto zamieniając wszystkie aktywa na USDT.
+    Zwraca słownik z wynikami operacji dla każdej waluty.
+    """
+    try:
+        # Pobierz wszystkie niezerowe salda
+        balances = get_all_balances()
+        results = {}
+        
+        # Pomiń USDT, bo to nasza waluta docelowa
+        if 'USDT' in balances:
+            del balances['USDT']
+            
+        for asset, amount in balances.items():
+            if amount <= 0:
+                continue
+                
+            try:
+                # Sprawdź czy istnieje para tradingowa z USDT
+                symbol = f"{asset}USDT"
+                
+                # Sprawdź czy para istnieje
+                symbol_info = client.get_symbol_info(symbol)
+                if not symbol_info:
+                    print(f"Nie znaleziono pary {symbol}")
+                    continue
+                
+                # Dostosuj ilość do zasad LOT_SIZE
+
+                
+                adjusted_quantity = adjust_quantity_precision(symbol, amount)
+                
+                if adjusted_quantity > 0:
+                    # Wykonaj sprzedaż do USDT
+                    max_retries = 3
+                    retry_delay = 1  # sekundy
+
+                    for attempt in range(max_retries):
+                        try:
+                            order = place_order(symbol=symbol, side="SELL", quantity=adjusted_quantity)
+                            if order['status'] != 'EXPIRED':
+                                break
+                            time.sleep(retry_delay)
+                        except Exception as e:
+                            print(f"Próba {attempt + 1} nieudana: {str(e)}")
+                    results[asset] = {
+                        'status': 'success',
+                        'amount_sold': adjusted_quantity,
+                        'order_id': order['orderId']
+                    }
+                    print(f"Sprzedano {adjusted_quantity} {asset} na USDT")
+                
+            except Exception as e:
+                results[asset] = {
+                    'status': 'error',
+                    'error': str(e)
+                }
+                print(f"Błąd podczas sprzedaży {asset}: {str(e)}")
+                
+        return results
+        
+    except Exception as e:
+        print(f"Błąd podczas resetowania konta: {str(e)}")
+        return None
+
+
+
 def cancel_position(symbol: str, days_back: int = 7):
     try:
         # Anuluj wszystkie aktywne zlecenia
@@ -182,14 +256,14 @@ def cancel_position(symbol: str, days_back: int = 7):
         return None
 
         
-
+#print(reset_account_to_usdt())
 #print(get_all_balances())
 #print(client.get_open_orders())
-#rint(place_order("OMNIUSDT", "SELL", 1))
+#print(place_order("DOGEUSDT", "SELL", 31791.0))
 #orderId= take_profit_order['orderId']
 
 
-cancel_position("DOGEUSDT")
+#cancel_position("DOGEUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
 #print(get_order_all("OMNIUSDT", 1418288))

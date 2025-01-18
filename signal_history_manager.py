@@ -145,7 +145,6 @@ def check_and_update_signal_history():
             try:
                 symbol = signal["currency"]
                 
-                
                 # Pobierz wszystkie aktywne zlecenia dla symbolu
                 open_orders = client.get_open_orders(symbol=symbol)
                 active_stop_loss = any(
@@ -168,14 +167,19 @@ def check_and_update_signal_history():
                 
                 log_to_file(f"Saldo {base_asset}: {base_balance}, Aktualna cena {symbol}: {current_price}")
                 
-                # Weryfikacja zlecenia market
-                market_order = next((
-                    o for o in signal.get('orders', []) 
-                    if o['type'] == 'MARKET' and o['status'] == 'FILLED'
-                ), None)
+                # Sprawdzamy ilość kupioną według historii zleceń
+                executed_qty = 0
+                for order in signal.get('orders', []):
+                    if order['type'] == 'MARKET' and order['side'] == 'BUY':
+                        executed_qty = float(order['executedQty'])
+                        break
                 
-                if not market_order:
-                    log_to_file(f"Brak zlecenia market dla {symbol}")
+                if executed_qty > 0 and base_balance >= executed_qty:
+                    # Mamy wystarczające saldo, pozycja jest otwarta
+                    log_to_file(f"Pozycja aktywna dla {symbol}, saldo {base_balance} >= wymagane {executed_qty}")
+                    continue
+                else:
+                    log_to_file(f"Brak wystarczającego salda dla {symbol}: {base_balance} < {executed_qty}")
                     signal["status"] = "CLOSED"
                     continue
 

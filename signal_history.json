@@ -85,26 +85,29 @@
         "breakeven": 0.41124,
         "date": "2025-01-17T12:00:17+00:00",
         "highest_price": 0.41274,
+        "real_entry": 0.40208,
         "orders": [
             {
-                "orderId": 1293688,
+                "orderId": 1421277,
                 "type": "MARKET",
                 "status": "FILLED",
                 "stopPrice": 0.0,
                 "side": "BUY",
-                "quantity": 2031.0,
-                "executedQty": 2031.0,
-                "time": 1737130591639
+                "quantity": 25803.0,
+                "executedQty": 25803.0,
+                "avgPrice": 0.40208,
+                "time": 1737191109658
             },
             {
-                "orderId": 1293717,
-                "type": "STOP_LOSS",
-                "status": "NEW",
-                "stopPrice": 0.39479,
-                "side": "SELL",
-                "quantity": 2031.0,
-                "executedQty": 0.0,
-                "time": 1737130602449
+                "orderId": 1421277,
+                "type": "MARKET",
+                "status": "FILLED",
+                "stopPrice": 0.0,
+                "side": "BUY",
+                "quantity": 25803.0,
+                "executedQty": 25803.0,
+                "avgPrice": 0.40208,
+                "time": 1737191109658
             }
         ]
     }

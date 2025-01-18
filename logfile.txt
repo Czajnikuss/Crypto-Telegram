@@ -1900,3 +1900,45 @@ Message: t.me/BKCEO
 [2025-01-17 17:16:38] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
 [2025-01-17 17:16:38] Ilość: 2031.0, Stop: 0.39479, Limit: 0.39282
 [2025-01-17 17:16:46] STOP_LOSS_LIMIT aktywowany pomyślnie
+[2025-01-18 09:54:51] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-18 09:54:51] Pobieram exchange_info...
+[2025-01-18 09:54:52] Szukam informacji o symbolu...
+[2025-01-18 09:54:52] wykonuję walidację pary handlowej
+[2025-01-18 09:54:54] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-18 09:54:54] potwierdziłem brak otwartych pozycji
+[2025-01-18 09:54:54] Sygnał jest typu LONG
+[2025-01-18 09:54:55] Uzyskałęm filtry dla symbolu: DOGEUSDT
+[2025-01-18 09:54:56] Uzyskałęm ticker dla symbolu: DOGEUSDT, aktualna cena: 0.39931000
+[2025-01-18 09:54:57] Stan konta USDT przed transakcją: 496392.44465484
+[2025-01-18 09:54:57] Początkowe saldo DOGE: 0.0
+[2025-01-18 09:54:58] Składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-18 09:54:58] Ilość: 24813.0, Strona: BUY, Wartość USDT: 9908.08, Cena: 0.39931
+[2025-01-18 09:54:58] Wymagane minimum (MIN_NOTIONAL): 1.0 USDT
+[2025-01-18 09:55:10] Zlecenie MARKET zrealizowane. Kupiono: 9480.0 po średniej cenie: 0.39998
+[2025-01-18 09:55:11] Zlecenie MARKET zrealizowane. Kupiono: 9480.0
+[2025-01-18 09:55:15] Dostępne DOGE: 32521.0
+[2025-01-18 09:55:17] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
+[2025-01-18 09:55:17] Ilość: 9480.0, Stop: 0.39479, Limit: 0.39282
+[2025-01-18 09:55:26] STOP_LOSS_LIMIT aktywowany pomyślnie
+[2025-01-18 09:55:27] Błąd wykonania transakcji: float division by zero
+[2025-01-18 09:55:27] Kontekst błędu: {}
+[2025-01-18 10:05:00] Rozpoczynam przetwarzanie sygnału dla DOGEUSDT
+[2025-01-18 10:05:00] Pobieram exchange_info...
+[2025-01-18 10:05:01] Szukam informacji o symbolu...
+[2025-01-18 10:05:01] wykonuję walidację pary handlowej
+[2025-01-18 10:05:03] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-18 10:05:04] potwierdziłem brak otwartych pozycji
+[2025-01-18 10:05:04] Sygnał jest typu LONG
+[2025-01-18 10:05:05] Uzyskałęm filtry dla symbolu: DOGEUSDT
+[2025-01-18 10:05:05] Uzyskałęm ticker dla symbolu: DOGEUSDT, aktualna cena: 0.40042000
+[2025-01-18 10:05:05] Stan konta USDT przed transakcją: 517637.96373184
+[2025-01-18 10:05:06] Początkowe saldo DOGE: 0.0
+[2025-01-18 10:05:07] Składanie zlecenia MARKET dla DOGEUSDT:
+[2025-01-18 10:05:07] Ilość: 25803.0, Strona: BUY, Wartość USDT: 10332.04, Cena: 0.40042
+[2025-01-18 10:05:07] Wymagane minimum (MIN_NOTIONAL): 1.0 USDT
+[2025-01-18 10:05:12] Zlecenie MARKET zrealizowane. Kupiono: 25803.0 po średniej cenie: 0.40208
+[2025-01-18 10:05:13] Zlecenie MARKET zrealizowane. Kupiono: 25803.0
+[2025-01-18 10:05:17] Dostępne DOGE: 27949.0
+[2025-01-18 10:05:18] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
+[2025-01-18 10:05:18] Ilość: 25803.0, Stop: 0.39479, Limit: 0.39282
+[2025-01-18 10:05:21] Wszystkie próby utworzenia STOP_LOSS_LIMIT nieudane: APIError(code=-2010): Account has insufficient balance for requested action.
