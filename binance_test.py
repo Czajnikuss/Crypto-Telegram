@@ -257,7 +257,7 @@ def cancel_position(symbol: str, days_back: int = 7):
 
         
 #print(reset_account_to_usdt())
-#print(get_all_balances())
+print(get_all_balances())
 #print(client.get_open_orders())
 #print(place_order("DOGEUSDT", "SELL", 31791.0))
 #orderId= take_profit_order['orderId']
