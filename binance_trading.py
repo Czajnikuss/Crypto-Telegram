@@ -38,6 +38,21 @@ def calculate_trade_amount(available_balance, percentage, symbol):
     except Exception as e:
         log_to_file(f"Błąd podczas obliczania kwoty transakcji: {e}")
         return 0.0, 0.0, 0.0
+    
+
+def check_price_condition(current_price, signal):
+    targets = signal["targets"]
+    
+    if len(targets) == 1:  # Dla sygnału z jednym celem
+        if current_price < targets[0]:
+            return True
+        else:
+            return "Błąd: Aktualna cena jest powyżej jedynego celu"
+    elif len(targets) >= 2:  # Dla sygnału z dwoma lub więcej celami
+        if current_price < targets[1]:
+            return True
+        else:
+            return "Błąd: Aktualna cena jest powyżej drugiego celu"
 
 def has_open_position(symbol):
     try:
@@ -155,26 +170,42 @@ def execute_trade(signal, percentage=20):
         current_price = float(ticker['price'])
         log_to_file(f"Uzyskałęm ticker dla symbolu: {symbol}, aktualna cena: {ticker['price']}")
         
+        #waildacja czy sygnał nie jest przedwczesny dla rynku, anulujemy jeśłi 2 cel został zrealizowany.
+        if check_price_condition(current_price, signal) is True:
+            log_to_file(f"Aktualna cena poniżej 2 go celu")
+        else:
+            log_to_file("Warunek niespełniony:", check_price_condition(current_price, signal))
+            signal["status"] = "CLOSED"
+            return False
+        
         # Walidacja stop loss
-        if signal["stop_loss"] < current_price * 0.7 or signal["stop_loss"] > current_price:
+        if signal["stop_loss"] < current_price * 0.8 or signal["stop_loss"] > current_price:
             log_to_file(f"Stop loss {signal['stop_loss']} jest nieprawidłowy względem ceny {current_price}")
             return False
             
         # 3. Kalkulacja wielkości zlecenia
         available_balance = get_available_balance("USDT")
         log_to_file(f"Stan konta USDT przed transakcją: {available_balance}")
-        
+
         currency = symbol.replace('USDT', '')
-        # Dodajemy sprawdzenie początkowego salda
         initial_currency_balance = get_available_balance(currency)
         log_to_file(f"Początkowe saldo {currency}: {initial_currency_balance}")
-        
-       
+
+        # Dodajemy zabezpieczenie przed zerowymi wartościami
+        if current_price <= 0:
+            log_to_file(f"Błędna cena rynkowa: {current_price}")
+            return False
+
         max_usdt = available_balance * (percentage / 100) * 0.998
         quantity = max_usdt / current_price
-        quantity = adjust_quantity(symbol, quantity)  # Używamy funkcji z common.py
+        quantity = adjust_quantity(symbol, quantity)
         actual_value = quantity * current_price
-        
+
+        # Dodajemy walidację quantity
+        if quantity <= 0:
+            log_to_file(f"Błędna kalkulacja ilości: {quantity}")
+            return False
+
         # Jeśli min_notional > 0, sprawdzamy warunek
         if min_notional > 0 and actual_value < min_notional:
             log_to_file(f"Wartość zlecenia ({actual_value} USDT) poniżej minimum ({min_notional} USDT)")

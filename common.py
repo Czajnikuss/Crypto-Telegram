@@ -204,7 +204,7 @@ def is_signal_new(signal, history):
         if (existing_signal["currency"] == signal["currency"] and
             existing_signal["signal_type"] == signal["signal_type"] and
             existing_signal["entry"] == signal["entry"] and
-            existing_signal["stop_loss"] == signal["stop_loss"] and
+            existing_signal["date"] == signal["date"] and
             existing_signal["targets"] == signal["targets"]):
             return False
     return True
