@@ -269,36 +269,29 @@ def execute_trade(signal, percentage=20):
         add_order_to_history(signal, market_order, "MARKET")
         
         # 5. Realizacja STOP_LOSS
-        # Zwiększamy czas oczekiwania na aktualizację salda
-        time.sleep(5)
+        time.sleep(2)
 
-        # Dodajemy retry dla pobrania salda
-        max_balance_checks = 3
-        for balance_check in range(max_balance_checks):
-            currency_balance = get_available_balance(currency)
-            log_to_file(f"Próba {balance_check + 1}: Dostępne {currency}: {currency_balance}")
-            
-            if currency_balance >= executed_qty:
-                break
-            time.sleep(2)
+        currency = symbol.replace('USDT', '')
+        currency_balance = get_available_balance(currency)
+        log_to_file(f"Dostępne {currency}: {currency_balance}")
+
+        # Sprawdzamy czy różnica między saldem a executed_qty jest mniejsza niż 1%
+        balance_diff_percent = abs(currency_balance - executed_qty) / executed_qty * 100
+        if balance_diff_percent <= 1:
+            # Używamy dostępnego salda zamiast executed_qty
+            stop_loss_qty = adjust_quantity(symbol, currency_balance * 0.999)  # Dodajemy margines 0.1%
+            log_to_file(f"Użycie pełnego salda dla STOP_LOSS: {stop_loss_qty} (różnica: {balance_diff_percent:.2f}%)")
         else:
-            log_to_file(f"Nie udało się potwierdzić dostępnego salda po {max_balance_checks} próbach")
-            return False
-
-        if currency_balance < executed_qty:
-            log_to_file(f"Niedostateczne saldo {currency} do złożenia STOP_LOSS")
-            return False
-
-        # Dodajemy margines bezpieczeństwa dla quantity
-        executed_qty = adjust_quantity(symbol, executed_qty * 0.999)
+            stop_loss_qty = executed_qty
+            log_to_file(f"Użycie executed_qty dla STOP_LOSS: {stop_loss_qty}")
 
         stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
         stop_price = adjust_price(symbol, stop_price)
         limit_price = adjust_price(symbol, stop_price * 0.995)
 
-        
         log_to_file(f"Składanie zlecenia STOP_LOSS_LIMIT dla {symbol}:")
-        log_to_file(f"Ilość: {executed_qty}, Stop: {stop_price}, Limit: {limit_price}")
+        log_to_file(f"Ilość: {stop_loss_qty}, Stop: {stop_price}, Limit: {limit_price}")
+
         
         max_retries = 3
         for attempt in range(max_retries):
