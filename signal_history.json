@@ -110,5 +110,22 @@
                 "time": 1737191109658
             }
         ]
+    },
+    {
+        "signal_id": "1770",
+        "currency": "GMTUSDT",
+        "signal_type": "SHORT",
+        "entry": 0.12,
+        "targets": [
+            0.118,
+            0.116,
+            0.113,
+            0.11,
+            0.1
+        ],
+        "stop_loss": 0.126,
+        "breakeven": null,
+        "profit_percentage": 90.5,
+        "date": "2025-01-21T16:12:23+00:00"
     }
 ]

@@ -182,7 +182,7 @@ def execute_trade(signal, percentage=20):
         if signal["stop_loss"] < current_price * 0.8 or signal["stop_loss"] > current_price:
             log_to_file(f"Stop loss {signal['stop_loss']} jest nieprawidłowy względem ceny {current_price}")
             signal["stop_loss"] = current_price * 0.85
-            log_to_file(f"Skorygowano stop loss do poziomu {signal["stop_loss"]}")
+            log_to_file(f"Skorygowano stop loss do poziomu {signal['stop_loss']}")
             
             
         # 3. Kalkulacja wielkości zlecenia
@@ -269,16 +269,29 @@ def execute_trade(signal, percentage=20):
         add_order_to_history(signal, market_order, "MARKET")
         
         # 5. Realizacja STOP_LOSS
-        time.sleep(2)
-        
-        currency = symbol.replace('USDT', '')
-        currency_balance = get_available_balance(currency)
-        log_to_file(f"Dostępne {currency}: {currency_balance}")
-        
+        # Zwiększamy czas oczekiwania na aktualizację salda
+        time.sleep(5)
+
+        # Dodajemy retry dla pobrania salda
+        max_balance_checks = 3
+        for balance_check in range(max_balance_checks):
+            currency_balance = get_available_balance(currency)
+            log_to_file(f"Próba {balance_check + 1}: Dostępne {currency}: {currency_balance}")
+            
+            if currency_balance >= executed_qty:
+                break
+            time.sleep(2)
+        else:
+            log_to_file(f"Nie udało się potwierdzić dostępnego salda po {max_balance_checks} próbach")
+            return False
+
         if currency_balance < executed_qty:
             log_to_file(f"Niedostateczne saldo {currency} do złożenia STOP_LOSS")
             return False
-            
+
+        # Dodajemy margines bezpieczeństwa dla quantity
+        executed_qty = adjust_quantity(symbol, executed_qty * 0.999)
+
         stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
         stop_price = adjust_price(symbol, stop_price)
         limit_price = adjust_price(symbol, stop_price * 0.995)

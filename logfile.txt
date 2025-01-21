@@ -1942,3 +1942,37 @@ Message: t.me/BKCEO
 [2025-01-18 10:05:18] Składanie zlecenia STOP_LOSS_LIMIT dla DOGEUSDT:
 [2025-01-18 10:05:18] Ilość: 25803.0, Stop: 0.39479, Limit: 0.39282
 [2025-01-18 10:05:21] Wszystkie próby utworzenia STOP_LOSS_LIMIT nieudane: APIError(code=-2010): Account has insufficient balance for requested action.
+[2025-01-21 18:59:37] Nowa wiadomość: 📍SIGNAL ID: #1770📍
+**COIN: ****$GMT****/USDT (3-5x)**
+Direction: SHORT
+➖➖➖➖➖➖➖
+Target 1: 0.12✅
+Target 2: 0.118✅
+Target 3: 0.116✅
+Target 4: 0.113✅
+Target 5: 0.11✅
+Target 6: 0.10✅
+
+🔥90.5% Profit (5x)🔥
+
+Our VIPs know exactly what to do to maximize profits. Book your seat now and never miss another move!😉
+Message: t.me/BKCEO
+➖➖➖➖➖➖➖
+- Binance Killers®
+[2025-01-21 18:59:37] Uzyskany sygnał: {'signal_id': '1770', 'currency': 'GMTUSDT', 'signal_type': 'SHORT', 'entry': 0.12, 'targets': [0.118, 0.116, 0.113, 0.11, 0.1], 'stop_loss': 0.126, 'breakeven': None, 'profit_percentage': 90.5, 'date': '2025-01-21T16:12:23+00:00'}
+[2025-01-21 18:59:37] Rozpoczynam przetwarzanie sygnału dla GMTUSDT
+[2025-01-21 18:59:37] Pobieram exchange_info...
+[2025-01-21 18:59:38] Szukam informacji o symbolu...
+[2025-01-21 18:59:38] wykonuję walidację pary handlowej
+[2025-01-21 18:59:40] Dodatkowe potwierdzenie że symbol istnieje na Binance
+[2025-01-21 18:59:40] Błąd podczas sprawdzania otwartych pozycji: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 18:59:40] potwierdziłem brak otwartych pozycji
+[2025-01-21 18:59:40] Pomijam sygnał, ponieważ nie jest to LONG: GMTUSDT
+[2025-01-21 18:59:42] Błąd podczas przetwarzania DOGEUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 18:59:42] Błąd podczas obsługi sytuacji krytycznej dla DOGEUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 18:59:43] Błąd podczas przetwarzania GMTUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 18:59:44] Błąd podczas obsługi sytuacji krytycznej dla GMTUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 19:00:16] Błąd podczas przetwarzania DOGEUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 19:00:16] Błąd podczas obsługi sytuacji krytycznej dla DOGEUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 19:00:18] Błąd podczas przetwarzania GMTUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
+[2025-01-21 19:00:18] Błąd podczas obsługi sytuacji krytycznej dla GMTUSDT: APIError(code=-1021): Timestamp for this request was 1000ms ahead of the server's time.
