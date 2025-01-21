@@ -301,7 +301,7 @@ def execute_trade(signal, percentage=20):
                     side=SIDE_SELL,
                     type="STOP_LOSS_LIMIT",
                     timeInForce="GTC",
-                    quantity=executed_qty,
+                    quantity=stop_loss_qty,
                     stopPrice=stop_price,
                     price=limit_price
                 )
