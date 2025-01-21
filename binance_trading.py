@@ -181,7 +181,9 @@ def execute_trade(signal, percentage=20):
         # Walidacja stop loss
         if signal["stop_loss"] < current_price * 0.8 or signal["stop_loss"] > current_price:
             log_to_file(f"Stop loss {signal['stop_loss']} jest nieprawidłowy względem ceny {current_price}")
-            return False
+            signal["stop_loss"] = current_price * 0.85
+            log_to_file(f"Skorygowano stop loss do poziomu {signal["stop_loss"]}")
+            
             
         # 3. Kalkulacja wielkości zlecenia
         available_balance = get_available_balance("USDT")
@@ -308,6 +310,42 @@ def execute_trade(signal, percentage=20):
             
         log_to_file(f"STOP_LOSS_LIMIT aktywowany pomyślnie")
         add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
+        
+        # 6. Realizacja TAKE_PROFIT
+        time.sleep(2)
+
+        # Ustawiamy take profit na poziomie 2-go celu jeśli istnieje, jeśli nie to 1-szy
+        take_profit_price = float(signal["targets"][1] if len(signal["targets"]) > 1 else signal["targets"][0])
+        take_profit_price = adjust_price(symbol, take_profit_price)
+
+        log_to_file(f"Składanie zlecenia TAKE_PROFIT_LIMIT dla {symbol}:")
+        log_to_file(f"Ilość: {executed_qty}, Cena: {take_profit_price}")
+
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                take_profit_order = client.create_order(
+                    symbol=symbol,
+                    side=SIDE_SELL,
+                    type="LIMIT",
+                    timeInForce="GTC",
+                    quantity=executed_qty,
+                    price=take_profit_price
+                )
+                if take_profit_order and take_profit_order.get('status') == 'NEW':
+                    break
+                time.sleep(2 ** attempt)
+            except Exception as e:
+                if attempt == max_retries - 1:
+                    log_to_file(f"Wszystkie próby utworzenia TAKE_PROFIT_LIMIT nieudane: {str(e)}")
+                    return False
+                continue
+
+        log_to_file(f"TAKE_PROFIT_LIMIT aktywowany pomyślnie")
+        add_order_to_history(signal, take_profit_order, "TAKE_PROFIT")
+                
+                
+        
         return True
         
     except Exception as e:
