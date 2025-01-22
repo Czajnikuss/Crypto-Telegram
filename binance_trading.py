@@ -255,6 +255,8 @@ def execute_trade(signal, percentage=20):
             avg_price = float(market_order.get('cummulativeQuoteQty', 0)) / balance_diff
             log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {balance_diff} po średniej cenie: {avg_price}")
             
+            #Dodajemy real amount do sygnału
+            signal["real_amount"] = balance_diff
             # Dodajemy real_entry do sygnału
             signal["real_entry"] = avg_price
             add_order_to_history(signal, market_order, "MARKET")

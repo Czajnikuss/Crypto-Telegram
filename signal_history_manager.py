@@ -182,14 +182,6 @@ def handle_targets(signal, current_price, base_balance):
     return False
 
 
-def get_base_balance(symbol):
-    symbol_info = client.get_symbol_info(symbol)
-    base_asset = symbol_info['baseAsset']
-    account = client.get_account()
-    return float(next(
-        (b['free'] for b in account['balances'] if b['asset'] == base_asset), 
-        0
-    ))
 
 def create_stop_loss_order(signal, symbol, quantity, stop_price):
     is_long = signal['signal_type'] == 'LONG'
@@ -262,15 +254,10 @@ def check_and_update_signal_history():
             current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
             base_balance = get_base_balance(symbol)
             
-            # Sprawdzamy ilość kupioną według historii zleceń
-            executed_qty = next(
-                (float(order['executedQty']) 
-                 for order in signal.get('orders', [])
-                 if order['type'] == 'MARKET' and order['side'] == 'BUY'),
-                0
-            )
+            # Sprawdzamy ilość kupioną według historii w sygnale
+            executed_qty = signal["real_amount"]
             
-            if not (executed_qty > 0 and base_balance >= executed_qty):
+            if  base_balance < executed_qty :
                 signal["status"] = "CLOSED"
                 log_to_file(f"Brak wystarczającego salda dla {symbol}: {base_balance} < {executed_qty}")
                 continue
