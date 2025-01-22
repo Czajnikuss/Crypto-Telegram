@@ -69,7 +69,7 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     full_order = get_order_details(order['symbol'], order['orderId'])
     
     if full_order:
-        executed_qty = float(full_order['executedQty'])
+        balance_diff = float(full_order['executedQty'])
         cumulative_quote = float(full_order.get('cummulativeQuoteQty', 0))
         order_record = {
             "orderId": full_order['orderId'],
@@ -78,13 +78,13 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
             "stopPrice": float(full_order.get('stopPrice', 0)),
             "side": full_order['side'],
             "quantity": float(full_order['origQty']),
-            "executedQty": executed_qty,
-            "avgPrice": cumulative_quote / executed_qty if executed_qty > 0 else 0,
+            "executedQty": balance_diff,
+            "avgPrice": cumulative_quote / balance_diff if balance_diff > 0 else 0,
             "time": full_order['time']
         }
 
     else:
-        executed_qty = float(order.get('executedQty', 0))
+        balance_diff = float(order.get('executedQty', 0))
         order_record = {
             "orderId": order['orderId'],
             "type": order_type,
@@ -92,8 +92,8 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
             "stopPrice": float(order.get('stopPrice', 0)),
             "side": order['side'],
             "quantity": float(order['origQty']),
-            "executedQty": executed_qty,
-            "avgPrice": float(order.get('cummulativeQuoteQty', 0)) / executed_qty if executed_qty > 0 else 0,
+            "executedQty": balance_diff,
+            "avgPrice": float(order.get('cummulativeQuoteQty', 0)) / balance_diff if balance_diff > 0 else 0,
             "time": order.get('transactTime', int(time.time() * 1000))
         }
     
@@ -252,9 +252,8 @@ def execute_trade(signal, percentage=20):
         balance_diff = final_balance - initial_currency_balance
         
         if balance_diff > 0:
-            executed_qty = float(market_order.get('executedQty', balance_diff))
-            avg_price = float(market_order.get('cummulativeQuoteQty', 0)) / executed_qty
-            log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty} po średniej cenie: {avg_price}")
+            avg_price = float(market_order.get('cummulativeQuoteQty', 0)) / balance_diff
+            log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {balance_diff} po średniej cenie: {avg_price}")
             
             # Dodajemy real_entry do sygnału
             signal["real_entry"] = avg_price
@@ -264,8 +263,6 @@ def execute_trade(signal, percentage=20):
             log_to_file(f"Brak zmiany salda {currency}: {initial_currency_balance} -> {final_balance}")
             return False    
         
-        executed_qty = float(market_order['executedQty'])
-        log_to_file(f"Zlecenie MARKET zrealizowane. Kupiono: {executed_qty}")
         add_order_to_history(signal, market_order, "MARKET")
         
         # 5. Realizacja STOP_LOSS
@@ -275,15 +272,9 @@ def execute_trade(signal, percentage=20):
         currency_balance = get_available_balance(currency)
         log_to_file(f"Dostępne {currency}: {currency_balance}")
 
-        # Sprawdzamy czy różnica między saldem a executed_qty jest mniejsza niż 1%
-        balance_diff_percent = abs(currency_balance - executed_qty) / executed_qty * 100
-        if balance_diff_percent <= 1:
-            # Używamy dostępnego salda zamiast executed_qty
-            stop_loss_qty = adjust_quantity(symbol, currency_balance * 0.999)  # Dodajemy margines 0.1%
-            log_to_file(f"Użycie pełnego salda dla STOP_LOSS: {stop_loss_qty} (różnica: {balance_diff_percent:.2f}%)")
-        else:
-            stop_loss_qty = executed_qty
-            log_to_file(f"Użycie executed_qty dla STOP_LOSS: {stop_loss_qty}")
+                
+        stop_loss_qty = adjust_quantity(currency,balance_diff * 0,998)
+        log_to_file(f"Użycie stop_loss_qty dla STOP_LOSS: {stop_loss_qty}")
 
         stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
         stop_price = adjust_price(symbol, stop_price)
@@ -325,7 +316,7 @@ def execute_trade(signal, percentage=20):
         take_profit_price = adjust_price(symbol, take_profit_price)
 
         log_to_file(f"Składanie zlecenia TAKE_PROFIT_LIMIT dla {symbol}:")
-        log_to_file(f"Ilość: {executed_qty}, Cena: {take_profit_price}")
+        log_to_file(f"Ilość: {stop_loss_qty}, Cena: {take_profit_price}")
 
         max_retries = 3
         for attempt in range(max_retries):
@@ -335,7 +326,7 @@ def execute_trade(signal, percentage=20):
                     side=SIDE_SELL,
                     type="LIMIT",
                     timeInForce="GTC",
-                    quantity=executed_qty,
+                    quantity=stop_loss_qty,
                     price=take_profit_price
                 )
                 if take_profit_order and take_profit_order.get('status') == 'NEW':
