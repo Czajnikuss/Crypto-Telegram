@@ -258,7 +258,7 @@ def cancel_position(symbol: str, days_back: int = 7):
         
 #print(reset_account_to_usdt())
 print(get_all_balances())
-#print(client.get_open_orders())
+print(client.get_open_orders())
 #print(place_order("DOGEUSDT", "SELL", 31791.0))
 #orderId= take_profit_order['orderId']
 
@@ -266,6 +266,6 @@ print(get_all_balances())
 #cancel_position("DOGEUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
-#print(get_order_all("OMNIUSDT", 1418288))
+print(get_order_all("MASKUSDT"))
 #print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
 

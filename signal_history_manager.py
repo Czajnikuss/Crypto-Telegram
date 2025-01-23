@@ -249,57 +249,70 @@ def check_and_update_signal_history():
             
         try:
             symbol = signal["currency"]
-            
-            # 1. Podstawowa weryfikacja
             current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
             base_balance = get_base_balance(symbol)
-            
-            # Sprawdzamy ilość kupioną według historii w sygnale
             executed_qty = signal["real_amount"]
             
-            if  base_balance < executed_qty :
-                signal["status"] = "CLOSED"
-                log_to_file(f"Brak wystarczającego salda dla {symbol}: {base_balance} < {executed_qty}")
-                continue
-                
-            # 2. Aktualizacja stanu
-            signal = update_signal_high_price(signal, current_price)
-            position_status = verify_position_status(signal, base_balance)
-            
-            if position_status in ["CLOSED", "INVALID"]:
-                signal["status"] = "CLOSED"
-                log_to_file(f"Pozycja zamknięta dla {symbol}")
-                continue
-                
-            # 3. Zarządzanie targetami
-            is_long = signal['signal_type'] == 'LONG'
-            for i, target in enumerate(signal["targets"]):
-                target_reached = (current_price >= target if is_long else current_price <= target)
-                if target_reached:
-                    log_to_file(f"Osiągnięto cel {i+1} dla {symbol} przy cenie {current_price}")
-                    
-                    if i == len(signal["targets"]) - 1 and base_balance > 0:
-                        closing_side = 'SELL' if is_long else 'BUY'
-                        adjusted_quantity = adjust_quantity(symbol, base_balance)
-                        client.create_order(
-                            symbol=symbol,
-                            side=closing_side,
-                            type='MARKET',
-                            quantity=adjusted_quantity
-                        )
-                        signal["status"] = "CLOSED"
-                        log_to_file(f"Zamknięto pozycję po osiągnięciu ostatniego celu dla {symbol}")
-                        continue
-            
-            # 4. Zarządzanie stop-lossami
+            # Sprawdzenie aktywnych zleceń OCO
             open_orders = client.get_open_orders(symbol=symbol)
-            handle_stop_loss(signal, current_price, base_balance, open_orders)
+            oco_order = find_oco_order(open_orders, signal.get("oco_order_id"))
+            
+            if not oco_order and signal.get("oco_order_id"):
+                # OCO zostało wykonane - sprawdź historię zleceń
+                order_history = client.get_all_orders(symbol=symbol)
+                executed_order = find_executed_oco_order(order_history, signal["oco_order_id"])
+                
+                if executed_order:
+                    entry_price = float(signal["entry_price"])
+                    executed_price = float(executed_order["price"])
+                    profit_usdt = (executed_price - entry_price) * executed_qty
+                    profit_percent = ((executed_price / entry_price) - 1) * 100
+                    
+                    # Określ czy to był stop loss czy take profit
+                    order_type = "Stop Loss" if executed_price <= float(signal["stop_loss"]) else "Take Profit"
+                    
+                    log_message = (
+                        f"Zlecenie OCO wykonane dla {symbol}\n"
+                        f"Typ: {order_type}\n"
+                        f"Cena wykonania: {executed_price}\n"
+                        f"Zysk/Strata: {profit_usdt:.2f} USDT ({profit_percent:.2f}%)"
+                    )
+                    
+                    log_to_file(log_message)
+                    
+                    # Aktualizacja sygnału
+                    signal.update({
+                        "status": "CLOSED",
+                        "exit_price": executed_price,
+                        "profit_usdt": profit_usdt,
+                        "profit_percent": profit_percent,
+                        "exit_type": order_type,
+                        "exit_time": executed_order["time"]
+                    })
+                    
+            signal = update_signal_high_price(signal, current_price)
             
         except Exception as e:
             log_to_file(f"Błąd podczas przetwarzania {symbol}: {e}")
             handle_critical_error(signal)
             
     save_signal_history(history)
+
+def find_oco_order(open_orders, oco_order_id):
+    """Znajduje aktywne zlecenie OCO po ID"""
+    if not oco_order_id:
+        return None
+    return next((order for order in open_orders if order.get("orderListId") == oco_order_id), None)
+
+def find_executed_oco_order(order_history, oco_order_id):
+    """Znajduje wykonane zlecenie OCO w historii"""
+    if not oco_order_id:
+        return None
+    executed_orders = [order for order in order_history 
+                      if order.get("orderListId") == oco_order_id 
+                      and order["status"] == "FILLED"]
+    return executed_orders[0] if executed_orders else None
+
 
 
 

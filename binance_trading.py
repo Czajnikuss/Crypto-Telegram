@@ -267,81 +267,55 @@ def execute_trade(signal, percentage=20):
         
         add_order_to_history(signal, market_order, "MARKET")
         
-        # 5. Realizacja STOP_LOSS
+        # 5. Realizacja OCO
         time.sleep(2)
 
         currency = symbol.replace('USDT', '')
         currency_balance = get_available_balance(currency)
         log_to_file(f"Dostępne {currency}: {currency_balance}")
 
-                
-        stop_loss_qty = adjust_quantity(currency,balance_diff * 0,998)
+        stop_loss_qty = min(balance_diff, currency_balance)
+        oco_qty= adjust_quantity(symbol, stop_loss_qty * 0.998) 
         log_to_file(f"Użycie stop_loss_qty dla STOP_LOSS: {stop_loss_qty}")
 
         stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
         stop_price = adjust_price(symbol, stop_price)
-        limit_price = adjust_price(symbol, stop_price * 0.995)
-
-        log_to_file(f"Składanie zlecenia STOP_LOSS_LIMIT dla {symbol}:")
-        log_to_file(f"Ilość: {stop_loss_qty}, Stop: {stop_price}, Limit: {limit_price}")
-
+        stop_limit_price = adjust_price(symbol, stop_price * 0.995)
         
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                stop_loss_order = client.create_order(
-                    symbol=symbol,
-                    side=SIDE_SELL,
-                    type="STOP_LOSS_LIMIT",
-                    timeInForce="GTC",
-                    quantity=stop_loss_qty,
-                    stopPrice=stop_price,
-                    price=limit_price
-                )
-                if stop_loss_order and stop_loss_order.get('status') == 'NEW':
-                    break
-                time.sleep(2 ** attempt)
-            except Exception as e:
-                if attempt == max_retries - 1:
-                    log_to_file(f"Wszystkie próby utworzenia STOP_LOSS_LIMIT nieudane: {str(e)}")
-                    return False
-                continue
-            
-        log_to_file(f"STOP_LOSS_LIMIT aktywowany pomyślnie")
-        add_order_to_history(signal, stop_loss_order, "STOP_LOSS")
-        
-        # 6. Realizacja TAKE_PROFIT
-        time.sleep(2)
-
-        # Ustawiamy take profit na poziomie 2-go celu jeśli istnieje, jeśli nie to 1-szy
+        # Wybór poziomu take profit (2gi target jeśli istnieje, jeśli nie to 1szy)
         take_profit_price = float(signal["targets"][1] if len(signal["targets"]) > 1 else signal["targets"][0])
-        take_profit_price = adjust_price(symbol, take_profit_price)
+        take_profit_price = adjust_price(symbol, take_profit_price)         
 
-        log_to_file(f"Składanie zlecenia TAKE_PROFIT_LIMIT dla {symbol}:")
-        log_to_file(f"Ilość: {stop_loss_qty}, Cena: {take_profit_price}")
+        log_to_file(f"Składanie zlecenia OCO dla {symbol}:")
+        log_to_file(f"Ilość: {oco_qty}")
+        log_to_file(f"Stop Price: {stop_price}, Stop Limit: {stop_limit_price}")
+        log_to_file(f"Take Profit: {take_profit_price}")
 
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                take_profit_order = client.create_order(
+                oco_order = client.create_oco_order(
                     symbol=symbol,
                     side=SIDE_SELL,
-                    type="LIMIT",
-                    timeInForce="GTC",
-                    quantity=stop_loss_qty,
-                    price=take_profit_price
+                    quantity=oco_qty,
+                    price=take_profit_price,
+                    stopPrice=stop_price,
+                    stopLimitPrice=stop_limit_price,
+                    stopLimitTimeInForce="GTC"
                 )
-                if take_profit_order and take_profit_order.get('status') == 'NEW':
-                    break
+                if oco_order:
+                    log_to_file(f"OCO order aktywowany pomyślnie")
+                    add_order_to_history(signal, oco_order, "OCO")
+                    return True
                 time.sleep(2 ** attempt)
             except Exception as e:
                 if attempt == max_retries - 1:
-                    log_to_file(f"Wszystkie próby utworzenia TAKE_PROFIT_LIMIT nieudane: {str(e)}")
+                    log_to_file(f"Wszystkie próby utworzenia OCO nieudane: {str(e)}")
                     return False
                 continue
 
-        log_to_file(f"TAKE_PROFIT_LIMIT aktywowany pomyślnie")
-        add_order_to_history(signal, take_profit_order, "TAKE_PROFIT")
+        log_to_file(f"OCO aktywowany pomyślnie")
+        add_order_to_history(signal, oco_order, "OCO")
                 
                 
         
