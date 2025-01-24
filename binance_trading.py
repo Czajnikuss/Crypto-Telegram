@@ -139,21 +139,29 @@ def execute_trade(signal, percentage=20):
         validation_result = check_binance_pair_and_price(client, symbol, signal["entry"])
         if "error" in validation_result:
             log_to_file(f"Walidacja pary nie powiodła się: {validation_result['error']}")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Walidacja pary nie powiodła się: {validation_result['error']}"
             return False
         
         
         if not symbol_info:
             log_to_file(f"Para {symbol} nie istnieje na Binance")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Para {symbol} nie istnieje na Binance"
             return False
         log_to_file("Dodatkowe potwierdzenie że symbol istnieje na Binance")
             
         if has_open_position(symbol):
             log_to_file(f"Otwarta pozycja dla {symbol} już istnieje")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Otwarta pozycja dla {symbol} już istnieje"
             return False
         log_to_file("potwierdziłem brak otwartych pozycji")
             
         if signal["signal_type"] != "LONG":
             log_to_file(f"Pomijam sygnał, ponieważ nie jest to LONG: {symbol}")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Pomijam sygnał, ponieważ nie jest to LONG: {symbol}"
             return False
         log_to_file("Sygnał jest typu LONG")
             
@@ -176,6 +184,7 @@ def execute_trade(signal, percentage=20):
         else:
             log_to_file("Warunek niespełniony:", check_price_condition(current_price, signal))
             signal["status"] = "CLOSED"
+            signal["error"] = "Cena na rynku za wysoka na wejście."
             return False
         
         # Walidacja stop loss
@@ -211,6 +220,8 @@ def execute_trade(signal, percentage=20):
         # Jeśli min_notional > 0, sprawdzamy warunek
         if min_notional > 0 and actual_value < min_notional:
             log_to_file(f"Wartość zlecenia ({actual_value} USDT) poniżej minimum ({min_notional} USDT)")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Wartość zlecenia ({actual_value} USDT) poniżej minimum ({min_notional} USDT)"
             return False
 
         if actual_value < min_notional:
@@ -218,11 +229,7 @@ def execute_trade(signal, percentage=20):
             quantity = adjust_quantity(symbol, required_qty)
             actual_value = quantity * current_price
 
-        
-        if actual_value < min_notional:
-            log_to_file(f"Wartość zlecenia ({actual_value} USDT) poniżej minimum ({min_notional} USDT)")
-            return False
-            
+
         # 4. Realizacja MARKET
         log_to_file(f"Składanie zlecenia MARKET dla {symbol}:")
         log_to_file(f"Ilość: {quantity}, Strona: BUY, Wartość USDT: {actual_value:.2f}, Cena: {current_price}")
@@ -244,6 +251,8 @@ def execute_trade(signal, percentage=20):
             except Exception as e:
                 if attempt == max_retries - 1:
                     log_to_file(f"Wszystkie próby wykonania zlecenia MARKET nieudane: {str(e)}")
+                    signal["status"] = "CLOSED"
+                    signal["error"] = f"Wszystkie próby wykonania zlecenia MARKET nieudane: {str(e)}"
                     return False
                 continue
         
@@ -263,6 +272,8 @@ def execute_trade(signal, percentage=20):
         else:
             log_to_file(f"Zlecenie MARKET nie powiodło się. Status: {market_order.get('status')}")
             log_to_file(f"Brak zmiany salda {currency}: {initial_currency_balance} -> {final_balance}")
+            signal["status"] = "CLOSED"
+            signal["error"] = f"Brak zmiany salda {currency}: {initial_currency_balance} -> {final_balance}"
             return False    
         
         add_order_to_history(signal, market_order, "MARKET")
@@ -311,6 +322,7 @@ def execute_trade(signal, percentage=20):
             except Exception as e:
                 if attempt == max_retries - 1:
                     log_to_file(f"Wszystkie próby utworzenia OCO nieudane: {str(e)}")
+                    signal["error"] = f"Wszystkie próby utworzenia OCO nieudane: {str(e)}"
                     return False
                 continue
 
@@ -325,6 +337,19 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Błąd wykonania transakcji: {str(e)}")
         log_to_file(f"Kontekst błędu: {e.__dict__}")
         return False
+    
+    finally:
+        # Aktualizacja historii sygnałów
+        history = load_signal_history()
+        
+        # Znajdujemy i nadpisujemy cały sygnał w historii
+        for idx, hist_signal in enumerate(history):
+            if (hist_signal["currency"] == signal["currency"] and 
+                hist_signal["timestamp"] == signal["timestamp"]):
+                history[idx] = signal
+                break
+                
+        save_signal_history(history)
 
 
 

@@ -266,6 +266,6 @@ print(client.get_open_orders())
 #cancel_position("DOGEUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
-print(get_order_all("MASKUSDT"))
+#print(get_order_all("MASKUSDT"))
 #print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
 

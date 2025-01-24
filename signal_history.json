@@ -109,7 +109,8 @@
                 "avgPrice": 0.40208,
                 "time": 1737191109658
             }
-        ]
+        ],
+        "status": "CLOSED"
     },
     {
         "signal_id": "1770",
@@ -126,6 +127,7 @@
         "stop_loss": 0.126,
         "breakeven": null,
         "profit_percentage": 90.5,
-        "date": "2025-01-21T16:12:23+00:00"
+        "date": "2025-01-21T16:12:23+00:00",
+        "status": "CLOSED"
     }
 ]
