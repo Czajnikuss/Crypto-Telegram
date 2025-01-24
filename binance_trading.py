@@ -47,12 +47,8 @@ def check_price_condition(current_price, signal):
         if current_price < targets[0]:
             return True
         else:
-            return "Błąd: Aktualna cena jest powyżej jedynego celu"
-    elif len(targets) >= 2:  # Dla sygnału z dwoma lub więcej celami
-        if current_price < targets[1]:
-            return True
-        else:
-            return "Błąd: Aktualna cena jest powyżej drugiego celu"
+            return "Błąd: Aktualna cena jest powyżej pierwszego celu"
+    
 
 def has_open_position(symbol):
     try:
@@ -180,7 +176,7 @@ def execute_trade(signal, percentage=20):
         
         #waildacja czy sygnał nie jest przedwczesny dla rynku, anulujemy jeśłi 2 cel został zrealizowany.
         if check_price_condition(current_price, signal) is True:
-            log_to_file(f"Aktualna cena poniżej 2 go celu")
+            log_to_file(f"Aktualna cena poniżej 1 go celu")
         else:
             log_to_file("Warunek niespełniony:", check_price_condition(current_price, signal))
             signal["status"] = "CLOSED"
@@ -345,7 +341,7 @@ def execute_trade(signal, percentage=20):
         # Znajdujemy i nadpisujemy cały sygnał w historii
         for idx, hist_signal in enumerate(history):
             if (hist_signal["currency"] == signal["currency"] and 
-                hist_signal["timestamp"] == signal["timestamp"]):
+                hist_signal["date"] == signal["date"]):
                 history[idx] = signal
                 break
                 
