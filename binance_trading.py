@@ -334,7 +334,9 @@ def execute_trade(signal, percentage=20):
                     price=take_profit_price,
                     stopPrice=stop_price,
                     stopLimitPrice=stop_limit_price,
-                    stopLimitTimeInForce="GTC"
+                    stopLimitTimeInForce="GTC",
+                    aboveType="LIMIT_MAKER",      # Dla take profit
+                    belowType="STOP_LOSS_LIMIT"   # Dla stop loss
                 )
                 if oco_order:
                     log_to_file(f"OCO order aktywowany pomyślnie")
