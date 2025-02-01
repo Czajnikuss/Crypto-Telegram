@@ -1,6 +1,6 @@
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
-from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details, check_binance_pair_and_price
-import time
+from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details, check_binance_pair_and_price, create_oco_order_direct
+import time, math
 from signal_history_manager import load_signal_history, save_signal_history
 
 def get_available_balance(asset):
@@ -308,13 +308,13 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Dostępne {currency}: {currency_balance}")
 
         stop_loss_qty = min(balance_diff, currency_balance)
-        oco_qty= adjust_quantity(symbol, stop_loss_qty * 0.998) 
+        oco_qty = adjust_quantity(symbol, stop_loss_qty * 0.998) 
         log_to_file(f"Użycie stop_loss_qty dla STOP_LOSS: {stop_loss_qty}")
 
         stop_price = float(round(signal["stop_loss"] / tick_size) * tick_size)
         stop_price = adjust_price(symbol, stop_price)
         stop_limit_price = adjust_price(symbol, stop_price * 0.995)
-        
+
         # Wybór poziomu take profit (2gi target jeśli istnieje, jeśli nie to 1szy)
         take_profit_price = float(signal["targets"][1] if len(signal["targets"]) > 1 else signal["targets"][0])
         take_profit_price = adjust_price(symbol, take_profit_price)         
@@ -327,19 +327,24 @@ def execute_trade(signal, percentage=20):
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                oco_order = client.create_oco_order(
+                # Używamy nowej funkcji create_oco_order_direct zamiast client.create_oco_order
+                oco_order = create_oco_order_direct(
+                    client=client,
                     symbol=symbol,
                     side=SIDE_SELL,
                     quantity=oco_qty,
-                    price=take_profit_price,      # Limit price dla take profit
-                    stopPrice=stop_price,         # Trigger price dla stop loss
-                    stopLimitPrice=stop_limit_price,  # Limit price dla stop loss
-                    stopLimitTimeInForce="GTC"    # Good Till Cancel
+                    take_profit_price=take_profit_price,
+                    stop_price=stop_price,
+                    stop_limit_price=stop_limit_price
                 )
-                if oco_order:
+                
+                if oco_order and 'orderListId' in oco_order:
                     log_to_file(f"OCO order aktywowany pomyślnie")
+                    # Dodajemy orderListId do sygnału dla późniejszego śledzenia
+                    signal["oco_order_id"] = oco_order['orderListId']
                     add_order_to_history(signal, oco_order, "OCO")
                     return True
+                    
                 time.sleep(2 ** attempt)
             except Exception as e:
                 if attempt == max_retries - 1:
@@ -347,9 +352,6 @@ def execute_trade(signal, percentage=20):
                     signal["error"] = f"Wszystkie próby utworzenia OCO nieudane: {str(e)}"
                     return False
                 continue
-
-        log_to_file(f"OCO aktywowany pomyślnie")
-        add_order_to_history(signal, oco_order, "OCO")
                 
                 
         
