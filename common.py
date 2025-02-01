@@ -212,49 +212,30 @@ def is_signal_new(signal, history):
 
 
 def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, stop_price, stop_limit_price):
-    """
-    Tworzy zlecenie OCO bezpośrednio przez API Binance.
-    
-    Args:
-        client: Skonfigurowany klient Binance API
-        symbol: Symbol pary tradingowej (np. 'BTCUSDT')
-        side: Strona zlecenia ('BUY' lub 'SELL')
-        quantity: Ilość do handlu
-        take_profit_price: Cena take profit
-        stop_price: Cena stop loss (trigger)
-        stop_limit_price: Cena limit dla stop loss
-    
-    Returns:
-        dict: Odpowiedź z API Binance
-    """
     try:
-        # Przygotuj parametry
+        # Convert all numeric values to float before creating params
         params = {
             'symbol': symbol,
             'side': side,
-            'quantity': adjust_quantity(symbol, quantity),
-            'aboveType': 'LIMIT_MAKER',
-            'belowType': 'STOP_LOSS_LIMIT',
-            'abovePrice': adjust_price(symbol, take_profit_price),
-            'belowPrice': adjust_price(symbol, stop_limit_price),
-            'belowStopPrice': adjust_price(symbol, stop_price),
-            'belowTimeInForce': 'GTC',
+            'quantity': float(quantity),
+            'price': float(take_profit_price),
+            'stopPrice': float(stop_price),
+            'stopLimitPrice': float(stop_limit_price),
+            'stopLimitTimeInForce': 'GTC',
             'timestamp': int(time.time() * 1000)
         }
         
-        # Generuj podpis
+        # Generate signature
         query_string = '&'.join([f"{k}={v}" for k, v in params.items()])
         signature = client._generate_signature(query_string)
         params['signature'] = signature
         
-        # Przygotuj nagłówki
         headers = {
             'X-MBX-APIKEY': client.API_KEY
         }
         
-        # Wykonaj request
         response = requests.post(
-            f'{client.API_URL}/api/v3/orderList/oco',
+            f'{client.API_URL}/api/v3/order/oco',
             params=params,
             headers=headers
         )
@@ -268,6 +249,7 @@ def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, s
     except Exception as e:
         log_to_file(f"Wyjątek podczas tworzenia zlecenia OCO: {str(e)}")
         return None
+
 
 def verify_oco_order(client, symbol, order_list_id):
     """
