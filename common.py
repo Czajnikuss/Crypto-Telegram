@@ -4,7 +4,7 @@ import os, math, time, json
 from datetime import datetime
 from telethon import TelegramClient
 import requests
-
+import traceback
 
 SIGNAL_HISTORY_FILE = 'signal_history.json'
 MAX_HISTORY_SIZE = 50  # Maksymalna liczba sygnałów w historii
@@ -211,9 +211,10 @@ def is_signal_new(signal, history):
     return True
 
 
+
+
 def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, stop_price, stop_limit_price):
     try:
-        # Convert all numeric values to float before creating params
         params = {
             'symbol': symbol,
             'side': side,
@@ -234,6 +235,8 @@ def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, s
             'X-MBX-APIKEY': client.API_KEY
         }
         
+        log_to_file(f"Wysyłam request OCO z parametrami: {params}")
+        
         response = requests.post(
             f'{client.API_URL}/api/v3/order/oco',
             params=params,
@@ -242,13 +245,17 @@ def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, s
         
         if response.status_code != 200:
             log_to_file(f"Błąd podczas tworzenia zlecenia OCO: {response.text}")
+            log_to_file(f"Status code: {response.status_code}")
             return None
             
         return response.json()
         
     except Exception as e:
+        error_trace = traceback.format_exc()
         log_to_file(f"Wyjątek podczas tworzenia zlecenia OCO: {str(e)}")
+        log_to_file(f"Stack trace:\n{error_trace}")
         return None
+
 
 
 def verify_oco_order(client, symbol, order_list_id):

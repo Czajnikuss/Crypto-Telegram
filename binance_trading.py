@@ -2,6 +2,8 @@ from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details, check_binance_pair_and_price, create_oco_order_direct
 import time, math
 from signal_history_manager import load_signal_history, save_signal_history
+import traceback
+
 
 def get_available_balance(asset):
     try:
@@ -358,8 +360,11 @@ def execute_trade(signal, percentage=20):
         return True
         
     except Exception as e:
+        error_trace = traceback.format_exc()
+        log_to_file(f"Stack trace:\n{error_trace}")
         log_to_file(f"Błąd wykonania transakcji: {str(e)}")
         log_to_file(f"Kontekst błędu: {e.__dict__}")
+        log_to_file(f"Stack trace:\n{error_trace}")
         return False
     
     finally:
