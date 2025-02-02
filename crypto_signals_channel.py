@@ -11,6 +11,8 @@ from common import log_to_file, MAX_HISTORY_SIZE, load_signal_history, save_sign
 def parse_signal_message_algo(message_text):
     """
     Parses the signal message text and extracts relevant information.
+    For LONG signals: targets sorted ascending
+    For SHORT signals: targets sorted descending
     """
     # Extract currency and signal type from the first line
     first_line_match = re.search(r'\*\*([A-Za-z0-9]+)\.?[A-Za-z]*\s([A-Za-z]+)\*\*', message_text)
@@ -27,9 +29,15 @@ def parse_signal_message_algo(message_text):
     entry_match = re.search(r'Entry:\s*([\d.]+)', message_text)
     entry = float(entry_match.group(1)) if entry_match else None
 
-    # Extract target values
+    # Extract target values and sort them based on signal type
     take_profit_matches = re.findall(r'Take profit \d+:\s*([\d.]+)', message_text)
     targets = [float(tp) for tp in take_profit_matches]
+    
+    if targets and signal_type:
+        if signal_type.upper() == "LONG":
+            targets = sorted(targets)  # ascending order
+        elif signal_type.upper() == "SHORT":
+            targets = sorted(targets, reverse=True)  # descending order
 
     # Extract stop loss value
     stop_loss_match = re.search(r'Stop loss:\s*([\d.]+)', message_text)
@@ -46,6 +54,8 @@ def parse_signal_message_algo(message_text):
         "stop_loss": stop_loss,
         "breakeven": breakeven,
     }
+
+
 
 async def process_algo_bot_message(message):
     """
@@ -118,14 +128,16 @@ async def check_crypto_signals_messages(client_telegram):
 def parse_signal_message(message_text):
     """
     Parsuje treść wiadomości sygnału i wyodrębnia informacje.
+    Dla LONG: targety sortowane rosnąco
+    Dla SHORT: targety sortowane malejąco
     """
     # Wzorce regex do wyodrębniania danych
-    currency_pattern = r"Crypto Signal Alert: #(\w+)"  # Waluta (np. ACEUSDT)
-    signal_type_pattern = r"(SHORT|LONG)"  # Typ sygnału (SHORT/LONG)
-    entry_pattern = r"Entry Zone: ([\d.]+)"  # Kwota wejścia
-    targets_pattern = r"Targets: ([\d., ]+)"  # Cele
-    stop_loss_pattern = r"Stop-Loss: ([\d.]+)"  # Stop-Loss
-    breakeven_pattern = r"Move to breakeven after hitting ([\d.]+)"  # Breakeven
+    currency_pattern = r"Crypto Signal Alert: #(\w+)"
+    signal_type_pattern = r"(SHORT|LONG)"
+    entry_pattern = r"Entry Zone: ([\d.]+)"
+    targets_pattern = r"Targets: ([\d., ]+)"
+    stop_loss_pattern = r"Stop-Loss: ([\d.]+)"
+    breakeven_pattern = r"Move to breakeven after hitting ([\d.]+)"
 
     # Wyodrębnij dane
     currency = re.search(currency_pattern, message_text)
@@ -135,15 +147,25 @@ def parse_signal_message(message_text):
     stop_loss = re.search(stop_loss_pattern, message_text)
     breakeven = re.search(breakeven_pattern, message_text)
 
+    # Przygotuj targety z odpowiednim sortowaniem
+    sorted_targets = []
+    if targets and signal_type:
+        targets_list = [float(t.strip()) for t in targets.group(1).split(",")]
+        if signal_type.group(1) == "LONG":
+            sorted_targets = sorted(targets_list)  # sortowanie rosnąco
+        else:  # SHORT
+            sorted_targets = sorted(targets_list, reverse=True)  # sortowanie malejąco
+
     # Przygotuj wynik
     return {
         "currency": currency.group(1) if currency else None,
         "signal_type": signal_type.group(1) if signal_type else None,
         "entry": float(entry.group(1)) if entry else None,
-        "targets": [float(t.strip()) for t in targets.group(1).split(",")] if targets else [],
+        "targets": sorted_targets,
         "stop_loss": float(stop_loss.group(1)) if stop_loss else None,
         "breakeven": float(breakeven.group(1)) if breakeven else None,
     }
+
 
 async def process_signal_message(message):
     """

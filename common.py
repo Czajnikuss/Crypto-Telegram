@@ -4,7 +4,10 @@ import os, math, time, json
 from datetime import datetime
 from telethon import TelegramClient
 import requests
+from urllib.parse import urlencode, quote
+
 import traceback
+import hmac, hashlib
 
 SIGNAL_HISTORY_FILE = 'signal_history.json'
 MAX_HISTORY_SIZE = 50  # Maksymalna liczba sygnałów w historii
@@ -213,51 +216,6 @@ def is_signal_new(signal, history):
 
 
 
-def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, stop_price, stop_limit_price):
-    try:
-        params = {
-            'symbol': symbol,
-            'side': side,
-            'quantity': float(quantity),
-            'price': float(take_profit_price),
-            'stopPrice': float(stop_price),
-            'stopLimitPrice': float(stop_limit_price),
-            'stopLimitTimeInForce': 'GTC',
-            'timestamp': int(time.time() * 1000)
-        }
-        
-        # Generate signature
-        query_string = '&'.join([f"{k}={v}" for k, v in params.items()])
-        signature = client._generate_signature(query_string)
-        params['signature'] = signature
-        
-        headers = {
-            'X-MBX-APIKEY': client.API_KEY
-        }
-        
-        log_to_file(f"Wysyłam request OCO z parametrami: {params}")
-        
-        response = requests.post(
-            f'{client.API_URL}/api/v3/order/oco',
-            params=params,
-            headers=headers
-        )
-        
-        if response.status_code != 200:
-            log_to_file(f"Błąd podczas tworzenia zlecenia OCO: {response.text}")
-            log_to_file(f"Status code: {response.status_code}")
-            return None
-            
-        return response.json()
-        
-    except Exception as e:
-        error_trace = traceback.format_exc()
-        log_to_file(f"Wyjątek podczas tworzenia zlecenia OCO: {str(e)}")
-        log_to_file(f"Stack trace:\n{error_trace}")
-        return None
-
-
-
 def verify_oco_order(client, symbol, order_list_id):
     """
     Weryfikuje status zlecenia OCO.
@@ -299,4 +257,116 @@ def verify_oco_order(client, symbol, order_list_id):
     except Exception as e:
         log_to_file(f"Wyjątek podczas weryfikacji zlecenia OCO: {str(e)}")
         return None
+    
+def test_api_keys():
+    log_to_file("=== Testing API Keys ===")
+    log_to_file(f"API Key: {api_key[:5]}...{api_key[-5:]}")  # Logujemy tylko fragmenty dla bezpieczeństwa
+    log_to_file(f"API Secret: {api_secret[:5]}...{api_secret[-5:]}")
+    
+    # Test połączenia
+    try:
+        # Sprawdź uprawnienia konta
+        account_info = client.get_account()
+        log_to_file("Account permissions:")
+        log_to_file(str(account_info.get('permissions', [])))
+        
+        # Sprawdź czas serwera
+        server_time = client.get_server_time()
+        log_to_file(f"Server time: {server_time}")
+        
+        return True
+    except Exception as e:
+        log_to_file(f"Error testing API keys: {str(e)}")
+        return False
 
+    
+def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, stop_price, stop_limit_price):
+    try:
+        # Create base parameters in alphabetical order
+        params = {
+            'abovePrice': format(float(take_profit_price), 'f'),
+            'aboveType': 'LIMIT_MAKER',
+            'belowPrice': format(float(stop_limit_price), 'f'),
+            'belowStopPrice': format(float(stop_price), 'f'),
+            'belowTimeInForce': 'GTC',
+            'belowType': 'STOP_LOSS_LIMIT',
+            'quantity': format(float(quantity), 'f'),
+            'side': side,
+            'symbol': symbol,
+            'timestamp': int(time.time() * 1000)
+        }
+        
+        # Create query string with proper encoding
+        query_string = '&'.join([f"{k}={v}" for k, v in sorted(params.items())])
+        
+        # Generate signature
+        signature = hmac.new(
+            bytes(client.API_SECRET, 'utf-8'),
+            bytes(query_string, 'utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+
+        # Add signature to params after generating it
+        params['signature'] = signature
+        
+        headers = {
+            'X-MBX-APIKEY': client.API_KEY,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        
+        base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com'
+        
+        # Log full request details
+        log_to_file("=== Request Details ===")
+        log_to_file(f"Query string for signature: {query_string}")
+        log_to_file(f"Generated signature: {signature}")
+        
+        response = requests.post(
+            f'{base_url}/api/v3/orderList/oco',
+            params=params,
+            headers=headers
+        )
+        
+        log_to_file("=== Response Details ===")
+        log_to_file(f"Status Code: {response.status_code}")
+        log_to_file(f"Response Text: {response.text}")
+        log_to_file(f"Request URL: {response.url}")
+        
+        if response.status_code != 200:
+            return None
+            
+        return response.json()
+        
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        log_to_file(f"Exception: {str(e)}")
+        log_to_file(f"Stack trace:\n{error_trace}")
+        return None
+
+
+
+def test_oco_order():
+    # Using values from the log
+    test_params = {
+        'symbol': 'IOTAUSDT',
+        'quantity': 35033.0,
+        'take_profit_price': 0.2972,
+        'stop_price': 0.2302,
+        'stop_limit_price': 0.229
+    }
+    
+    result = create_oco_order_direct(
+        client=client,
+        symbol=test_params['symbol'],
+        side='SELL',
+        quantity=test_params['quantity'],
+        take_profit_price=test_params['take_profit_price'],
+        stop_price=test_params['stop_price'],
+        stop_limit_price=test_params['stop_limit_price']
+    )
+    
+    return result
+
+# You can run the test with:
+#test_result = test_oco_order()
+#test_api_keys()

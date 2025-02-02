@@ -46,19 +46,19 @@ def validate_signal_data(signal_data):
     Sprawdza, czy wartości w sygnale mają sens w kontekście sygnału crypto.
     """
     # Sprawdź, czy wszystkie wymagane pola są obecne
-    required_fields = ['currency', 'signal_type', 'entry', 'targets', 'stop_loss']
+    required_fields = ['currency', 'direction', 'entry', 'targets', 'stop_loss']
     for field in required_fields:
         if signal_data.get(field) is None:
             return False, f"Brak wymaganego pola: {field}"
 
     # Sprawdź, czy entry i stop_loss mają sens w kontekście LONG/SHORT
-    if signal_data['signal_type'] == 'LONG':
+    if signal_data['direction'] == 'LONG':
         if signal_data['stop_loss'] >= signal_data['entry']:
             return False, "Stop-loss dla LONG powinien być mniejszy niż entry"
         for target in signal_data['targets']:
             if target <= signal_data['entry']:
                 return False, "Target dla LONG powinien być większy niż entry"
-    elif signal_data['signal_type'] == 'SHORT':
+    elif signal_data['direction'] == 'SHORT':
         if signal_data['stop_loss'] <= signal_data['entry']:
             return False, "Stop-loss dla SHORT powinien być większy niż entry"
         for target in signal_data['targets']:
@@ -66,9 +66,9 @@ def validate_signal_data(signal_data):
                 return False, "Target dla SHORT powinien być mniejszy niż entry"
 
     # Sprawdź, czy targets są posortowane rosnąco dla LONG lub malejąco dla SHORT
-    if signal_data['signal_type'] == 'LONG' and signal_data['targets'] != sorted(signal_data['targets']):
+    if signal_data['direction'] == 'LONG' and signal_data['targets'] != sorted(signal_data['targets']):
         return False, "Targety dla LONG powinny być posortowane rosnąco"
-    if signal_data['signal_type'] == 'SHORT' and signal_data['targets'] != sorted(signal_data['targets'], reverse=True):
+    if signal_data['direction'] == 'SHORT' and signal_data['targets'] != sorted(signal_data['targets'], reverse=True):
         return False, "Targety dla SHORT powinny być posortowane malejąco"
 
     return True, "Sygnał jest poprawny"
@@ -152,6 +152,12 @@ def parse_binance_killers_signal_message(message_text):
                 if targets_found:
                     targets = [float(t) for t in targets_found]
                     break
+        
+        if targets and direction:
+            if direction.upper() == "LONG":
+                targets = sorted(targets)  # ascending order
+            elif direction.upper() == "SHORT":
+                targets = sorted(targets, reverse=True)  # descending order
 
         # Szukaj stop loss we wszystkich wzorcach
         stop_loss = None
@@ -173,7 +179,7 @@ def parse_binance_killers_signal_message(message_text):
         signal_data = {
             "signal_id": signal_id.group(1) if signal_id else "unknown",
             "currency": f"{coin.group(1)}USDT" if coin else None,
-            "signal_type": direction.group(1) if direction else None,
+            "direction": direction.group(1) if direction else None,
             "entry": float(entry.group(1)) if entry else (targets[0] if targets else None),
             "targets": targets[1:] if len(targets) > 1 else [],
             "stop_loss": float(stop_loss.group(1)) if stop_loss else None,
@@ -183,9 +189,9 @@ def parse_binance_killers_signal_message(message_text):
 
         # Oblicz stop loss jeśli nie został podany
         if signal_data["stop_loss"] is None and signal_data["entry"] is not None:
-            if signal_data["signal_type"] == "LONG":
+            if signal_data["direction"] == "LONG":
                 signal_data["stop_loss"] = signal_data["entry"] * 0.95
-            elif signal_data["signal_type"] == "SHORT":
+            elif signal_data["direction"] == "SHORT":
                 signal_data["stop_loss"] = signal_data["entry"] * 1.05
 
         # Walidacja sygnału
@@ -212,7 +218,7 @@ async def process_binance_killers_signal_message(message):
         signal_data["date"] = message.get("date", datetime.now().isoformat())
         
         # Sprawdź czy mamy minimum wymaganych danych
-        if all([signal_data["currency"], signal_data["signal_type"], signal_data["entry"]]):
+        if all([signal_data["currency"], signal_data["direction"], signal_data["entry"]]):
             log_to_file(f"Uzyskany sygnał: {signal_data}")
             history = load_signal_history()
 
