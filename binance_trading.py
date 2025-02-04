@@ -1,6 +1,6 @@
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from common import client, log_to_file, adjust_quantity, adjust_price, get_order_details, check_binance_pair_and_price, create_oco_order_direct
-import time, math
+import time, math, json
 from signal_history_manager import load_signal_history, save_signal_history
 import traceback
 
@@ -150,7 +150,8 @@ def get_min_notional(symbol):
 def execute_trade(signal, percentage=20):
     try:
         symbol = signal["currency"]
-        log_to_file(f"Rozpoczynam przetwarzanie sygnału dla {symbol}")
+        log_to_file(f"Rozpoczynam przetwarzanie sygnału:\n{json.dumps(signal, indent=2)}")
+        log_to_file(f"Procent kapitału: {percentage}%")
         
         # Dodajemy explicit logowanie przed każdą operacją API
         log_to_file("Pobieram exchange_info...")
@@ -326,10 +327,10 @@ def execute_trade(signal, percentage=20):
         log_to_file(f"Stop Price: {stop_price}, Stop Limit: {stop_limit_price}")
         log_to_file(f"Take Profit: {take_profit_price}")
 
+        # W sekcji realizacji OCO:
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                # Używamy nowej funkcji create_oco_order_direct zamiast client.create_oco_order
                 oco_order = create_oco_order_direct(
                     client=client,
                     symbol=symbol,
@@ -341,22 +342,20 @@ def execute_trade(signal, percentage=20):
                 )
                 
                 if oco_order and 'orderListId' in oco_order:
-                    log_to_file(f"OCO order aktywowany pomyślnie")
-                    # Dodajemy orderListId do sygnału dla późniejszego śledzenia
+                    log_to_file("OCO order aktywowany pomyślnie")
                     signal["oco_order_id"] = oco_order['orderListId']
-                    add_order_to_history(signal, oco_order, "OCO")
-                    return True
+                    add_order_to_history(...)
+                    return True  # Zmiana: natychmiastowy return po sukcesie
                     
-                time.sleep(2 ** attempt)
             except Exception as e:
                 if attempt == max_retries - 1:
                     log_to_file(f"Wszystkie próby utworzenia OCO nieudane: {str(e)}")
                     signal["error"] = f"Wszystkie próby utworzenia OCO nieudane: {str(e)}"
                     return False
+
+                
                 continue
-                
-                
-        
+                        
         return True
         
     except Exception as e:
