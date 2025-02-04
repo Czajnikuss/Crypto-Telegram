@@ -367,6 +367,76 @@ def test_oco_order():
     
     return result
 
-# You can run the test with:
-#test_result = test_oco_order()
-#test_api_keys()
+import os
+import json
+from openai import OpenAI
+
+def ask_AI_to_fill_the_signal_fields(message_text, partial_signal_data):
+    """
+    Używa OpenAI API do uzupełnienia brakujących pól w sygnale tradingowym.
+    """
+    client = OpenAI()  # Automatycznie użyje OPENAI_API_KEY ze środowiska
+    
+    # Przygotowanie promptu
+    system_prompt = """
+    Jesteś ekspertem w analizie sygnałów tradingowych crypto. Twoim zadaniem jest przeanalizowanie wiadomości 
+    i uzupełnienie brakujących pól w strukturze sygnału tradingowego dla Binance.
+    Wymagane pola to:
+    - currency (format: XXXUSDT)
+    - direction (LONG lub SHORT)
+    - entry (liczba zmiennoprzecinkowa)
+    - targets (lista liczb zmiennoprzecinkowych)
+    - stop_loss (liczba zmiennoprzecinkowa)
+    
+    Zasady:
+    1. Dla LONG: stop_loss < entry < targets (rosnąco)
+    2. Dla SHORT: targets (malejąco) < entry < stop_loss
+    3. Jeśli nie możesz znaleźć wartości, użyj logiki:
+       - Dla LONG: stop_loss = entry * 0.90
+       - Dla SHORT: stop_loss = entry * 1.1
+    """
+    
+    user_prompt = f"""
+    Oto wiadomość z sygnałem:
+    {message_text}
+    
+    Obecne dane sygnału (niektóre mogą być None):
+    {json.dumps(partial_signal_data, indent=2)}
+    
+    Zwróć tylko brakujące pola w formacie JSON. Nie zmieniaj istniejących wartości. Nie zwracaj nic poza JSON.
+    """
+    
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.1,  # Niższa temperatura dla bardziej deterministycznych odpowiedzi
+            response_format={"type": "json_object"}
+        )
+        
+        # Parsowanie odpowiedzi JSON
+        new_fields = json.loads(response.choices[0].message.content)
+        
+        # Aktualizacja partial_signal_data tylko dla brakujących pól
+        updated_signal = partial_signal_data.copy()
+        for key, value in new_fields.items():
+            if updated_signal.get(key) is None:
+                updated_signal[key] = value
+        
+        # Walidacja uzupełnionych danych
+        if updated_signal["direction"] == "LONG":
+            if updated_signal["targets"]:
+                updated_signal["targets"] = sorted(updated_signal["targets"])
+        elif updated_signal["direction"] == "SHORT":
+            if updated_signal["targets"]:
+                updated_signal["targets"] = sorted(updated_signal["targets"], reverse=True)
+        
+        return updated_signal
+        
+    except Exception as e:
+        print(f"Błąd podczas używania OpenAI API: {str(e)}")
+        return partial_signal_data
+
