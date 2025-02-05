@@ -383,7 +383,7 @@ def ask_AI_to_fill_the_signal_fields(message_text, partial_signal_data):
     i uzupełnienie brakujących pól w strukturze sygnału tradingowego dla Binance.
     Wymagane pola to:
     - currency (format: XXXUSDT)
-    - direction (LONG lub SHORT)
+    - signal_type (LONG lub SHORT)
     - entry (liczba zmiennoprzecinkowa)
     - targets (lista liczb zmiennoprzecinkowych)
     - stop_loss (liczba zmiennoprzecinkowa)
@@ -427,10 +427,10 @@ def ask_AI_to_fill_the_signal_fields(message_text, partial_signal_data):
                 updated_signal[key] = value
         
         # Walidacja uzupełnionych danych
-        if updated_signal["direction"] == "LONG":
+        if updated_signal["signal_type"] == "LONG":
             if updated_signal["targets"]:
                 updated_signal["targets"] = sorted(updated_signal["targets"])
-        elif updated_signal["direction"] == "SHORT":
+        elif updated_signal["signal_type"] == "SHORT":
             if updated_signal["targets"]:
                 updated_signal["targets"] = sorted(updated_signal["targets"], reverse=True)
         

@@ -7,7 +7,6 @@ from telethon.tl.types import Channel
 from common import log_to_file, MAX_HISTORY_SIZE, load_signal_history, save_signal_history, is_signal_new, last_message_ids, ask_AI_to_fill_the_signal_fields
 
 
-
 async def get_binance_killers_signals_channel(client_telegram):
     async for dialog in client_telegram.iter_dialogs():
         if dialog.name == "Binance Killers®" and isinstance(dialog.entity, Channel):
@@ -44,27 +43,27 @@ async def check_binance_killers_signals_messages(client_telegram):
             last_message_ids.add(message.id)
 
 def validate_signal_data(signal_data):
-    required_fields = ['currency', 'direction', 'entry', 'targets', 'stop_loss']
+    required_fields = ['currency', 'signal_type', 'entry', 'targets', 'stop_loss']
     for field in required_fields:
         if signal_data.get(field) is None:
             return False, f"Brak wymaganego pola: {field}"
 
-    if signal_data['direction'] == 'LONG':
+    if signal_data['signal_type'] == 'LONG':
         if signal_data['stop_loss'] >= signal_data['entry']:
             return False, "Stop-loss dla LONG powinien być mniejszy niż entry"
         for target in signal_data['targets']:
             if target <= signal_data['entry']:
                 return False, "Target dla LONG powinien być większy niż entry"
-    elif signal_data['direction'] == 'SHORT':
+    elif signal_data['signal_type'] == 'SHORT':
         if signal_data['stop_loss'] <= signal_data['entry']:
             return False, "Stop-loss dla SHORT powinien być większy niż entry"
         for target in signal_data['targets']:
             if target >= signal_data['entry']:
                 return False, "Target dla SHORT powinien być mniejszy niż entry"
 
-    if signal_data['direction'] == 'LONG' and signal_data['targets'] != sorted(signal_data['targets']):
+    if signal_data['signal_type'] == 'LONG' and signal_data['targets'] != sorted(signal_data['targets']):
         return False, "Targety dla LONG powinny być posortowane rosnąco"
-    if signal_data['direction'] == 'SHORT' and signal_data['targets'] != sorted(signal_data['targets'], reverse=True):
+    if signal_data['signal_type'] == 'SHORT' and signal_data['targets'] != sorted(signal_data['targets'], reverse=True):
         return False, "Targety dla SHORT powinny być posortowane malejąco"
 
     return True, "Sygnał jest poprawny"
@@ -165,7 +164,7 @@ def parse_binance_killers_signal_message(message_text):
         signal_data = {
             "signal_id": signal_id.group(1) if signal_id else "unknown",
             "currency": f"{coin.group(1)}USDT" if coin else None,
-            "direction": direction.group(1) if direction else None,
+            "signal_type": direction.group(1) if direction else None,
             "entry": float(entry.group(1)) if entry else (targets[0] if targets else None),
             "targets": targets[1:] if len(targets) > 1 else [],
             "stop_loss": float(stop_loss.group(1)) if stop_loss else None,
@@ -174,12 +173,12 @@ def parse_binance_killers_signal_message(message_text):
         }
 
         if signal_data["stop_loss"] is None and signal_data["entry"] is not None:
-            if signal_data["direction"] == "LONG":
+            if signal_data["signal_type"] == "LONG":
                 signal_data["stop_loss"] = signal_data["entry"] * 0.95
-            elif signal_data["direction"] == "SHORT":
+            elif signal_data["signal_type"] == "SHORT":
                 signal_data["stop_loss"] = signal_data["entry"] * 1.05
 
-        required_keys = ['currency', 'direction', 'entry', 'targets', 'stop_loss']
+        required_keys = ['currency', 'signal_type', 'entry', 'targets', 'stop_loss']
         missing_fields = [key for key in required_keys if signal_data.get(key) is None]
         if missing_fields and len(missing_fields) <= 2:
             signal_data = ask_AI_to_fill_the_signal_fields(message_text, signal_data)
@@ -201,7 +200,7 @@ async def process_binance_killers_signal_message(message):
     if signal_data is not None:
         signal_data["date"] = message.get("date", datetime.now().isoformat())
         
-        if all([signal_data["currency"], signal_data["direction"], signal_data["entry"]]):
+        if all([signal_data["currency"], signal_data["signal_type"], signal_data["entry"]]):
             log_to_file(f"Uzyskany sygnał: {signal_data}")
             history = load_signal_history()
 
