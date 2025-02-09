@@ -6,6 +6,8 @@ from telethon import TelegramClient
 import requests
 from urllib.parse import urlencode, quote
 
+from openai import OpenAI
+
 import traceback
 import hmac, hashlib
 
@@ -333,10 +335,27 @@ def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, s
         log_to_file(f"Request URL: {response.url}")
         
         if response.status_code != 200:
+            log_to_file(f"Błąd podczas tworzenia OCO zlecenia: {response.text}")
             return None
-            
-        return response.json()
-        
+
+        json_response = response.json()
+        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
+
+        # Dodaj pełną odpowiedź z Binance do zwracanego obiektu
+        oco_order = {
+            'orderListId': json_response.get('orderListId'),
+            'contingencyType': json_response.get('contingencyType'),
+            'listStatusType': json_response.get('listStatusType'),
+            'listOrderStatus': json_response.get('listOrderStatus'),
+            'listClientOrderId': json_response.get('listClientOrderId'),
+            'transactionTime': json_response.get('transactionTime'),
+            'symbol': json_response.get('symbol'),
+            'orders': json_response.get('orders'),
+            'orderReports': json_response.get('orderReports')
+        }
+
+        return oco_order
+
     except Exception as e:
         error_trace = traceback.format_exc()
         log_to_file(f"Exception: {str(e)}")
@@ -367,9 +386,6 @@ def test_oco_order():
     
     return result
 
-import os
-import json
-from openai import OpenAI
 
 def ask_AI_to_fill_the_signal_fields(message_text, partial_signal_data):
     """
