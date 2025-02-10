@@ -90,40 +90,67 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     if "orders" not in signal:
         signal["orders"] = []
     
-    full_order = get_order_details(order['symbol'], order['orderId'])
-    
-    if full_order:
-        balance_diff = float(full_order['executedQty'])
-        cumulative_quote = float(full_order.get('cummulativeQuoteQty', 0))
-        order_record = {
-            "orderId": full_order['orderId'],
-            "type": order_type,
-            "status": full_order['status'],
-            "stopPrice": float(full_order.get('stopPrice', 0)),
-            "side": full_order['side'],
-            "quantity": float(full_order['origQty']),
-            "executedQty": balance_diff,
-            "avgPrice": cumulative_quote / balance_diff if balance_diff > 0 else 0,
-            "time": full_order['time']
-        }
-
+    # Obsługa zamówień OCO
+    if 'orderReports' in order:
+        for report in order.get('orderReports', []):
+            executed_qty = float(report.get('executedQty', 0))
+            cum_quote_qty = float(report.get('cummulativeQuoteQty', 0))
+            
+            order_record = {
+                "orderId": report['orderId'],
+                "type": report['type'],
+                "status": report['status'],
+                "side": report['side'],
+                "quantity": float(report['origQty']),
+                "executedQty": executed_qty,
+                "avgPrice": cum_quote_qty / executed_qty if executed_qty > 0 else 0,
+                "time": report.get('transactTime', int(time.time() * 1000)),
+                "price": float(report.get('price', 0)),
+                "stopPrice": float(report.get('stopPrice', 0)),
+                "take_profit_price": float(report['price']) if report['type'] == 'LIMIT_MAKER' else None,
+                "stop_loss_trigger": float(report.get('stopPrice', 0)) if report['type'] == 'STOP_LOSS_LIMIT' else None,
+                "stop_loss_limit": float(report['price']) if report['type'] == 'STOP_LOSS_LIMIT' else None,
+                "oco_group_id": order.get('orderListId')
+            }
+            signal["orders"].append(order_record)
     else:
-        balance_diff = float(order.get('executedQty', 0))
-        order_record = {
-            "orderId": order['orderId'],
-            "type": order_type,
-            "status": order.get('status', 'UNKNOWN'),
-            "stopPrice": float(order.get('stopPrice', 0)),
-            "side": order['side'],
-            "quantity": float(order['origQty']),
-            "executedQty": balance_diff,
-            "avgPrice": float(order.get('cummulativeQuoteQty', 0)) / balance_diff if balance_diff > 0 else 0,
-            "time": order.get('transactTime', int(time.time() * 1000))
-        }
+        # Originalna logika dla pojedynczych zleceń
+        full_order = get_order_details(order['symbol'], order['orderId']) if 'orderId' in order else None
+        
+        if full_order:
+            executed_qty = float(full_order.get('executedQty', 0))
+            cum_quote_qty = float(full_order.get('cummulativeQuoteQty', 0))
+            
+            order_record = {
+                "orderId": full_order['orderId'],
+                "type": order_type,
+                "status": full_order['status'],
+                "stopPrice": float(full_order.get('stopPrice', 0)),
+                "side": full_order['side'],
+                "quantity": float(full_order['origQty']),
+                "executedQty": executed_qty,
+                "avgPrice": cum_quote_qty / executed_qty if executed_qty > 0 else 0,
+                "time": full_order.get('transactTime', int(time.time() * 1000))
+            }
+        else:
+            executed_qty = float(order.get('executedQty', 0))
+            cum_quote_qty = float(order.get('cummulativeQuoteQty', 0))
+            
+            order_record = {
+                "orderId": order.get('orderId'),
+                "type": order_type,
+                "status": order.get('status', 'UNKNOWN'),
+                "stopPrice": float(order.get('stopPrice', 0)),
+                "side": order.get('side'),
+                "quantity": float(order.get('origQty', 0)),
+                "executedQty": executed_qty,
+                "avgPrice": cum_quote_qty / executed_qty if executed_qty > 0 else 0,
+                "time": order.get('transactTime', int(time.time() * 1000)),
+            }
+        
+        signal["orders"].append(order_record)
     
-    signal["orders"].append(order_record)
-
-    
+    # Aktualizacja historii
     history = load_signal_history()
     updated = False
     for i, s in enumerate(history):
@@ -136,6 +163,7 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
         history.append(signal)
     
     save_signal_history(history)
+
     
 def get_min_notional(symbol):
     info = client.get_symbol_info(symbol)
