@@ -90,31 +90,32 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
     if "orders" not in signal:
         signal["orders"] = []
     
-    # Obsługa zamówień OCO
     if 'orderReports' in order:
         for report in order.get('orderReports', []):
-            executed_qty = float(report.get('executedQty', 0))
-            cum_quote_qty = float(report.get('cummulativeQuoteQty', 0))
-            
-            order_record = {
-                "orderId": report['orderId'],
-                "type": report['type'],
-                "status": report['status'],
-                "side": report['side'],
-                "quantity": float(report['origQty']),
-                "executedQty": executed_qty,
-                "avgPrice": cum_quote_qty / executed_qty if executed_qty > 0 else 0,
-                "time": report.get('transactTime', int(time.time() * 1000)),
-                "price": float(report.get('price', 0)),
-                "stopPrice": float(report.get('stopPrice', 0)),
-                "take_profit_price": float(report['price']) if report['type'] == 'LIMIT_MAKER' else None,
-                "stop_loss_trigger": float(report.get('stopPrice', 0)) if report['type'] == 'STOP_LOSS_LIMIT' else None,
-                "stop_loss_limit": float(report['price']) if report['type'] == 'STOP_LOSS_LIMIT' else None,
-                "oco_group_id": order.get('orderListId')
-            }
-            signal["orders"].append(order_record)
+            try:
+                executed_qty = float(report.get('executedQty', 0))
+                cum_quote_qty = float(report.get('cummulativeQuoteQty', 0))
+                
+                order_record = {
+                    "orderId": report['orderId'],
+                    "type": report['type'],
+                    "status": report['status'],
+                    "side": report['side'],
+                    "quantity": float(report['origQty']),
+                    "executedQty": executed_qty,
+                    "avgPrice": cum_quote_qty / executed_qty if executed_qty > 0 else 0,
+                    "time": report.get('transactTime', int(time.time() * 1000)),
+                    "price": float(report.get('price', 0)),
+                    "stopPrice": float(report.get('stopPrice', 0)),
+                    "take_profit_price": float(report['price']) if report['type'] == 'LIMIT_MAKER' else None,
+                    "stop_loss_trigger": float(report.get('stopPrice', 0)) if report['type'] == 'STOP_LOSS_LIMIT' else None,
+                    "stop_loss_limit": float(report['price']) if report['type'] == 'STOP_LOSS_LIMIT' else None,
+                    "oco_group_id": order.get('orderListId')
+                }
+                signal["orders"].append(order_record)
+            except KeyError as ke:
+                log_to_file(f"Błąd przetwarzania raportu: {ke}")
     else:
-        # Originalna logika dla pojedynczych zleceń
         full_order = get_order_details(order['symbol'], order['orderId']) if 'orderId' in order else None
         
         if full_order:
@@ -150,7 +151,6 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
         
         signal["orders"].append(order_record)
     
-    # Aktualizacja historii
     history = load_signal_history()
     updated = False
     for i, s in enumerate(history):

@@ -2,7 +2,7 @@ import json
 import os
 import time
 from common import client, log_to_file, adjust_price, adjust_quantity, get_order_details, create_oco_order_direct
-from binance_trading import add_order_to_history
+
 
 SIGNAL_HISTORY_FILE = 'signal_history.json'
 
@@ -241,6 +241,9 @@ def handle_stop_loss(signal, current_price, base_balance, open_orders):
                     except Exception as e:
                         log_to_file(f"Błąd aktualizacji stop-loss: {e}")
 
+
+
+
 def check_and_update_signal_history():
     history = load_signal_history()
     
@@ -257,54 +260,69 @@ def check_and_update_signal_history():
             # Aktualizacja najwyższej ceny
             signal = update_signal_high_price(signal, current_price)
             
-            # Sprawdź czy istnieje aktywne zlecenie OCO
+            # Sprawdź aktywną grupę OCO
             active_oco = next((o for o in signal.get("orders", []) 
                              if o.get('oco_group_id') and o['status'] in ['NEW', 'PARTIALLY_FILLED']), None)
             
-            # Jeśli brak OCO ale jest pozycja - utwórz nowe
-            if not active_oco and base_balance > 0:
-                # Anuluj wszystkie istniejące zlecenia
-                for order in open_orders:
-                    client.cancel_order(symbol=symbol, orderId=order['orderId'])
-                
-                # Utwórz nowe OCO z pełnym balansem
-                entry_price = float(signal['real_entry'])
-                stop_loss, take_profit = calculate_oco_levels(signal, entry_price)
-                
-                oco_order = create_oco_order_direct(
-                    client=client,
-                    symbol=symbol,
-                    side='SELL' if signal['signal_type'] == 'LONG' else 'BUY',
-                    quantity=base_balance,
-                    take_profit_price=take_profit,
-                    stop_price=stop_loss,
-                    stop_limit_price=stop_loss
-                )
-                
-                if oco_order:
-                    add_order_to_history(signal, oco_order, "OCO")
-                    log_to_file(f"Utworzono nowe OCO dla {symbol}: SL={stop_loss}, TP={take_profit}")
-
-            # Aktualizacja statusu OCO
-            if active_oco:
-                order_status = get_order_details(symbol, active_oco['orderId'])
-                if order_status['status'] in ['FILLED', 'CANCELED']:
-                    # Sprawdź który warunek został aktywowany
-                    filled_order = next((o for o in signal["orders"] 
-                                       if o['oco_group_id'] == active_oco['oco_group_id'] 
-                                       and o['status'] == 'FILLED'), None)
+            # Obsługa błędów związanych z nieaktualnymi zleceniami
+            try:
+                # Jeśli brak OCO ale jest pozycja - utwórz nowe
+                if not active_oco and base_balance > 0:
+                    # Anuluj wszystkie istniejące zlecenia z obsługą błędów
+                    for order in open_orders:
+                        try:
+                            client.cancel_order(symbol=symbol, orderId=order['orderId'])
+                        except Exception as cancel_error:
+                            if 'Unknown order sent' in str(cancel_error):
+                                log_to_file(f"Zlecenie {order['orderId']} już nie istnieje, pomijam")
+                                continue
+                            raise
                     
-                    if filled_order:
-                        signal.update({
-                            "status": "CLOSED",
-                            "exit_price": filled_order['avgPrice'],
-                            "exit_time": filled_order['time'],
-                            "exit_type": "TAKE_PROFIT" if filled_order['take_profit_price'] else "STOP_LOSS"
-                        })
+                    # Utwórz nowe OCO z pełnym balansem
+                    entry_price = float(signal['real_entry'])
+                    stop_loss, take_profit = calculate_oco_levels(signal, entry_price)
+                    
+                    oco_order = create_oco_order_direct(
+                        client=client,
+                        symbol=symbol,
+                        side='SELL' if signal['signal_type'] == 'LONG' else 'BUY',
+                        quantity=base_balance,
+                        take_profit_price=take_profit,
+                        stop_price=stop_loss,
+                        stop_limit_price=stop_loss
+                    )
+                    
+                    if oco_order:
+                        add_order_to_history(signal, oco_order, "OCO")
+                        log_to_file(f"Utworzono nowe OCO dla {symbol}: SL={stop_loss}, TP={take_profit}")
+
+                # Aktualizacja statusu OCO z dodatkowymi zabezpieczeniami
+                if active_oco:
+                    try:
+                        order_status = get_order_details(symbol, active_oco['orderId'])
+                        if order_status['status'] in ['FILLED', 'CANCELED']:
+                            # Sprawdź który warunek został aktywowany
+                            filled_order = next((o for o in signal["orders"] 
+                                               if o['oco_group_id'] == active_oco['oco_group_id'] 
+                                               and o['status'] == 'FILLED'), None)
+                            
+                            if filled_order:
+                                signal.update({
+                                    "status": "CLOSED",
+                                    "exit_price": filled_order['avgPrice'],
+                                    "exit_time": filled_order['time'],
+                                    "exit_type": "TAKE_PROFIT" if filled_order['take_profit_price'] else "STOP_LOSS"
+                                })
+                    except KeyError as ke:
+                        log_to_file(f"Błąd struktury zlecenia OCO: {ke}")
+                        handle_critical_error(signal)
+
+            except Exception as main_error:
+                log_to_file(f"Krytyczny błąd zarządzania OCO: {main_error}")
+                handle_critical_error(signal)
             
-            # Obsługa targetów i aktualizacja stop loss
+            # Dynamiczna aktualizacja stop loss po osiągnięciu targetu
             if handle_targets(signal, current_price, base_balance):
-                # Po osiągnięciu ostatniego targetu
                 signal["status"] = "CLOSED"
             
         except Exception as e:
@@ -312,6 +330,8 @@ def check_and_update_signal_history():
             handle_critical_error(signal)
             
     save_signal_history(history)
+    
+    
 
 def calculate_oco_levels(signal, entry_price):
     """Oblicza poziomy dla OCO na podstawie targetów i aktualnej ceny"""
