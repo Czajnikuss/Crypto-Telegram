@@ -13,60 +13,6 @@ def get_available_balance(asset):
         log_to_file(f"Błąd podczas pobierania salda: {e}")
         return 0.0
 
-def calculate_trade_amount(available_balance, percentage, symbol):
-    try:
-        # Pobierz informacje o symbolu
-        exchange_info = client.get_exchange_info()
-        symbol_info = next((s for s in exchange_info['symbols'] if s['symbol'] == symbol), None)
-        if not symbol_info:
-            log_to_file(f"Nie znaleziono informacji o symbolu {symbol}")
-            return 0.0, 0.0, 0.0
-            
-        # Pobierz filtry dla LOT_SIZE
-        lot_size_filter = next((f for f in symbol_info['filters'] if f['filterType'] == 'LOT_SIZE'), None)
-        if not lot_size_filter:
-            log_to_file(f"Nie znaleziono filtra LOT_SIZE dla {symbol}")
-            return 0.0, 0.0, 0.0
-            
-        min_qty = float(lot_size_filter['minQty'])
-        max_qty = float(lot_size_filter['maxQty'])
-        step_size = float(lot_size_filter['stepSize'])
-        
-        # Oblicz maksymalną kwotę USDT
-        max_usdt = available_balance * (percentage / 100)
-        min_notional = get_min_notional(symbol)
-        
-        # Pobierz aktualną cenę
-        ticker = client.get_symbol_ticker(symbol=symbol)
-        current_price = float(ticker['price'])
-        current_price = adjust_price(symbol, current_price)
-        
-        # Oblicz ilość z uwzględnieniem LOT_SIZE
-        quantity = max_usdt / current_price
-        quantity = max(min_qty, min(max_qty, quantity))
-        
-        # Zaokrąglij do prawidłowego step_size
-        precision = int(round(-math.log10(step_size)))
-        quantity = float(round(quantity / step_size) * step_size)
-        quantity = round(quantity, precision)
-        
-        actual_value = quantity * current_price
-        
-        # Sprawdź min_notional
-        if min_notional > 0 and actual_value < min_notional:
-            required_qty = (min_notional * 1.01) / current_price
-            quantity = max(min_qty, min(max_qty, required_qty))
-            quantity = float(round(quantity / step_size) * step_size)
-            quantity = round(quantity, precision)
-            actual_value = quantity * current_price
-            
-        log_to_file(f"Obliczona ilość po uwzględnieniu LOT_SIZE: {quantity}")
-        return quantity, actual_value, current_price
-        
-    except Exception as e:
-        log_to_file(f"Błąd podczas obliczania kwoty transakcji: {e}")
-        return 0.0, 0.0, 0.0
-
 
 def check_price_condition(current_price, signal):
     targets = signal["targets"]
@@ -110,7 +56,7 @@ def add_order_to_history(signal: dict, order: dict, order_type: str) -> None:
                     "take_profit_price": float(report['price']) if report['type'] == 'LIMIT_MAKER' else None,
                     "stop_loss_trigger": float(report.get('stopPrice', 0)) if report['type'] == 'STOP_LOSS_LIMIT' else None,
                     "stop_loss_limit": float(report['price']) if report['type'] == 'STOP_LOSS_LIMIT' else None,
-                    "oco_group_id": order.get('orderListId')
+                    "oco_group_id": order.get('orderListId', report.get('orderListId'))
                 }
                 signal["orders"].append(order_record)
             except KeyError as ke:
