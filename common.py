@@ -311,7 +311,7 @@ def get_all_oco_orders_for_symbol(client, symbol, only_active=False):
         filtered_oco_orders = [
             order for order in filtered_oco_orders
             if order['listStatusType'] in ['EXEC_STARTED', 'ALL_DONE'] and # Sprawdzamy status całej listy
-            any(report['status'] in active_statuses for report in get_order_reports(client, order['orderListId'])) # Sprawdzamy status każdego zlecenia
+            any(report['status'] in active_statuses for report in get_order_reports(client, order['orderListId'],symbol)) # Sprawdzamy status każdego zlecenia
         ]
 
     # Dodawanie statusów zleceń (orderReports)
@@ -350,9 +350,9 @@ def get_all_oco_orders(client):
         base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com' # Używaj globalnej zmiennej testmode
 
         # Log full request details
-        log_to_file("=== Request Details - Get All OCOs ===")
-        log_to_file(f"Query string for signature: {query_string}")
-        log_to_file(f"Generated signature: {signature}")
+        #log_to_file("=== Request Details - Get All OCOs ===")
+        #log_to_file(f"Query string for signature: {query_string}")
+        #log_to_file(f"Generated signature: {signature}")
 
         response = requests.get(
             f'{base_url}/api/v3/allOrderList',  # Endpoint do pobierania wszystkich OCO
@@ -360,17 +360,17 @@ def get_all_oco_orders(client):
             headers=headers
         )
 
-        log_to_file("=== Response Details - Get All OCOs ===")
-        log_to_file(f"Status Code: {response.status_code}")
-        log_to_file(f"Response Text: {response.text}")
-        log_to_file(f"Request URL: {response.url}")
+        #log_to_file("=== Response Details - Get All OCOs ===")
+        #log_to_file(f"Status Code: {response.status_code}")
+        #log_to_file(f"Response Text: {response.text}")
+        #log_to_file(f"Request URL: {response.url}")
 
         if response.status_code != 200:
             log_to_file(f"Błąd podczas pobierania OCO zleceń: {response.text}")
             return None
 
         json_response = response.json()
-        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
+        #log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
 
         return json_response  # Zwracamy całą odpowiedź JSON
 
@@ -411,9 +411,9 @@ def get_order_reports(client, orderListId, symbol):
         base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com'
 
         # Log full request details
-        log_to_file("=== Request Details - Get All Orders ===")
-        log_to_file(f"Query string for signature: {query_string}")
-        log_to_file(f"Generated signature: {signature}")
+        #log_to_file("=== Request Details - Get All Orders ===")
+        #log_to_file(f"Query string for signature: {query_string}")
+        #log_to_file(f"Generated signature: {signature}")
 
         response = requests.get(
             f'{base_url}/api/v3/allOrders',  # Endpoint do pobierania wszystkich zleceń
@@ -421,10 +421,10 @@ def get_order_reports(client, orderListId, symbol):
             headers=headers
         )
 
-        log_to_file("=== Response Details - Get All Orders ===")
-        log_to_file(f"Status Code: {response.status_code}")
-        log_to_file(f"Response Text: {response.text}")
-        log_to_file(f"Request URL: {response.url}")
+       # log_to_file("=== Response Details - Get All Orders ===")
+        #log_to_file(f"Status Code: {response.status_code}")
+        #log_to_file(f"Response Text: {response.text}")
+        #log_to_file(f"Request URL: {response.url}")
 
         if response.status_code != 200:
             log_to_file(f"Błąd podczas pobierania zleceń: {response.text}")
@@ -435,7 +435,7 @@ def get_order_reports(client, orderListId, symbol):
         # Filtrujemy zlecenia, aby znaleźć tylko te z danego orderListId
         order_reports = [order for order in all_orders if order.get('orderListId') == orderListId]
 
-        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(order_reports, indent=2)}")
+        #log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(order_reports, indent=2)}")
 
         return order_reports  # Zwracamy listę statusów zleceń
 
@@ -478,9 +478,9 @@ def get_oco_order_by_orderListId(client, orderListId):
         base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com'  # Używaj globalnej zmiennej testmode
 
         # Log full request details
-        log_to_file("=== Request Details - Get OCO by ID ===")
-        log_to_file(f"Query string for signature: {query_string}")
-        log_to_file(f"Generated signature: {signature}")
+        #log_to_file("=== Request Details - Get OCO by ID ===")
+        #log_to_file(f"Query string for signature: {query_string}")
+        #log_to_file(f"Generated signature: {signature}")
 
         response = requests.get(
             f'{base_url}/api/v3/orderList',  # Endpoint do pobierania OCO po ID
@@ -488,17 +488,17 @@ def get_oco_order_by_orderListId(client, orderListId):
             headers=headers
         )
 
-        log_to_file("=== Response Details - Get OCO by ID ===")
-        log_to_file(f"Status Code: {response.status_code}")
-        log_to_file(f"Response Text: {response.text}")
-        log_to_file(f"Request URL: {response.url}")
+        #log_to_file("=== Response Details - Get OCO by ID ===")
+        #log_to_file(f"Status Code: {response.status_code}")
+        #log_to_file(f"Response Text: {response.text}")
+        #log_to_file(f"Request URL: {response.url}")
 
         if response.status_code != 200:
             log_to_file(f"Błąd podczas pobierania OCO zlecenia: {response.text}")
             return None
 
         json_response = response.json()
-        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
+        #log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
 
         return json_response # Zwracamy całą odpowiedź JSON
 
