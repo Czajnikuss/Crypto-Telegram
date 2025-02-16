@@ -2,8 +2,10 @@ from binance.client import Client
 from binance.enums import SIDE_BUY, SIDE_SELL, ORDER_TYPE_MARKET
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from common import get_oco_order_by_orderListId, get_all_oco_orders_for_symbol, get_all_oco_orders
 
-import os, time
+
+import os, time, json
 
 # Wczytaj zmienne środowiskowe z pliku .env
 load_dotenv()
@@ -257,8 +259,8 @@ def cancel_position(symbol: str, days_back: int = 7):
 
         
 #print(reset_account_to_usdt())
-print(get_all_balances())
-print(client.get_open_orders())
+#print(get_all_balances())
+#print(client.get_open_orders())
 #print(place_order("DOGEUSDT", "SELL", 31791.0))
 #orderId= take_profit_order['orderId']
 
@@ -266,6 +268,11 @@ print(client.get_open_orders())
 #cancel_position("DOGEUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
-#print(get_order_all("MASKUSDT"))
-#print (set_take_profit_order("OMNIUSDT", SIDE_SELL, 1))
+#print(get_order_all("FETUSDT", 325825))
+#print(client.get_open_oco_orders())
+#print(json.dumps(get_all_oco_orders_for_symbol(client,"FETUSDT" )))
 
+#print(json.dumps(get_oco_order_by_orderListId(client, 10269), indent=2))
+#print(get_order_all("FETUSDT", 325825))
+
+#print(get_order_all("FETUSDT", 325826))

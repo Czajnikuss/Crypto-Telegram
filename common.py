@@ -281,6 +281,233 @@ def test_api_keys():
         log_to_file(f"Error testing API keys: {str(e)}")
         return False
 
+
+
+def get_all_oco_orders_for_symbol(client, symbol, only_active=False):
+    """
+    Pobiera i filtruje zlecenia OCO dla danego symbolu, z opcją filtrowania tylko aktywnych,
+    oraz dodaje informacje o statusach zleceń.
+
+    Args:
+        client: Obiekt klienta Binance.
+        symbol (str): Symbol pary handlowej (np. "BTCUSDT").
+        only_active (bool): Jeśli True, zwraca tylko aktywne zlecenia.
+
+    Returns:
+        list: Lista słowników z informacjami o zleceniach OCO, lub None w przypadku błędu.
+              Każdy słownik zawiera strukturę podobną do odpowiedzi API przy tworzeniu zlecenia OCO.
+    """
+    all_oco_orders = get_all_oco_orders(client)  # Używamy wcześniej zdefiniowanej funkcji
+    if not all_oco_orders:
+        return None  # W przypadku błędu w get_all_oco_orders
+
+    filtered_oco_orders = [
+        order for order in all_oco_orders if order['symbol'] == symbol
+    ]
+
+    if only_active:
+        # Filtracja aktywnych zleceń. Status 'NEW', 'PARTIALLY_FILLED', 'PENDING_CANCEL' są aktywne
+        active_statuses = ['NEW', 'PARTIALLY_FILLED', 'PENDING_CANCEL']
+        filtered_oco_orders = [
+            order for order in filtered_oco_orders
+            if order['listStatusType'] in ['EXEC_STARTED', 'ALL_DONE'] and # Sprawdzamy status całej listy
+            any(report['status'] in active_statuses for report in get_order_reports(client, order['orderListId'])) # Sprawdzamy status każdego zlecenia
+        ]
+
+    # Dodawanie statusów zleceń (orderReports)
+    for oco_order in filtered_oco_orders:
+      oco_order['orderReports'] = get_order_reports(client, oco_order['orderListId'],symbol)
+
+    return filtered_oco_orders
+
+def get_all_oco_orders(client):
+    """
+    Pobiera wszystkie zlecenia OCO dla konta, używając bezpośrednich zapytań HTTP do API Binance.
+    """
+    try:
+        # Create base parameters (bez symbolu)
+        params = {
+            'timestamp': int(time.time() * 1000)
+        }
+
+        # Create query string with proper encoding
+        query_string = '&'.join([f"{k}={v}" for k, v in sorted(params.items())])
+
+        # Generate signature
+        signature = hmac.new(
+            bytes(client.API_SECRET, 'utf-8'),
+            bytes(query_string, 'utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+
+        # Add signature to params after generating it
+        params['signature'] = signature
+
+        headers = {
+            'X-MBX-APIKEY': client.API_KEY
+        }
+
+        base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com' # Używaj globalnej zmiennej testmode
+
+        # Log full request details
+        log_to_file("=== Request Details - Get All OCOs ===")
+        log_to_file(f"Query string for signature: {query_string}")
+        log_to_file(f"Generated signature: {signature}")
+
+        response = requests.get(
+            f'{base_url}/api/v3/allOrderList',  # Endpoint do pobierania wszystkich OCO
+            params=params,
+            headers=headers
+        )
+
+        log_to_file("=== Response Details - Get All OCOs ===")
+        log_to_file(f"Status Code: {response.status_code}")
+        log_to_file(f"Response Text: {response.text}")
+        log_to_file(f"Request URL: {response.url}")
+
+        if response.status_code != 200:
+            log_to_file(f"Błąd podczas pobierania OCO zleceń: {response.text}")
+            return None
+
+        json_response = response.json()
+        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
+
+        return json_response  # Zwracamy całą odpowiedź JSON
+
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        log_to_file(f"Exception: {str(e)}")
+        log_to_file(f"Stack trace:\n{error_trace}")
+        return None
+
+def get_order_reports(client, orderListId, symbol):
+    """
+    Pobiera statusy zleceń dla danego orderListId, używając GET /api/v3/allOrders.
+    """
+    try:
+        # Create base parameters
+        params = {
+            'symbol': symbol,
+            'timestamp': int(time.time() * 1000)
+        }
+
+        # Create query string with proper encoding
+        query_string = '&'.join([f"{k}={v}" for k, v in sorted(params.items())])
+
+        # Generate signature
+        signature = hmac.new(
+            bytes(client.API_SECRET, 'utf-8'),
+            bytes(query_string, 'utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+
+        # Add signature to params after generating it
+        params['signature'] = signature
+
+        headers = {
+            'X-MBX-APIKEY': client.API_KEY
+        }
+
+        base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com'
+
+        # Log full request details
+        log_to_file("=== Request Details - Get All Orders ===")
+        log_to_file(f"Query string for signature: {query_string}")
+        log_to_file(f"Generated signature: {signature}")
+
+        response = requests.get(
+            f'{base_url}/api/v3/allOrders',  # Endpoint do pobierania wszystkich zleceń
+            params=params,
+            headers=headers
+        )
+
+        log_to_file("=== Response Details - Get All Orders ===")
+        log_to_file(f"Status Code: {response.status_code}")
+        log_to_file(f"Response Text: {response.text}")
+        log_to_file(f"Request URL: {response.url}")
+
+        if response.status_code != 200:
+            log_to_file(f"Błąd podczas pobierania zleceń: {response.text}")
+            return []  # Zwracamy pustą listę w przypadku błędu
+
+        all_orders = response.json()
+
+        # Filtrujemy zlecenia, aby znaleźć tylko te z danego orderListId
+        order_reports = [order for order in all_orders if order.get('orderListId') == orderListId]
+
+        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(order_reports, indent=2)}")
+
+        return order_reports  # Zwracamy listę statusów zleceń
+
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        log_to_file(f"Exception: {str(e)}")
+        log_to_file(f"Stack trace:\n{error_trace}")
+        return []  # Zwracamy pustą listę w przypadku błędu
+
+
+
+def get_oco_order_by_orderListId(client, orderListId):
+    """
+    Pobiera informacje o zleceniu OCO na podstawie orderListId, używając bezpośrednich zapytań HTTP do API Binance.
+    """
+    try:
+        # Create base parameters
+        params = {
+            'orderListId': orderListId,
+            'timestamp': int(time.time() * 1000)
+        }
+
+        # Create query string with proper encoding
+        query_string = '&'.join([f"{k}={v}" for k, v in sorted(params.items())])
+
+        # Generate signature
+        signature = hmac.new(
+            bytes(client.API_SECRET, 'utf-8'),
+            bytes(query_string, 'utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+
+        # Add signature to params after generating it
+        params['signature'] = signature
+
+        headers = {
+            'X-MBX-APIKEY': client.API_KEY
+        }
+
+        base_url = 'https://testnet.binance.vision' if testmode else 'https://api.binance.com'  # Używaj globalnej zmiennej testmode
+
+        # Log full request details
+        log_to_file("=== Request Details - Get OCO by ID ===")
+        log_to_file(f"Query string for signature: {query_string}")
+        log_to_file(f"Generated signature: {signature}")
+
+        response = requests.get(
+            f'{base_url}/api/v3/orderList',  # Endpoint do pobierania OCO po ID
+            params=params,
+            headers=headers
+        )
+
+        log_to_file("=== Response Details - Get OCO by ID ===")
+        log_to_file(f"Status Code: {response.status_code}")
+        log_to_file(f"Response Text: {response.text}")
+        log_to_file(f"Request URL: {response.url}")
+
+        if response.status_code != 200:
+            log_to_file(f"Błąd podczas pobierania OCO zlecenia: {response.text}")
+            return None
+
+        json_response = response.json()
+        log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
+
+        return json_response # Zwracamy całą odpowiedź JSON
+
+    except Exception as e:
+        error_trace = traceback.format_exc()
+        log_to_file(f"Exception: {str(e)}")
+        log_to_file(f"Stack trace:\n{error_trace}")
+        return None
+
     
 def create_oco_order_direct(client, symbol, side, quantity, take_profit_price, stop_price, stop_limit_price):
     try:
