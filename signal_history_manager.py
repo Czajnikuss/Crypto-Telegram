@@ -85,7 +85,7 @@ def check_and_update_signal_history():
 
             # Sprawdź aktywną grupę OCO
             # Poprawione wyszukiwanie aktywnego OCO (sprawdzamy listStatusType)
-            active_oco = next((oco for oco in get_all_oco_orders_for_symbol(client, symbol, only_active=True)
+            active_oco = next((oco for oco in (get_all_oco_orders_for_symbol(client, symbol, only_active=True) or [])
                                  if oco['orderListId'] == signal.get("oco_order_id")), None)
 
             # Obsługa błędów związanych z nieaktualnymi zleceniami

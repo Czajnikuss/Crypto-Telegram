@@ -299,7 +299,7 @@ def get_all_oco_orders_for_symbol(client, symbol, only_active=False):
     """
     all_oco_orders = get_all_oco_orders(client)  # Używamy wcześniej zdefiniowanej funkcji
     if not all_oco_orders:
-        return None  # W przypadku błędu w get_all_oco_orders
+        return []  # W przypadku błędu w get_all_oco_orders
 
     filtered_oco_orders = [
         order for order in all_oco_orders if order['symbol'] == symbol
@@ -327,7 +327,7 @@ def get_all_oco_orders(client):
     try:
         # Create base parameters (bez symbolu)
         params = {
-            'timestamp': int(time.time() * 1000)
+            'timestamp': int(time.time() * 1000), 'recvWindow': 10000
         }
 
         # Create query string with proper encoding
@@ -367,7 +367,7 @@ def get_all_oco_orders(client):
 
         if response.status_code != 200:
             log_to_file(f"Błąd podczas pobierania OCO zleceń: {response.text}")
-            return None
+            return []
 
         json_response = response.json()
         #log_to_file(f"Odpowiedź z serwera Binance: {json.dumps(json_response, indent=2)}")
@@ -388,7 +388,8 @@ def get_order_reports(client, orderListId, symbol):
         # Create base parameters
         params = {
             'symbol': symbol,
-            'timestamp': int(time.time() * 1000)
+            'timestamp': int(time.time() * 1000) - 1000,
+            'recvWindow': 30000
         }
 
         # Create query string with proper encoding
