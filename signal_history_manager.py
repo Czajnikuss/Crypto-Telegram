@@ -68,6 +68,59 @@ def get_base_balance(symbol):
         0
     ))
 
+def calculate_profit(signal, exit_price, exit_quantity):
+    """Oblicza zysk lub stratę na podstawie danych z sygnału i zlecenia."""
+    try:
+        real_entry = float(signal['real_entry'])
+        real_amount = float(signal['real_amount'])
+        is_long = signal['signal_type'] == 'LONG'
+
+        # Obliczenie różnicy w ilości
+        amount_diff = real_amount - exit_quantity
+
+        # Obliczenie zysku/straty
+        if is_long:
+            profit = (exit_price - real_entry) * exit_quantity
+        else:
+            profit = (real_entry - exit_price) * exit_quantity
+
+        return profit, amount_diff
+
+    except Exception as e:
+        log_to_file(f"Błąd podczas obliczania zysku: {e}")
+        return None, None
+
+def update_signal_with_profit_info(signal, filled_order):
+    """Aktualizuje sygnał o informacje o zysku/stracie."""
+    try:
+        exit_price = float(filled_order['price'])
+        exit_quantity = float(filled_order['executedQty'])
+
+        # Oblicz zysk i różnicę w ilości
+        profit, amount_diff = calculate_profit(signal, exit_price, exit_quantity)
+
+        if profit is not None:
+            # Dodaj informacje o zysku do sygnału
+            signal['exit_price'] = exit_price
+            signal['exit_quantity'] = exit_quantity
+            signal['real_gain'] = profit
+            signal['amount_difference'] = amount_diff  # Różnica między real_amount a ilością zamkniętą
+
+            # Określ typ zamknięcia
+            exit_type = "TAKE_PROFIT" if filled_order['type'] == 'LIMIT_MAKER' else "STOP_LOSS"
+            signal['exit_type'] = exit_type
+
+            # Dodaj opis statusu
+            profit_percentage = (profit / (float(signal['real_entry']) * exit_quantity)) * 100
+            signal['status_description'] = f"{'Gain' if profit > 0 else 'Loss'}: {profit:.2f} - Amount: {exit_quantity:.4f} - Percentage: {profit_percentage:.2f}%"
+
+            log_to_file(f"Sygnał zamknięty z zyskiem: {profit:.2f}, opis: {signal['status_description']}")
+        else:
+            log_to_file("Nie udało się obliczyć zysku/straty.")
+
+    except Exception as e:
+        log_to_file(f"Błąd podczas aktualizacji informacji o zysku w sygnale: {e}")
+
 def check_and_update_signal_history():
     from binance_trading import add_order_to_history
     history = load_signal_history()
@@ -142,11 +195,12 @@ def check_and_update_signal_history():
                             filled_order = next((r for r in order_reports if r['status'] == 'FILLED'), None)
 
                             if filled_order:
+                                # Dodaj informacje o zysku/stracie do sygnału
+                                update_signal_with_profit_info(signal, filled_order)
+
                                 signal.update({
                                     "status": "CLOSED",
-                                    "exit_price": filled_order['price'],  # Użyj ceny z raportu zlecenia
                                     "exit_time": filled_order['time'],
-                                    "exit_type": "TAKE_PROFIT" if filled_order['type'] == 'LIMIT_MAKER' else "STOP_LOSS"
                                 })
                                 log_to_file(f"OCO zostało zrealizowane.  Typ: {signal['exit_type']}, Cena: {signal['exit_price']}")
                                 break # Wyjdź z pętli po znalezieniu zrealizowanego zlecenia
@@ -167,7 +221,6 @@ def check_and_update_signal_history():
 
     save_signal_history(history)
 
-
 def calculate_oco_levels(signal, entry_price):
     """Oblicza poziomy dla OCO na podstawie targetów i aktualnej ceny"""
     targets = signal["targets"]
@@ -184,7 +237,6 @@ def calculate_oco_levels(signal, entry_price):
     take_profit = targets[-1]
 
     return stop_loss, take_profit  # NIE UŻYWAJ adjust_price TUTAJ!
-
 
 def handle_targets(signal, current_price, base_balance):
     from binance_trading import add_order_to_history

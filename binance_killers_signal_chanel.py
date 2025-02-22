@@ -33,7 +33,7 @@ async def check_binance_killers_signals_messages(client_telegram):
     messages = await client_telegram.get_messages(channel, limit=3)
     
     for message in messages:
-        if message.id not in last_message_ids and "SIGNAL ID:" in message.text:
+        if message.text is not None and message.id not in last_message_ids and "SIGNAL ID:" in message.text:
             log_to_file(f"Nowa wiadomość: {message.text}")
             print(f"Nowy sygnał: {message.text}")
             await process_binance_killers_signal_message({
@@ -70,6 +70,10 @@ def validate_signal_data(signal_data):
 
 def parse_binance_killers_signal_message(message_text):
     try:
+        # Sprawdzenie, czy wiadomość wygląda jak sygnał
+        if not any(keyword in message_text for keyword in ["Entry", "Target", "Stop-Loss"]):
+            return None
+
         try:
             message_text = message_text.encode('latin1').decode('utf-8')
         except Exception:
