@@ -130,8 +130,46 @@ def check_and_update_signal_history():
             active_oco = next((oco for oco in get_all_oco_orders_for_symbol(client, symbol, only_active=True)
                                if oco['orderListId'] == signal.get("oco_order_id")), None)
 
-            # Jeśli brak OCO, ale jest pozycja - utwórz nowe
+            # Pobierz minimalny próg notionalny dla symbolu
+            symbol_info = client.get_symbol_info(symbol)
+            min_notional = float(next((f['minNotional'] for f in symbol_info['filters'] if f['filterType'] in ['NOTIONAL', 'MIN_NOTIONAL']), 0))
+
+            # Jeśli saldo jest małe, sprawdź status ostatnich zleceń
+            if base_balance > 0 and base_balance * current_price < min_notional * 1.1:  # 10% marginesu
+                log_to_file(f"Mała kwota na koncie dla {symbol}: {base_balance} (wartość: {base_balance * current_price} < {min_notional * 1.1})")
+                # Sprawdź historię zleceń dla tego sygnału
+                if "orders" in signal:
+                    last_orders = signal["orders"]
+                    all_filled_or_closed = all(
+                        order["status"] in ["FILLED", "CANCELED", "EXPIRED"]
+                        for order in last_orders if "oco_group_id" in order and order["oco_group_id"] == signal.get("oco_order_id")
+                    )
+                    if all_filled_or_closed:
+                        # Znajdź ostatnie wykonane zlecenie, jeśli istnieje
+                        filled_order = next((o for o in last_orders if o["status"] == "FILLED"), None)
+                        if filled_order:
+                            update_signal_with_profit_info(signal, filled_order)
+                            signal.update({
+                                "status": "CLOSED",
+                                "exit_time": filled_order["time"],
+                            })
+                            log_to_file(f"Sygnał {symbol} zamknięty na podstawie historii: {signal['status_description']}")
+                        else:
+                            signal.update({
+                                "status": "CLOSED",
+                                "error": "RESIDUAL_BALANCE_CLOSED",
+                                "status_description": f"Zamknięto z pozostałością {base_balance} bez zysku"
+                            })
+                            log_to_file(f"Sygnał {symbol} zamknięty z pozostałością {base_balance} bez wykonanych zleceń")
+                        save_signal_history(history)  # Zapisz od razu po zamknięciu
+                        continue
+
+            # Jeśli brak OCO, ale jest pozycja i saldo wystarczające - utwórz nowe OCO
             if not active_oco and base_balance > 0:
+                if base_balance * current_price < min_notional:
+                    log_to_file(f"Pominięto tworzenie OCO dla {symbol}: wartość {base_balance * current_price} poniżej MIN_NOTIONAL {min_notional}")
+                    continue
+
                 for order in open_orders:
                     if order['type'] in ['STOP_LOSS_LIMIT', 'LIMIT_MAKER']:
                         try:
@@ -183,7 +221,6 @@ def check_and_update_signal_history():
                         })
                         log_to_file(f"OCO zostało zrealizowane. Typ: {signal['exit_type']}, Cena: {signal['exit_price']}")
                 elif is_any_expired_or_canceled and not base_balance > 0:
-                    # Jeśli jedno zlecenie wygasło/anulowano i nie ma pozycji, zamknij sygnał
                     filled_order = next((r for r in order_reports if r['status'] == 'FILLED'), None)
                     if filled_order:
                         update_signal_with_profit_info(signal, filled_order)
