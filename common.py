@@ -380,6 +380,17 @@ def get_all_oco_orders(client):
         log_to_file(f"Stack trace:\n{error_trace}")
         return None
 
+
+def get_min_notional(symbol):
+    info = client.get_symbol_info(symbol)
+    for f in info['filters']:
+        if f['filterType'] == 'NOTIONAL':
+            return float(f['minNotional'])
+        elif f['filterType'] == 'MIN_NOTIONAL':  # dla kompatybilności wstecznej
+            return float(f['minNotional'])
+    return 0.0  # jeśli nie znaleziono żadnego filtru notional, pozwalamy na handel
+
+
 def get_order_reports(client, orderListId, symbol):
     """
     Pobiera statusy zleceń dla danego orderListId, używając GET /api/v3/allOrders.

@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from common import client, log_to_file, adjust_price, adjust_quantity, get_order_details, create_oco_order_direct, get_order_reports, get_all_oco_orders_for_symbol
+from common import client, log_to_file, adjust_price, adjust_quantity, get_order_details, get_min_notional, create_oco_order_direct, get_order_reports, get_all_oco_orders_for_symbol
 from binance.exceptions import BinanceAPIException
 import traceback
 
@@ -131,13 +131,11 @@ def check_and_update_signal_history():
                                if oco['orderListId'] == signal.get("oco_order_id")), None)
 
             # Pobierz minimalny próg notionalny dla symbolu
-            symbol_info = client.get_symbol_info(symbol)
-            min_notional = float(next((f['minNotional'] for f in symbol_info['filters'] if f['filterType'] in ['NOTIONAL', 'MIN_NOTIONAL']), 0))
+            min_notional = get_min_notional(symbol)  # Używamy istniejącej funkcji z common
 
             # Jeśli saldo jest małe, sprawdź status ostatnich zleceń
             if base_balance > 0 and base_balance * current_price < min_notional * 1.1:  # 10% marginesu
                 log_to_file(f"Mała kwota na koncie dla {symbol}: {base_balance} (wartość: {base_balance * current_price} < {min_notional * 1.1})")
-                # Sprawdź historię zleceń dla tego sygnału
                 if "orders" in signal:
                     last_orders = signal["orders"]
                     all_filled_or_closed = all(
@@ -145,7 +143,6 @@ def check_and_update_signal_history():
                         for order in last_orders if "oco_group_id" in order and order["oco_group_id"] == signal.get("oco_order_id")
                     )
                     if all_filled_or_closed:
-                        # Znajdź ostatnie wykonane zlecenie, jeśli istnieje
                         filled_order = next((o for o in last_orders if o["status"] == "FILLED"), None)
                         if filled_order:
                             update_signal_with_profit_info(signal, filled_order)
@@ -161,15 +158,21 @@ def check_and_update_signal_history():
                                 "status_description": f"Zamknięto z pozostałością {base_balance} bez zysku"
                             })
                             log_to_file(f"Sygnał {symbol} zamknięty z pozostałością {base_balance} bez wykonanych zleceń")
-                        save_signal_history(history)  # Zapisz od razu po zamknięciu
+                        save_signal_history(history)
                         continue
 
             # Jeśli brak OCO, ale jest pozycja i saldo wystarczające - utwórz nowe OCO
             if not active_oco and base_balance > 0:
-                if base_balance * current_price < min_notional:
-                    log_to_file(f"Pominięto tworzenie OCO dla {symbol}: wartość {base_balance * current_price} poniżej MIN_NOTIONAL {min_notional}")
+                # Oblicz wartość notionalną pozycji
+                notional_value = base_balance * current_price
+                if notional_value < min_notional:
+                    log_to_file(f"Pominięto tworzenie OCO dla {symbol}: wartość {notional_value} poniżej MIN_NOTIONAL {min_notional}")
+                    signal["status"] = "CLOSED"
+                    signal["error"] = f"RESIDUAL_AMOUNT_TOO_SMALL: {base_balance} ({notional_value} < {min_notional})"
+                    save_signal_history(history)
                     continue
 
+                # Anuluj istniejące pojedyncze zlecenia
                 for order in open_orders:
                     if order['type'] in ['STOP_LOSS_LIMIT', 'LIMIT_MAKER']:
                         try:
@@ -183,17 +186,29 @@ def check_and_update_signal_history():
                                 log_to_file(f"Błąd anulowania zlecenia: {cancel_error}")
                                 raise
 
+                # Oblicz poziomy OCO
                 entry_price = float(signal['real_entry'])
                 stop_loss, take_profit = calculate_oco_levels(signal, entry_price)
                 stop_loss = adjust_price(symbol, stop_loss)
                 take_profit = adjust_price(symbol, take_profit)
-                base_balance = adjust_quantity(symbol, base_balance)
+                adjusted_quantity = adjust_quantity(symbol, base_balance)
 
+                # Dodatkowa walidacja po dostosowaniu ilości
+                adjusted_notional_tp = adjusted_quantity * take_profit
+                adjusted_notional_sl = adjusted_quantity * stop_loss
+                if adjusted_notional_tp < min_notional or adjusted_notional_sl < min_notional:
+                    log_to_file(f"Po dostosowaniu ilości: wartość OCO dla {symbol} (TP: {adjusted_notional_tp}, SL: {adjusted_notional_sl}) poniżej MIN_NOTIONAL {min_notional}")
+                    signal["status"] = "CLOSED"
+                    signal["error"] = f"ADJUSTED_AMOUNT_TOO_SMALL: {adjusted_quantity} (TP: {adjusted_notional_tp}, SL: {adjusted_notional_sl} < {min_notional})"
+                    save_signal_history(history)
+                    continue
+
+                # Tworzenie OCO
                 oco_order = create_oco_order_direct(
                     client=client,
                     symbol=symbol,
                     side='SELL' if signal['signal_type'] == 'LONG' else 'BUY',
-                    quantity=base_balance,
+                    quantity=adjusted_quantity,
                     take_profit_price=take_profit,
                     stop_price=stop_loss,
                     stop_limit_price=stop_loss
@@ -204,7 +219,7 @@ def check_and_update_signal_history():
                     add_order_to_history(signal, oco_order, "OCO")
                     log_to_file(f"Utworzono nowe OCO dla {symbol}: SL={stop_loss}, TP={take_profit}, orderListId={oco_order['orderListId']}")
 
-            # Sprawdzanie statusu OCO i aktualizacja sygnału
+            # Reszta kodu (sprawdzanie statusu OCO, aktualizacja targetów) pozostaje bez zmian
             if active_oco:
                 order_reports = get_order_reports(client, active_oco['orderListId'], symbol)
                 filled_order = None
@@ -237,7 +252,6 @@ def check_and_update_signal_history():
                         })
                         log_to_file(f"OCO dla {symbol} wygasło bez realizacji pozycji")
 
-            # Dynamiczna aktualizacja OCO na podstawie targetów
             if handle_targets(signal, current_price, base_balance):
                 signal["status"] = "CLOSED"
 
