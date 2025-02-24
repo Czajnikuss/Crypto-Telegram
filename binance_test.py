@@ -268,7 +268,7 @@ def cancel_position(symbol: str, days_back: int = 7):
 #cancel_position("DOGEUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
-#print(get_order_all("FETUSDT", 325825))
+#print(get_order_all("AUCTIONUSDT", 770511))
 #print(client.get_open_oco_orders())
 #print(json.dumps(get_all_oco_orders_for_symbol(client,"FETUSDT" )))
 
