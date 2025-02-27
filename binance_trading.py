@@ -318,6 +318,7 @@ def execute_trade(signal, percentage=20):
                 if oco_order and 'orderListId' in oco_order:
                     log_to_file("OCO order aktywowany pomyślnie")
                     signal["oco_order_id"] = oco_order['orderListId']
+                    signal["status"] = "OPEN"
                     add_order_to_history(signal, oco_order, "OCO_ORDER")
                     return True  # Zmiana: natychmiastowy return po sukcesie
                 else:
