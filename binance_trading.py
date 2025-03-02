@@ -267,6 +267,11 @@ def execute_trade(signal, percentage=20):
             signal["real_amount"] = balance_diff
             # Dodajemy real_entry do sygnału
             signal["real_entry"] = avg_price
+            if avg_price <= 0:
+                log_to_file(f"Błędna cena rynkowa zakupu: {avg_price}")
+                signal["status"] = "CLOSED"
+                signal["error"] = f"Błędna cena rynkowa zakupu: {avg_price}"
+                return False
             add_order_to_history(signal, market_order, "MARKET")
         else:
             log_to_file(f"Zlecenie MARKET nie powiodło się. Status: {market_order.get('status')}")

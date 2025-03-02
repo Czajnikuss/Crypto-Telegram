@@ -481,8 +481,6 @@ def handle_targets(signal, current_price, base_balance):
         next_target = float(targets[current_level])
         target_reached = (current_price >= next_target if is_long else current_price <= next_target)
 
-    # If any target was reached, update OCO orders
-    if current_level > signal.get('current_target_level', 0):
         try:
             # Save the updated level
             signal['current_target_level'] = current_level
