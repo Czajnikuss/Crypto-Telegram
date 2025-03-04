@@ -1,3 +1,69 @@
-{
-
-}
+[
+    {
+        "symbol": "RLCUSDT",
+        "orderId": 652862,
+        "orderListId": 18557,
+        "clientOrderId": "bWcwH6GHA5KKjtLAaCpKBo",
+        "price": "1.01700000",
+        "origQty": "35176.10000000",
+        "executedQty": "0.00000000",
+        "cummulativeQuoteQty": "0.00000000",
+        "status": "NEW",
+        "timeInForce": "GTC",
+        "type": "STOP_LOSS_LIMIT",
+        "side": "SELL",
+        "stopPrice": "1.01700000",
+        "icebergQty": "0.00000000",
+        "time": 1740925916747,
+        "updateTime": 1740925916747,
+        "isWorking": False,
+        "workingTime": -1,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    {
+        "symbol": "RLCUSDT",
+        "orderId": 652863,
+        "orderListId": 18557,
+        "clientOrderId": "MQwZ2mWV2RYuE1E2B7bYiF",
+        "price": "1.34000000",
+        "origQty": "35176.10000000",
+        "executedQty": "0.00000000",
+        "cummulativeQuoteQty": "0.00000000",
+        "status": "NEW",
+        "timeInForce": "GTC",
+        "type": "LIMIT_MAKER",
+        "side": "SELL",
+        "stopPrice": "0.00000000",
+        "icebergQty": "0.00000000",
+        "time": 1740925916747,
+        "updateTime": 1740925916747,
+        "isWorking": True,
+        "workingTime": 1740925916747,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
+    },
+    
+    {
+        "symbol": "REZUSDT",
+        "orderId": 1709784,
+        "orderListId": 19515,
+        "clientOrderId": "ksWZglF7SycKazMvkeJiVK",
+        "price": "0.02119000",
+        "origQty": "3180.90000000",
+        "executedQty": "0.00000000",
+        "cummulativeQuoteQty": "0.00000000",
+        "status": "NEW",
+        "timeInForce": "GTC",
+        "type": "STOP_LOSS_LIMIT",
+        "side": "SELL",
+        "stopPrice": "0.02119000",
+        "icebergQty": "0.00000000",
+        "time": 1740941371580,
+        "updateTime": 1740947197031,
+        "isWorking": True,
+        "workingTime": 1740947197031,
+        "origQuoteOrderQty": "0.00000000",
+        "selfTradePreventionMode": "EXPIRE_MAKER"
+    }
+]
