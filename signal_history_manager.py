@@ -348,8 +348,8 @@ def calculate_oco_levels(signal, entry_price):
         log_to_file(f"Sygnał {signal['currency']} nie ma wystarczających targetów - zwracam None")
         return None, None
 
-    # Take Profit zawsze na poziomie targetu 2
-    take_profit = float(targets[1])  # Target 2 (indeks 1)
+    # Take Profit zawsze na poziomie targetu 2 (indeks 1)
+    take_profit = float(targets[1])
 
     # Stop Loss według zasad
     if current_level == 0:
@@ -365,14 +365,14 @@ def calculate_oco_levels(signal, entry_price):
             stop_loss = entry_price * (0.95 if is_long else 1.05)
             log_to_file(f"Sygnał {signal['currency']} - brak stop_loss w sygnale, ustawiono {stop_loss}")
     elif current_level == 1:
-        # Po osiągnięciu targetu 1: Stop Loss na poziomie real_entry
+        # Poziom 1: Stop Loss na poziomie real_entry
         buffer = entry_price * 0.001  # 0.1% buffer
         stop_loss = entry_price - buffer if is_long else entry_price + buffer
         log_to_file(f"Sygnał {signal['currency']} - ustawiono stop_loss na poziomie real_entry z buforem: {stop_loss}")
     else:
-        # Dla dalszych poziomów sprawdzamy w handle_targets
-        stop_loss = float(targets[0])  # Target 1 jako domyślny Stop Loss po dalszych zmianach
-        log_to_file(f"Sygnał {signal['currency']} - ustawiono stop_loss na poziomie targetu 1: {stop_loss}")
+        # Poziom 2+: Stop Loss na poziomie targetu 0 (pierwszy target)
+        stop_loss = float(targets[0])
+        log_to_file(f"Sygnał {signal['currency']} - ustawiono stop_loss na poziomie targetu 0: {stop_loss}")
 
     # Validate price relationships for OCO orders
     is_valid = True
@@ -384,7 +384,7 @@ def calculate_oco_levels(signal, entry_price):
             log_to_file(f"Sygnał {signal['currency']} - stop loss ({stop_loss}) >= entry ({entry_price}) na poziomie 0")
             is_valid = False
         if take_profit <= entry_price:
-            log_to_file(f"Sygnał {signal['currency']} - take profit ({take_profit}) <= entry ({entry_price})")
+            log_to_file(f"Sygnał {symbol} - take profit ({take_profit}) <= entry ({entry_price})")
             is_valid = False
     else:
         if stop_loss <= take_profit:
@@ -460,30 +460,12 @@ def handle_targets(signal, current_price, base_balance):
     # Debug log
     log_to_file(f"Sprawdzanie targetu {current_level} dla {symbol}: cena={current_price}, target={next_target}, osiągnięty={target_reached}")
 
-    # Skip targets that have been skipped due to price movement
-    while target_reached and current_level < len(targets) - 1:
+    # Skip targets that have been reached
+    if target_reached:
         current_level += 1
         signal['current_target_level'] = current_level
-        log_to_file(f"Target {current_level-1} osiągnięty dla {symbol}, sprawdzanie następnego...")
-        
-        if current_level >= len(targets):
-            signal["status"] = "CLOSED"
-            signal["status_description"] = "All targets reached"
-            log_to_file(f"Sygnał {symbol} zamknięty - wszystkie targety osiągnięte")
-            close_remaining_balance(signal)
-            return True
-            
-        next_target = float(targets[current_level])
-        target_reached = (current_price >= next_target if is_long else current_price <= next_target)
+        log_to_file(f"Target {current_level-1} osiągnięty dla {symbol}, przechodzenie na poziom {current_level}")
 
-    # Check for 50% difference between target 1 and target 2
-    target_1 = float(targets[0])
-    target_2 = float(targets[1])
-    mid_point = target_1 + (target_2 - target_1) * 0.5 if is_long else target_1 - (target_1 - target_2) * 0.5
-    reached_mid_point = (current_price >= mid_point if is_long else current_price <= mid_point)
-
-    # Update OCO if necessary
-    if target_reached or reached_mid_point:
         try:
             # Save the updated level
             signal['current_target_level'] = current_level
@@ -494,7 +476,7 @@ def handle_targets(signal, current_price, base_balance):
                 if order['type'] in ['STOP_LOSS_LIMIT', 'LIMIT_MAKER']:
                     try:
                         client.cancel_order(symbol=symbol, orderId=order['orderId'])
-                        log_to_file(f"Anulowano zlecenie {order['orderId']} po osiągnięciu targetu/mid-point {current_level}")
+                        log_to_file(f"Anulowano zlecenie {order['orderId']} po osiągnięciu targetu {current_level-1}")
                     except BinanceAPIException as cancel_error:
                         if 'Unknown order sent' in str(cancel_error):
                             log_to_file(f"Zlecenie {order['orderId']} już nie istnieje, pomijam")
@@ -514,10 +496,16 @@ def handle_targets(signal, current_price, base_balance):
                 close_remaining_balance(signal)
                 return True
 
-            # If we've reached the mid-point, adjust stop loss to target 1
-            if reached_mid_point and current_level >= 1:
-                new_stop_loss = target_1
-                log_to_file(f"Osiągnięto 50% między targetami dla {symbol}, ustawiono stop_loss na target 1: {new_stop_loss}")
+            # Check for 50% difference between targets[0] and targets[1] only when reaching targets[0]
+            if current_level == 1:
+                target_1 = float(targets[0])
+                target_2 = float(targets[1])
+                mid_point = target_1 + (target_2 - target_1) * 0.5 if is_long else target_1 - (target_1 - target_2) * 0.5
+                reached_mid_point = (current_price >= mid_point if is_long else current_price <= mid_point)
+                
+                if reached_mid_point:
+                    new_stop_loss = target_1
+                    log_to_file(f"Osiągnięto 50% między targetami dla {symbol} przy przechodzeniu na poziom 1, ustawiono stop_loss na target 1: {new_stop_loss}")
 
             # Adjust prices and quantity for exchange requirements
             new_stop_loss = adjust_price(symbol, new_stop_loss)
@@ -552,11 +540,11 @@ def handle_targets(signal, current_price, base_balance):
             if oco_order:
                 signal['oco_order_id'] = oco_order['orderListId']
                 add_order_to_history(signal, oco_order, "OCO")
-                log_to_file(f"Zaktualizowano OCO dla {symbol}: SL={new_stop_loss}, TP={take_profit}, orderListId={oco_order['orderListId']}")
+                log_to_file(f"Zaktualizowano OCO dla {symbol} po osiągnięciu targetu: SL={new_stop_loss}, TP={take_profit}, orderListId={oco_order['orderListId']}")
             else:
-                # If we failed to create OCO at mid-point, close the position immediately
-                if reached_mid_point:
-                    log_to_file(f"Nie udało się utworzyć OCO dla {symbol} na poziomie mid-point - natychmiastowe zamknięcie pozycji")
+                # If we failed to create OCO when reaching mid-point at level 1, close the position immediately
+                if current_level == 1 and reached_mid_point:
+                    log_to_file(f"Nie udało się utworzyć OCO dla {symbol} na poziomie 1 z mid-point - natychmiastowe zamknięcie pozycji")
                     closing_side = 'SELL' if is_long else 'BUY'
                     adjusted_quantity = adjust_quantity(symbol, base_balance)
                     if adjusted_quantity > 0:
