@@ -145,52 +145,67 @@ def get_total_balance():
         return {}
 
 def check_and_update_signal_history():
-    from binance_trading import add_order_to_history
+    from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
+    from binance_trading import get_total_balance, client, update_signal_high_price, validate_targets
+    from binance_trading import close_remaining_balance, handle_critical_error, get_all_oco_orders_for_symbol
+
     history = load_signal_history()
     updated = False
 
-    # Pobierz wszystkie salda naraz
+    # Pobierz wszystkie salda (wolne + zablokowane)
     all_balances = get_total_balance()
     
-    # Grupowanie sygnałów według waluty i sortowanie po czasie
+    # Pobierz waluty z dodatnim saldem
+    active_assets = [asset for asset, balance in all_balances.items() if balance > 0]
+    
+    # Pobierz waluty z aktywnymi zleceniami OCO
+    all_open_orders = client.get_open_orders()
+    active_oco_symbols = set(order['symbol'] for order in all_open_orders if order.get('orderListId'))
+    
+    # Połącz waluty z saldem i aktywnymi OCO w zbiór aktywnych symboli
+    active_symbols = set(active_assets).union(active_oco_symbols)
+    
+    # Grupuj sygnały tylko dla aktywnych walut
     signals_by_currency = {}
     for signal in history:
         currency = signal["currency"]
-        if currency not in signals_by_currency:
-            signals_by_currency[currency] = []
-        signals_by_currency[currency].append(signal)
-    
+        # Przetwarzaj tylko waluty, które mają saldo lub aktywne zlecenia
+        if currency in active_symbols:
+            if currency not in signals_by_currency:
+                signals_by_currency[currency] = []
+            signals_by_currency[currency].append(signal)
+
+    # Przetwarzaj każdą walutę z aktywnymi sygnałami
     for currency, signals in signals_by_currency.items():
-        signals.sort(key=lambda x: x["date"], reverse=True)  # Najnowsze najpierw
+        signals.sort(key=lambda x: x["date"], reverse=True)  # Najnowsze sygnały najpierw
         
         # Wybierz reprezentanta: otwarty sygnał lub ostatni zamknięty
         representative = next((s for s in signals if s.get("status") == "OPEN"), signals[0])
         symbol = representative["currency"]
         
         try:
+            # Pobierz aktualną cenę
             current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
             representative = update_signal_high_price(representative, current_price)
             updated = True
 
-            # Pobierz lub użyj danych o symbolu z sygnału
+            # Pobierz dane o symbolu
             if "symbol_info" not in representative:
                 representative["symbol_info"] = client.get_symbol_info(symbol)
             symbol_info = representative["symbol_info"]
             base_asset = symbol_info['baseAsset']
-            min_notional = float(symbol_info['filters'][2]['minNotional'])  # Quantity filter
+            min_notional = float(symbol_info['filters'][2]['minNotional'])
             base_balance = all_balances.get(base_asset, 0)
 
             if 'current_target_level' not in representative:
                 representative['current_target_level'] = 0
 
-            # Sprawdź zgodność bilansu ze stanem sygnału
+            # Sprawdź zgodność salda i stanu sygnału
             notional_value = base_balance * current_price
             is_open = representative.get("status") == "OPEN"
             targets = validate_targets(representative)
-            real_amount = float(representative.get("real_amount", 0))
 
             if is_open and notional_value < min_notional * 1.1:
-                # Sygnał otwarty, ale saldo bliskie min_notional
                 log_to_file(f"Rozbieżność: {symbol} otwarty, ale saldo bliskie min_notional: {notional_value}")
                 trades = client.get_my_trades(symbol=symbol)
                 filled_orders = [t for t in trades if t['orderId'] in [o['orderId'] for o in representative.get("orders", [])]]
@@ -205,11 +220,10 @@ def check_and_update_signal_history():
                     })
                     representative["status"] = "CLOSED"
                     representative["exit_time"] = last_filled['time']
-                    log_to_file(f"Zamknięto {symbol} na podstawie transakcji: {representative['status_description']}")
+                    log_to_file(f"Zamknięto {symbol} na podstawie transakcji")
                     close_remaining_balance(representative)
-                
+
             elif not is_open and base_balance > 0:
-                # Sygnał zamknięty, ale saldo dodatnie
                 log_to_file(f"Rozbieżność: {symbol} zamknięty, ale saldo dodatnie: {base_balance}")
                 all_oco_orders = get_all_oco_orders_for_symbol(client, symbol, only_active=True)
                 active_oco = next((oco for oco in all_oco_orders 
@@ -219,85 +233,7 @@ def check_and_update_signal_history():
                     representative["status"] = "OPEN"
                     representative["oco_order_id"] = active_oco['orderListId']
                     add_order_to_history(representative, active_oco, "OCO")
-                    log_to_file(f"Otwarto ponownie {symbol} - aktywne OCO znalezione: {active_oco['orderListId']}")
-                else:
-                    entry_price = float(representative["real_entry"])
-                    target_2 = float(targets[1]) if len(targets) > 1 else entry_price * (1.05 if representative["signal_type"] == "LONG" else 0.95)
-                    
-                    if (representative["signal_type"] == "LONG" and current_price > target_2) or \
-                       (representative["signal_type"] == "SHORT" and current_price < target_2):
-                        # Cena powyżej targetu 2 - sprzedaj całość
-                        close_remaining_balance(representative)
-                        representative["status"] = "CLOSED"
-                        representative["status_description"] = "Closed above target 2"
-                        log_to_file(f"Zamknięto {symbol} - cena powyżej targetu 2")
-                    elif (representative["signal_type"] == "LONG" and current_price < entry_price) or \
-                         (representative["signal_type"] == "SHORT" and current_price > entry_price):
-                        # Cena poniżej real_entry - sprzedaj całość
-                        close_remaining_balance(representative)
-                        representative["status"] = "CLOSED"
-                        representative["status_description"] = "Closed below entry"
-                        log_to_file(f"Zamknięto {symbol} - cena poniżej entry")
-                    else:
-                        # Pomiędzy entry a target 2 - ustaw nowe OCO
-                        stop_loss, take_profit = calculate_oco_levels(representative, entry_price)
-                        if stop_loss and take_profit:
-                            stop_loss = adjust_price(symbol, stop_loss)
-                            take_profit = adjust_price(symbol, take_profit)
-                            adjusted_quantity = adjust_quantity(symbol, base_balance)
-                            oco_order = create_oco_order_direct(
-                                client=client,
-                                symbol=symbol,
-                                side='SELL' if representative['signal_type'] == 'LONG' else 'BUY',
-                                quantity=adjusted_quantity,
-                                take_profit_price=take_profit,
-                                stop_price=stop_loss,
-                                stop_limit_price=stop_loss
-                            )
-                            if oco_order:
-                                representative["status"] = "OPEN"
-                                representative["oco_order_id"] = oco_order['orderListId']
-                                add_order_to_history(representative, oco_order, "OCO")
-                                log_to_file(f"Utworzono nowe OCO dla {symbol}: SL={stop_loss}, TP={take_profit}")
-
-            # Standardowa obsługa OCO i targetów dla otwartych sygnałów
-            if is_open:
-                all_oco_orders = get_all_oco_orders_for_symbol(client, symbol, only_active=True)
-                active_oco = next((oco for oco in all_oco_orders 
-                                 if oco['orderListId'] == representative.get("oco_order_id")), None) if all_oco_orders else None
-                
-                if active_oco:
-                    order_reports = get_order_reports(client, active_oco['orderListId'], symbol)
-                    filled_order = next((r for r in order_reports if r['status'] == 'FILLED'), None)
-                    if filled_order:
-                        update_signal_with_profit_info(representative, filled_order)
-                        representative["status"] = "CLOSED"
-                        representative["exit_time"] = filled_order['time']
-                        close_remaining_balance(representative)
-                
-                if not active_oco and base_balance > min_notional:
-                    stop_loss, take_profit = calculate_oco_levels(representative, float(representative["real_entry"]))
-                    if stop_loss and take_profit:
-                        stop_loss = adjust_price(symbol, stop_loss)
-                        take_profit = adjust_price(symbol, take_profit)
-                        adjusted_quantity = adjust_quantity(symbol, base_balance)
-                        oco_order = create_oco_order_direct(
-                            client=client,
-                            symbol=symbol,
-                            side='SELL' if representative['signal_type'] == 'LONG' else 'BUY',
-                            quantity=adjusted_quantity,
-                            take_profit_price=take_profit,
-                            stop_price=stop_loss,
-                            stop_limit_price=stop_loss
-                        )
-                        if oco_order:
-                            representative["oco_order_id"] = oco_order['orderListId']
-                            add_order_to_history(representative, oco_order, "OCO")
-                            log_to_file(f"Utworzono nowe OCO dla {symbol}: SL={stop_loss}, TP={take_profit}")
-                
-                if handle_targets(representative, current_price, base_balance):
-                    representative["status"] = "CLOSED"
-                    close_remaining_balance(representative)
+                    log_to_file(f"Otwarto ponownie {symbol} - aktywne OCO: {active_oco['orderListId']}")
 
             # Zaktualizuj reprezentanta w historii
             for i, s in enumerate(history):
@@ -312,7 +248,6 @@ def check_and_update_signal_history():
 
     if updated:
         save_signal_history(history)
-
 
 def validate_targets(signal):
     """Waliduje i sortuje targety w sygnale, usuwając nie-liczbowe wartości."""
@@ -380,7 +315,7 @@ def calculate_oco_levels(signal, entry_price):
             log_to_file(f"Sygnał {signal['currency']} - stop loss ({stop_loss}) >= entry ({entry_price}) na poziomie 0")
             is_valid = False
         if take_profit <= entry_price:
-            log_to_file(f"Sygnał {symbol} - take profit ({take_profit}) <= entry ({entry_price})")
+            log_to_file(f"Sygnał {signal['currency']} - take profit ({take_profit}) <= entry ({entry_price})")
             is_valid = False
     else:
         if stop_loss <= take_profit:
