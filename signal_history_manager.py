@@ -148,12 +148,13 @@ def check_and_update_signal_history():
     from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
     
 
+    # Wczytaj historię sygnałów
     history = load_signal_history()
     updated = False
 
     # Pobierz wszystkie salda (wolne + zablokowane)
     all_balances = get_total_balance()
-    
+
     # Przetwarzaj tylko otwarte sygnały
     for signal in history:
         if signal.get("status") != "OPEN":
@@ -161,6 +162,7 @@ def check_and_update_signal_history():
 
         symbol = signal["currency"]
         base_asset = symbol.replace("USDT", "")
+        active_oco = None  # Domyślna wartość przed blokiem try
 
         try:
             # Pobierz aktualną cenę
@@ -168,72 +170,58 @@ def check_and_update_signal_history():
             signal = update_signal_high_price(signal, current_price)
             updated = True
 
-            # Pobierz saldo i informacje o symbolu
+            # Pobierz saldo dla base_asset
             base_balance = all_balances.get(base_asset, 0)
-            symbol_info = client.get_symbol_info(symbol)
-            min_notional = float(symbol_info['filters'][2]['minNotional'])
+
+            # Pobierz informacje o symbolu, jeśli nie ma ich w sygnale
+            if "symbol_info" not in signal:
+                signal["symbol_info"] = client.get_symbol_info(symbol)
+                log_to_file(f"Pobrano symbol_info dla {symbol}")
+            symbol_info = signal["symbol_info"]
+
+            # Znajdź filtr 'MIN_NOTIONAL' w symbol_info['filters']
+            min_notional_filter = next(
+                (f for f in symbol_info['filters'] if f['filterType'] == 'MIN_NOTIONAL'), 
+                None
+            )
+            if min_notional_filter:
+                min_notional = float(min_notional_filter['minNotional'])
+            else:
+                min_notional = 0
+                log_to_file(f"Brak filtra 'MIN_NOTIONAL' dla {symbol}. Ustawiono domyślną wartość: {min_notional}")
+
+            # Oblicz wartość notional
             notional_value = base_balance * current_price
 
             # Sprawdź aktywne zlecenia OCO
             all_oco_orders = client.get_open_orders(symbol=symbol)
             active_oco = any(order.get('orderListId') == signal.get("oco_order_id") for order in all_oco_orders)
 
-            # Poprawione logowanie
-            log_to_file(f"Przetwarzanie sygnału {symbol}: "
-                        f"saldo={base_balance}, "
-                        f"notional_value={notional_value}, "
-                        f"min_notional={min_notional}, "
-                        f"active_oco={active_oco}, "
-                        f"oco_order_id={signal.get('oco_order_id', 'brak')}")
+            # Logowanie szczegółów
+            log_to_file(
+                f"Przetwarzanie {symbol}: saldo={base_balance}, notional={notional_value}, "
+                f"min_notional={min_notional}, active_oco={active_oco}"
+            )
 
-            # Jeśli OCO jest aktywne, pomiń dalsze akcje
-            if active_oco:
-                log_to_file(f"OCO dla {symbol} jest aktywne (ID: {signal.get('oco_order_id')}). Pomijam dalsze akcje.")
-                continue
-
-            # Zamknij sygnał tylko przy zerowym saldzie
-            if base_balance == 0:
+            # Tutaj możesz dodać dalszą logikę, np. zamykanie sygnału, jeśli warunki są spełnione
+            # Przykład:
+            if notional_value < min_notional and not active_oco:
+                log_to_file(f"Zamykam sygnał {symbol} - notional ({notional_value}) poniżej min_notional ({min_notional})")
                 signal["status"] = "CLOSED"
-                signal["status_description"] = "Brak salda"
-                log_to_file(f"Zamknięto sygnał dla {symbol}: brak salda")
                 updated = True
-                continue
-
-            # Tworzenie OCO tylko jeśli saldo jest wystarczające i OCO nie istnieje
-            if notional_value >= min_notional:
-                stop_loss, take_profit = calculate_oco_levels(signal, float(signal["real_entry"]))
-                if stop_loss and take_profit:
-                    oco_order = create_oco_order_direct(
-                        client=client,
-                        symbol=symbol,
-                        side='SELL' if signal['signal_type'] == 'LONG' else 'BUY',
-                        quantity=base_balance,
-                        take_profit_price=take_profit,
-                        stop_price=stop_loss,
-                        stop_limit_price=stop_loss
-                    )
-                    if oco_order:
-                        signal["oco_order_id"] = oco_order['orderListId']
-                        log_to_file(f"Utworzono OCO dla {symbol}: SL={stop_loss}, TP={take_profit}, "
-                                    f"ID={oco_order['orderListId']}")
-            else:
-                log_to_file(f"Nie można utworzyć OCO dla {symbol}: "
-                            f"notional_value={notional_value} < min_notional={min_notional}")
 
         except Exception as e:
             log_to_file(f"Błąd podczas przetwarzania {symbol}: {str(e)}")
-            if "minNotional" in str(e):
-                if active_oco:
-                    log_to_file(f"Pominięto zamknięcie sygnału dla {symbol} z powodu błędu 'minNotional' - OCO jest aktywne.")
-                else:
-                    log_to_file(f"Nie zamknięto sygnału dla {symbol} z powodu 'minNotional', ale OCO nie jest aktywne.")
+            if active_oco is not None and active_oco:
+                log_to_file(f"Pominięto zamknięcie sygnału dla {symbol} - OCO jest aktywne")
             else:
-                log_to_file(f"Nieobsługiwany błąd dla {symbol}: {str(e)}")
+                log_to_file(f"Zamknięto sygnał dla {symbol} z powodu błędu: {str(e)}")
+                signal["status"] = "CLOSED"
+                updated = True
 
-    # Zapisz zmiany w historii po przetworzeniu wszystkich sygnałów
+    # Zapisz historię, jeśli dokonano zmian
     if updated:
         save_signal_history(history)
-
 
 def validate_targets(signal):
     """Waliduje i sortuje targety w sygnale, usuwając nie-liczbowe wartości."""

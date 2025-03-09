@@ -261,11 +261,13 @@ def cancel_position(symbol: str, days_back: int = 7):
 #print(reset_account_to_usdt())
 #print(get_all_balances())
 #print(client.get_open_orders())
-print(place_order("OMNIUSDT", "SELL", 17828.57000000))
+#print(place_order("OMNIUSDT", "SELL", 17828.57000000))
 #orderId= take_profit_order['orderId']
 
 
-#cancel_position("OMNIUSDT")
+#cancel_position("IOTAUSDT")
+#cancel_position("CHRUSDT")
+#cancel_position("AUCTIONUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
 #print(get_order_all("OMNIUSDT", 770511))
