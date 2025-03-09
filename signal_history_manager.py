@@ -146,8 +146,7 @@ def get_total_balance():
 
 def check_and_update_signal_history():
     from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
-    from binance_trading import get_total_balance, client, update_signal_high_price, validate_targets
-    from binance_trading import close_remaining_balance, handle_critical_error, get_all_oco_orders_for_symbol
+
 
     history = load_signal_history()
     updated = False
