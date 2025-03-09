@@ -146,83 +146,85 @@ def get_total_balance():
 
 def check_and_update_signal_history():
     from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
-    
 
-    # Wczytaj historię sygnałów
+
     history = load_signal_history()
     updated = False
 
-    # Pobierz wszystkie salda (wolne + zablokowane)
     all_balances = get_total_balance()
 
-    # Przetwarzaj tylko otwarte sygnały
     for signal in history:
         if signal.get("status") != "OPEN":
-            continue  # Pomijaj zamknięte sygnały
+            continue
 
         symbol = signal["currency"]
         base_asset = symbol.replace("USDT", "")
-        active_oco = None  # Domyślna wartość przed blokiem try
+        active_oco = None
 
         try:
-            # Pobierz aktualną cenę
+            # Pobranie aktualnej ceny
             current_price = float(client.get_symbol_ticker(symbol=symbol)['price'])
             signal = update_signal_high_price(signal, current_price)
             updated = True
 
-            # Pobierz saldo dla base_asset
+            # Pobranie salda
             base_balance = all_balances.get(base_asset, 0)
 
-            # Pobierz informacje o symbolu, jeśli nie ma ich w sygnale
+            # Pobranie informacji o symbolu, jeśli brak
             if "symbol_info" not in signal:
                 signal["symbol_info"] = client.get_symbol_info(symbol)
                 log_to_file(f"Pobrano symbol_info dla {symbol}")
             symbol_info = signal["symbol_info"]
 
-            # Znajdź filtr 'MIN_NOTIONAL' w symbol_info['filters']
-            min_notional_filter = next(
-                (f for f in symbol_info['filters'] if f['filterType'] == 'MIN_NOTIONAL'), 
+            # Minimalna wartość notionalna
+            notional_filter = next(
+                (f for f in symbol_info['filters'] if f['filterType'] == 'NOTIONAL'), 
                 None
             )
-            if min_notional_filter:
-                min_notional = float(min_notional_filter['minNotional'])
-            else:
-                min_notional = 0
-                log_to_file(f"Brak filtra 'MIN_NOTIONAL' dla {symbol}. Ustawiono domyślną wartość: {min_notional}")
-
-            # Oblicz wartość notional
+            min_notional = float(notional_filter['minNotional']) if notional_filter else 0
             notional_value = base_balance * current_price
 
-            # Sprawdź aktywne zlecenia OCO
+            # Sprawdzenie aktywnych zleceń OCO
             all_oco_orders = client.get_open_orders(symbol=symbol)
             active_oco = any(order.get('orderListId') == signal.get("oco_order_id") for order in all_oco_orders)
 
-            # Logowanie szczegółów
+            # Określenie celów i osiągniętego celu
+            targets = signal.get("targets", [])
+            achieved_target = None
+            for i, target in enumerate(targets):
+                if (signal["signal_type"] == "LONG" and current_price >= target) or \
+                   (signal["signal_type"] == "SHORT" and current_price <= target):
+                    achieved_target = i + 1  # Numer osiągniętego celu
+                else:
+                    break
+
+            # Logowanie wszystkich informacji w jednej linijce
             log_to_file(
-                f"Przetwarzanie {symbol}: saldo={base_balance}, notional={notional_value}, "
-                f"min_notional={min_notional}, active_oco={active_oco}"
+                f"Przetwarzanie {symbol}: "
+                f"cena={current_price:.4f}, "
+                f"saldo={base_balance:.2f}, "
+                f"notional={notional_value:.2f}, "
+                f"min_notional={min_notional:.2f}, "
+                f"active_oco={active_oco}, "
+                f"cele={targets}, "
+                f"osiągnięty_cel={achieved_target if achieved_target else 'Brak'}"
             )
 
-            # Tutaj możesz dodać dalszą logikę, np. zamykanie sygnału, jeśli warunki są spełnione
-            # Przykład:
-            if notional_value < min_notional and not active_oco:
-                log_to_file(f"Zamykam sygnał {symbol} - notional ({notional_value}) poniżej min_notional ({min_notional})")
-                signal["status"] = "CLOSED"
-                updated = True
+            # Dalsza logika przetwarzania sygnału...
 
         except Exception as e:
             log_to_file(f"Błąd podczas przetwarzania {symbol}: {str(e)}")
-            if active_oco is not None and active_oco:
+            if active_oco:
                 log_to_file(f"Pominięto zamknięcie sygnału dla {symbol} - OCO jest aktywne")
             else:
                 log_to_file(f"Zamknięto sygnał dla {symbol} z powodu błędu: {str(e)}")
                 signal["status"] = "CLOSED"
                 updated = True
 
-    # Zapisz historię, jeśli dokonano zmian
     if updated:
         save_signal_history(history)
-
+        
+        
 def validate_targets(signal):
     """Waliduje i sortuje targety w sygnale, usuwając nie-liczbowe wartości."""
     targets = signal.get("targets", [])

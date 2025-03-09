@@ -267,7 +267,7 @@ def cancel_position(symbol: str, days_back: int = 7):
 
 #cancel_position("IOTAUSDT")
 #cancel_position("CHRUSDT")
-#cancel_position("AUCTIONUSDT")
+cancel_position("AUCTIONUSDT")
 #set_stop_loss_order("OMNIUSDT", SIDE_SELL, 1)
 
 #print(get_order_all("OMNIUSDT", 770511))
