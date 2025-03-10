@@ -143,10 +143,13 @@ def get_total_balance():
     except Exception as e:
         log_to_file(f"Błąd podczas pobierania całkowitych sald: {e}")
         return {}
+    
+    
 
 def check_and_update_signal_history():
     from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
-
+    from binance_trading import get_total_balance, client, update_signal_high_price, close_remaining_balance
+    import time
 
     history = load_signal_history()
     updated = False
@@ -194,11 +197,11 @@ def check_and_update_signal_history():
             for i, target in enumerate(targets):
                 if (signal["signal_type"] == "LONG" and current_price >= target) or \
                    (signal["signal_type"] == "SHORT" and current_price <= target):
-                    achieved_target = i + 1  # Numer osiągniętego celu
+                    achieved_target = i + 1
                 else:
                     break
 
-            # Logowanie wszystkich informacji w jednej linijce
+            # Logowanie
             log_to_file(
                 f"Przetwarzanie {symbol}: "
                 f"cena={current_price:.4f}, "
@@ -210,7 +213,61 @@ def check_and_update_signal_history():
                 f"osiągnięty_cel={achieved_target if achieved_target else 'Brak'}"
             )
 
-            # Dalsza logika przetwarzania sygnału...
+            # Sprawdzenie historii OCO, jeśli nie jest aktywne, ale było zdefiniowane
+            oco_order_id = signal.get("oco_order_id")
+            if oco_order_id and not active_oco:
+                trades = client.get_my_trades(symbol=symbol)
+                oco_orders = signal.get("orders", [])
+                stop_loss_order = next((o for o in oco_orders if o["type"] == "STOP_LOSS_LIMIT" and o["oco_group_id"] == oco_order_id), None)
+                take_profit_order = next((o for o in oco_orders if o["type"] == "LIMIT_MAKER" and o["oco_group_id"] == oco_order_id), None)
+
+                # Szukamy zrealizowanego zlecenia w historii
+                for trade in trades:
+                    if stop_loss_order and trade["orderId"] == stop_loss_order["orderId"] and float(trade["qty"]) > 0:
+                        log_to_file(f"OCO dla {symbol} zrealizowane na Stop Loss przy cenie {trade['price']}")
+                        signal["status"] = "CLOSED"
+                        signal["status_description"] = f"Stop Loss wykonany przy cenie {trade['price']}"
+                        signal["exit_price"] = float(trade["price"])
+                        signal["exit_time"] = trade["time"]
+                        updated = True
+                        break
+                    elif take_profit_order and trade["orderId"] == take_profit_order["orderId"] and float(trade["qty"]) > 0:
+                        log_to_file(f"OCO dla {symbol} zrealizowane na Take Profit przy cenie {trade['price']}")
+                        signal["status"] = "CLOSED"
+                        signal["status_description"] = f"Take Profit wykonany przy cenie {trade['price']}"
+                        signal["exit_price"] = float(trade["price"])
+                        signal["exit_time"] = trade["time"]
+                        updated = True
+                        break
+                else:
+                    # Jeśli brak realizacji w historii, OCO mogło wygasnąć
+                    if base_balance > 0:
+                        log_to_file(f"OCO dla {symbol} (ID: {oco_order_id}) wygasło, saldo nadal istnieje: {base_balance}")
+                        # Zamykamy pozycję ręcznie
+                        signal["status"] = "CLOSED"
+                        signal["status_description"] = "OCO wygasło, zamknięcie ręczne"
+                        signal["exit_price"] = current_price
+                        signal["exit_time"] = int(time.time() * 1000)
+                        close_remaining_balance(signal)
+                        updated = True
+
+            # Zamknięcie, jeśli wszystkie cele osiągnięte i brak OCO
+            elif active_oco is False and achieved_target and achieved_target >= len(targets):
+                log_to_file(f"Zamykanie sygnału {symbol}: Wszystkie cele osiągnięte (ostatni cel: {targets[-1]}) bez aktywnego OCO")
+                signal["status"] = "CLOSED"
+                signal["status_description"] = f"Wszystkie cele osiągnięte przy cenie {current_price:.4f}"
+                signal["exit_price"] = current_price
+                signal["exit_time"] = int(time.time() * 1000)
+                close_remaining_balance(signal)
+                updated = True
+
+            # Zamknięcie, jeśli brak salda i brak OCO
+            elif not active_oco and base_balance == 0:
+                log_to_file(f"Zamykanie sygnału {symbol}: Brak salda i aktywnego OCO")
+                signal["status"] = "CLOSED"
+                signal["status_description"] = "Brak salda i aktywnego OCO"
+                signal["exit_time"] = int(time.time() * 1000)
+                updated = True
 
         except Exception as e:
             log_to_file(f"Błąd podczas przetwarzania {symbol}: {str(e)}")
@@ -222,7 +279,7 @@ def check_and_update_signal_history():
                 updated = True
 
     if updated:
-        save_signal_history(history)
+        save_signal_history(history)       
         
         
 def validate_targets(signal):
