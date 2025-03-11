@@ -147,11 +147,8 @@ def get_total_balance():
     
 
 def check_and_update_signal_history():
-    from binance_trading import add_order_to_history, load_signal_history, save_signal_history, log_to_file
-    
     history = load_signal_history()
     updated = False
-
     all_balances = get_total_balance()
 
     for signal in history:
@@ -179,7 +176,7 @@ def check_and_update_signal_history():
 
             # Minimalna wartość notionalna
             notional_filter = next(
-                (f for f in symbol_info['filters'] if f['filterType'] == 'NOTIONAL'), 
+                (f for f in symbol_info['filters'] if f['filterType'] == 'NOTIONAL'),
                 None
             )
             min_notional = float(notional_filter['minNotional']) if notional_filter else 0
@@ -187,14 +184,15 @@ def check_and_update_signal_history():
 
             # Sprawdzenie aktywnych zleceń OCO
             all_oco_orders = client.get_open_orders(symbol=symbol)
-            active_oco = any(order.get('orderListId') == signal.get("oco_order_id") for order in all_oco_orders)
+            oco_order_id = signal.get("oco_order_id")
+            active_oco = any(order.get('orderListId') == oco_order_id for order in all_oco_orders)
 
             # Określenie celów i osiągniętego celu
             targets = signal.get("targets", [])
             achieved_target = None
             for i, target in enumerate(targets):
-                if (signal["signal_type"] == "LONG" and current_price >= target) or \
-                   (signal["signal_type"] == "SHORT" and current_price <= target):
+                if (signal["signal_type"] == "LONG" and current_price >= float(target)) or \
+                   (signal["signal_type"] == "SHORT" and current_price <= float(target)):
                     achieved_target = i + 1
                 else:
                     break
@@ -212,42 +210,70 @@ def check_and_update_signal_history():
             )
 
             # Sprawdzenie historii OCO, jeśli nie jest aktywne, ale było zdefiniowane
-            oco_order_id = signal.get("oco_order_id")
             if oco_order_id and not active_oco:
+                # Pobierz historię zleceń
                 trades = client.get_my_trades(symbol=symbol)
                 oco_orders = signal.get("orders", [])
+                
+                # Znajdź zlecenia OCO
                 stop_loss_order = next((o for o in oco_orders if o["type"] == "STOP_LOSS_LIMIT" and o["oco_group_id"] == oco_order_id), None)
                 take_profit_order = next((o for o in oco_orders if o["type"] == "LIMIT_MAKER" and o["oco_group_id"] == oco_order_id), None)
-
-                # Szukamy zrealizowanego zlecenia w historii
+                
+                # Sprawdź historię handlu, aby znaleźć zrealizowane zlecenie
+                filled_order = None
                 for trade in trades:
-                    if stop_loss_order and trade["orderId"] == stop_loss_order["orderId"] and float(trade["qty"]) > 0:
+                    # Sprawdź czy zlecenie Stop Loss zostało zrealizowane
+                    if stop_loss_order and trade.get("orderId") == stop_loss_order.get("orderId") and float(trade.get("qty", 0)) > 0:
                         log_to_file(f"OCO dla {symbol} zrealizowane na Stop Loss przy cenie {trade['price']}")
                         signal["status"] = "CLOSED"
                         signal["status_description"] = f"Stop Loss wykonany przy cenie {trade['price']}"
-                        signal["exit_price"] = float(trade["price"])
+                        filled_order = {
+                            'price': trade['price'],
+                            'executedQty': trade['qty'],
+                            'type': 'STOP_LOSS_LIMIT',
+                            'time': trade['time']
+                        }
                         signal["exit_time"] = trade["time"]
                         updated = True
                         break
-                    elif take_profit_order and trade["orderId"] == take_profit_order["orderId"] and float(trade["qty"]) > 0:
+                    # Sprawdź czy zlecenie Take Profit zostało zrealizowane
+                    elif take_profit_order and trade.get("orderId") == take_profit_order.get("orderId") and float(trade.get("qty", 0)) > 0:
                         log_to_file(f"OCO dla {symbol} zrealizowane na Take Profit przy cenie {trade['price']}")
                         signal["status"] = "CLOSED"
                         signal["status_description"] = f"Take Profit wykonany przy cenie {trade['price']}"
-                        signal["exit_price"] = float(trade["price"])
+                        filled_order = {
+                            'price': trade['price'],
+                            'executedQty': trade['qty'],
+                            'type': 'LIMIT_MAKER',
+                            'time': trade['time']
+                        }
                         signal["exit_time"] = trade["time"]
                         updated = True
                         break
-                else:
-                    # Jeśli brak realizacji w historii, OCO mogło wygasnąć
-                    if base_balance > 0:
-                        log_to_file(f"OCO dla {symbol} (ID: {oco_order_id}) wygasło, saldo nadal istnieje: {base_balance}")
-                        # Zamykamy pozycję ręcznie
-                        signal["status"] = "CLOSED"
-                        signal["status_description"] = "OCO wygasło, zamknięcie ręczne"
-                        signal["exit_price"] = current_price
-                        signal["exit_time"] = int(time.time() * 1000)
-                        close_remaining_balance(signal)
-                        updated = True
+                
+                # Jeśli znaleziono zrealizowane zlecenie, aktualizuj informacje o zysku
+                if filled_order:
+                    update_signal_with_profit_info(signal, filled_order)
+                # Jeśli nie znaleziono realizacji w historii, ale saldo jest znacznie mniejsze niż poprzednio, 
+                # to zlecenie mogło zostać zrealizowane, ale nie znaleźliśmy go w historii
+                elif base_balance < float(signal.get('real_amount', 0)) * 0.5:
+                    log_to_file(f"OCO dla {symbol} prawdopodobnie zrealizowane, ale nie znaleziono w historii. Saldo: {base_balance}")
+                    signal["status"] = "CLOSED"
+                    signal["status_description"] = "OCO prawdopodobnie zrealizowane"
+                    signal["exit_price"] = current_price
+                    signal["exit_time"] = int(time.time() * 1000)
+                    close_remaining_balance(signal)
+                    updated = True
+                # Jeśli brak realizacji w historii, OCO mogło wygasnąć
+                elif base_balance > 0:
+                    log_to_file(f"OCO dla {symbol} (ID: {oco_order_id}) wygasło, saldo nadal istnieje: {base_balance}")
+                    # Zamykamy pozycję ręcznie
+                    signal["status"] = "CLOSED"
+                    signal["status_description"] = "OCO wygasło, zamknięcie ręczne"
+                    signal["exit_price"] = current_price
+                    signal["exit_time"] = int(time.time() * 1000)
+                    close_remaining_balance(signal)
+                    updated = True
 
             # Zamknięcie, jeśli wszystkie cele osiągnięte i brak OCO
             elif active_oco is False and achieved_target and achieved_target >= len(targets):
@@ -267,6 +293,10 @@ def check_and_update_signal_history():
                 signal["exit_time"] = int(time.time() * 1000)
                 updated = True
 
+            # Aktualizacja OCO przy osiągnięciu targetu
+            elif active_oco and achieved_target and achieved_target > signal.get('current_target_level', 0):
+                updated = handle_targets(signal, current_price, base_balance) or updated
+
         except Exception as e:
             log_to_file(f"Błąd podczas przetwarzania {symbol}: {str(e)}")
             if active_oco:
@@ -277,7 +307,9 @@ def check_and_update_signal_history():
                 updated = True
 
     if updated:
-        save_signal_history(history)       
+        save_signal_history(history)
+
+
         
         
 def validate_targets(signal):
