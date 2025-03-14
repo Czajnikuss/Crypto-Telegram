@@ -51,7 +51,7 @@ def handle_critical_error(signal):
         log_to_file(f"Błąd podczas obsługi sytuacji krytycznej dla {symbol}: {e}")
 
 def update_signal_high_price(signal, current_price):
-    """Aktualizuje najwyższą osiągniętą cenę w sygnale"""
+    """Aktualizuje najwyższą osiągniętą cenę w sygnale oraz przechowuje historię ostatnich 5 cen"""
     is_long = signal['signal_type'] == 'LONG'
     current_high = signal.get('highest_price', current_price if is_long else float('inf'))
 
@@ -60,6 +60,16 @@ def update_signal_high_price(signal, current_price):
     else:
         signal['highest_price'] = min(current_high, current_price)
 
+    # Dodaj aktualną cenę do historii cen
+    price_history = signal.get('price_history', [])
+    price_history.append(current_price)
+    
+    # Zachowaj maksymalnie 5 ostatnich cen
+    if len(price_history) > 5:
+        price_history = price_history[-5:]
+    
+    signal['price_history'] = price_history
+    
     return signal
 
 def get_base_balance(symbol):
@@ -359,10 +369,13 @@ def calculate_oco_levels(signal, entry_price):
             stop_loss = entry_price * (0.95 if is_long else 1.05)
             log_to_file(f"Sygnał {signal['currency']} - brak stop_loss w sygnale, ustawiono {stop_loss}")
     elif current_level == 1:
-        # Poziom 1: Stop Loss na poziomie real_entry
-        buffer = entry_price * 0.001  # 0.1% buffer
-        stop_loss = entry_price - buffer if is_long else entry_price + buffer
-        log_to_file(f"Sygnał {signal['currency']} - ustawiono stop_loss na poziomie real_entry z buforem: {stop_loss}")
+        # Poziom 1: Stop Loss na poziomie połowy między real_entry a target 1
+        target_1 = float(targets[0])
+        if is_long:
+            stop_loss = entry_price + (target_1 - entry_price) / 2
+        else:
+            stop_loss = entry_price - (entry_price - target_1) / 2
+        log_to_file(f"Sygnał {signal['currency']} - ustawiono stop_loss na połowie między real_entry a target 1: {stop_loss}")
     else:
         # Poziom 2+: Stop Loss na poziomie targetu 0 (pierwszy target)
         stop_loss = float(targets[0])
@@ -453,6 +466,36 @@ def handle_targets(signal, current_price, base_balance):
     
     # Debug log
     log_to_file(f"Sprawdzanie targetu {current_level} dla {symbol}: cena={current_price}, target={next_target}, osiągnięty={target_reached}")
+
+    # Sprawdź trend cen po osiągnięciu celu 1
+    if current_level == 1:
+        price_history = signal.get('price_history', [])
+        if len(price_history) >= 3:  # Sprawdzamy trend tylko jeśli mamy co najmniej 3 ceny
+            is_downtrend = all(price_history[i] > price_history[i+1] for i in range(len(price_history)-1))
+            is_uptrend = all(price_history[i] < price_history[i+1] for i in range(len(price_history)-1))
+            
+            # Zamknij pozycję, jeśli trend jest przeciwny do sygnału
+            if (is_long and is_downtrend) or (not is_long and is_uptrend):
+                log_to_file(f"Wykryto przeciwny trend dla {symbol} po osiągnięciu celu 1 - zamykanie pozycji")
+                closing_side = 'SELL' if is_long else 'BUY'
+                adjusted_quantity = adjust_quantity(symbol, base_balance)
+                if adjusted_quantity > 0:
+                    try:
+                        order = client.create_order(
+                            symbol=symbol,
+                            side=closing_side,
+                            type='MARKET',
+                            quantity=adjusted_quantity
+                        )
+                        log_to_file(f"Zamknięto pozycję dla {symbol} z powodu przeciwnego trendu, ilość: {adjusted_quantity}")
+                        signal["status"] = "CLOSED"
+                        signal["status_description"] = "Closed due to adverse price trend after target 1"
+                        signal["exit_price"] = current_price
+                        signal["exit_time"] = int(time.time() * 1000)
+                        close_remaining_balance(signal)
+                        return True
+                    except Exception as e:
+                        log_to_file(f"Błąd podczas zamykania pozycji z powodu trendu: {e}")
 
     # Skip targets that have been reached
     if target_reached:
