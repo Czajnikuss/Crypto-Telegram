@@ -70,7 +70,25 @@ def update_signal_high_price(signal, current_price):
     
     signal['price_history'] = price_history
     
+    # Sprawdź, czy osiągnięto cel 1 i czy cena spadła o 5 ticków poniżej maksymalnej
+    if signal.get('current_target_level', 0) >= 1:
+        symbol_info = client.get_symbol_info(signal['currency'])
+        tick_size = float(next(filter(lambda f: f['filterType'] == 'PRICE_FILTER', symbol_info['filters']))['tickSize'])
+        
+        price_difference = abs(signal['highest_price'] - current_price)
+        ticks_difference = price_difference / tick_size
+        
+        if ticks_difference >= 5:
+            signal['status'] = "CLOSED"
+            signal['status_description'] = f"Closed after target 1 - price dropped by 5 ticks from highest"
+            signal['exit_price'] = current_price
+            signal['exit_time'] = int(time.time() * 1000)
+            log_to_file(f"Zamknięto pozycję dla {signal['currency']} po spadku o 5 ticków od maksimum po celu 1")
+            close_remaining_balance(signal)
+    
     return signal
+
+
 
 def get_base_balance(symbol):
     """Pobiera saldo dla danej pary tradingowej"""
